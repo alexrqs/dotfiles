@@ -1,0 +1,21 @@
+[core]
+	editor = atom --wait
+[alias]
+	co = checkout
+	st = status
+	pr = pull --rebase
+	ld = log --graph --decorate --pretty=format:'%Cred%h%Creset - %Cgreen(%cr)%Creset %s%C(yellow)%d%Creset' --abbrev-commit --date=iso
+	big = bisect good
+	bib = bisect bad
+	cp = cherry-pick
+[diff]
+	tool = diffmerge
+[difftool "diffmerge"]
+	cmd = /usr/bin/diffmerge \"$LOCAL\" \"$REMOTE\"
+[merge]
+	tool = diffmerge
+[mergetool "diffmerge"]
+	trustExitCode = true
+	cmd = /usr/bin/diffmerge --merge --result=\"$MERGED\" \"$LOCAL\" \"$BASE\" \"$REMOTE\"
+[push]
+	default = simple
