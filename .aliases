@@ -90,10 +90,7 @@ alias emptytrash=" \
 
 alias dev="npm run dev"
 alias build="npm run build"
-alias tests="npm run test"
-
-alias yi="yarn add"
-alias yid="yarn add --dev"
+alias test="npm run test"
 
 alias pr="git pull --rebase origin master"
-alias bye="rimraf node_modules && yarn --no-lockfile"
+alias bye="rimraf"

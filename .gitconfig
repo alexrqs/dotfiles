@@ -1,5 +1,5 @@
 [core]
-	editor = atom --wait
+	editor = vim
 [alias]
 	co = checkout
 	st = status
@@ -8,6 +8,7 @@
 	big = bisect good
 	bib = bisect bad
 	cp = cherry-pick
+	ci = commit
 [diff]
 	tool = diffmerge
 [difftool "diffmerge"]
@@ -19,3 +20,5 @@
 	cmd = /usr/bin/diffmerge --merge --result=\"$MERGED\" \"$LOCAL\" \"$BASE\" \"$REMOTE\"
 [push]
 	default = simple
+[commit]
+	gpgsign = tru
