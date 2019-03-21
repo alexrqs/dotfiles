@@ -1,10 +1,11 @@
 #!/bin/bash
 
+source .functions-tmp
+
 # Create a new directory and enter it
 function md() {
 	mkdir -p "$@" && cd "$@"
 }
-
 
 # find shorthand
 function f() {
@@ -24,15 +25,11 @@ function la(){
     }'
 }
 
-
-
 # cd into whatever is the forefront Finder window.
 # only mac
 cdf() {  # short for cdfinder
   cd "`osascript -e 'tell app "Finder" to POSIX path of (insertion location as alias)'`"
 }
-
-
 
 # git commit browser. needs fzf
 # only mac
@@ -44,8 +41,6 @@ log() {
                 echo '{}' | grep -o '[a-f0-9]\{7\}' | head -1 |
                 xargs -I % sh -c 'git show --color=always % | less -R'"
 }
-
-
 
 # Start an HTTP server from a directory, optionally specifying the port
 function server() {
@@ -61,8 +56,6 @@ function server() {
 cp_p () {
   rsync -WavP --human-readable --progress $1 $2
 }
-
-
 
 # get gzipped size
 function gz() {
@@ -81,8 +74,8 @@ function whois() {
 	echo "Getting whois record for: $domain …"
 
 	# avoid recursion
-					# this is the best whois server
-													# strip extra fluff
+	# this is the best whois server
+	# strip extra fluff
 	/usr/bin/whois -h whois.internic.net $domain | sed '/NOTICE:/q'
 }
 
@@ -166,4 +159,85 @@ function code () { VSCODE_CWD="$PWD" open -n -b "com.microsoft.VSCode" --args $*
 #   Must be in /etc/shells
 shellswitch () {
 	chsh -s $(brew --prefix)/bin/$1
+}
+
+function killport () {
+	fuser -n tcp -k "$1"
+	echo "killing port $1"
+}
+
+function current_branch() {
+	git symbolic-ref --short -q HEAD
+}
+
+function push () {
+	branchName=$(current_branch)
+
+	if [[ $1 == '+' ]]; then
+		result="git push origin ${branchName} --force-with-lease"
+	elif [[ $1 == '++' ]]; then
+		result="git push origin +${branchName}"
+	else
+		result="git push origin ${branchName}"
+	fi
+
+	echo ${result}
+	eval ${result}
+}
+
+setENV() {
+	source .env
+	# echo "source applied"
+}
+
+function master_branch() {
+	setENV
+	branch="master"
+	if [[ $MASTER_BRANCH ]]; then
+		branch=$MASTER_BRANCH
+	fi
+
+	echo $branch
+}
+
+function master() {
+	command="git checkout $(master_branch)"
+	echo ${command}
+	eval ${command}
+}
+
+function pr() {
+	command="git pull --rebase origin $(master_branch)"
+	echo ${command}
+	eval ${command}
+}
+
+function reinstall() {
+	rm -fr node_modules
+	if [[ $1 == 'npm' ]]; then
+		npm install
+	elif [[ $1 == '+' ]]; then
+		yarn install --force
+	else
+		yarn
+	fi
+}
+
+function do_pull_request() {
+	http POST https://api.github.com/repos/natgeo/modules-video/pulls "Authorization:token ${GITHUB_TOKEN}" title="$1" head="$(current_branch)" base="$(master_branch)" body="bump"
+}
+
+current_version() {
+	jq .version -r package.json
+}
+
+function do_release() {
+	local version=${1:-patch}
+
+	master
+	pr
+	git co -b release/$(npx semver $(current_version) -i ${version})
+	npm version patch
+	push
+	do_pull_request $(current_version)
 }
