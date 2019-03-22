@@ -172,11 +172,11 @@ function push () {
 	branchName=$(current_branch)
 
 	if [[ $1 == '+' ]]; then
-		result="git push origin ${branchName} --force-with-lease"
+		result="git push -u origin ${branchName} --force-with-lease"
 	elif [[ $1 == '++' ]]; then
-		result="git push origin +${branchName}"
+		result="git push -u origin +${branchName}"
 	else
-		result="git push origin ${branchName}"
+		result="git push -u origin ${branchName}"
 	fi
 
 	echo ${result}
@@ -238,4 +238,14 @@ function do_release() {
 	npm version patch
 	push
 	do_pull_request $(current_version)
+}
+
+function ci() {
+	if [ $# -eq 1 ]; then
+		echo "op1"
+		git ci -m "$1"
+	else
+		echo "op2"
+		git ci -am "$2"
+	fi
 }
