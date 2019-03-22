@@ -3,28 +3,28 @@
 ./.temp.generator.sh
 
 ln $(pwd)/.aliases ~/.aliases
-echo "aliases was copied"
+echo "aliases was linked"
 
 ln $(pwd)/.dircolors ~/.dircolors
-echo "dircolors was copied"
+echo "dircolors was linked"
 
 ln $(pwd)/.exports ~/.exports
-echo "exports was copied"
+echo "exports was linked"
 
 ln $(pwd)/.functions ~/.functions
-echo "functions was copied"
+echo "functions was linked"
 
-ln $(pwd)/.gitconfig ~/.gitconfig
+cp $(pwd)/.gitconfig ~/.gitconfig
 echo "gitconfig was copied"
 
 ln $(pwd)/.hyper.js ~/.hyper.js
-echo "hyper.js was copied"
+echo "hyper.js was linked"
 
 ln $(pwd)/.bash_prompt ~/.bash_prompt
-echo "bash_prompt was copied"
+echo "bash_prompt was linked"
 
 ln $(pwd)/.bashrc ~/.bashrc
-echo "bashrc was copied"
+echo "bashrc was linked"
 
 ln $(pwd)/.temp ~/.temp
-echo "temp was copied"
+echo "temp was linked"
