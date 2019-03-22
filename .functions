@@ -1,7 +1,5 @@
 #!/bin/bash
 
-source .functions-tmp
-
 # Create a new directory and enter it
 function md() {
 	mkdir -p "$@" && cd "$@"
