@@ -14,6 +14,9 @@ echo "exports was copied"
 ln $(pwd)/.functions ~/.functions
 echo "functions was copied"
 
+ln $(pwd)/.gitconfig ~/.gitconfig
+echo "gitconfig was copied"
+
 ln $(pwd)/.hyper.js ~/.hyper.js
 echo "hyper.js was copied"
 
