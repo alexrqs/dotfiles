@@ -238,14 +238,24 @@ function do_release() {
 	npm version patch
 	push
 	do_pull_request $(current_version)
+	echo "Pull Request created to bump $version"
 }
 
 function ci() {
-	if [ $# -eq 1 ]; then
-		echo "op1"
-		git ci -m "$1"
+	# when using getopts inside a function
+	# local OPTIND needs precide the use
+	local OPTIND
+	add='false'
+	while getopts "am:" option; do
+		case $option in
+		  a) add='true';;
+		  m) message=$OPTARG;;
+		esac
+	done
+
+	if [[ $add == 'true' ]]; then
+		git ci -am "${message}"
 	else
-		echo "op2"
-		git ci -am "$2"
+		git ci -m "$1"
 	fi
 }
