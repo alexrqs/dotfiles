@@ -2,8 +2,7 @@
 
 # GIT STUFF
 function gci() {
-	git add $1 && git ci -m "$2"
-	# echo "git add $1 && git ci -m '$2'"
+    git add $1 && git ci -m "$2"
 }
 
 function clone() {
@@ -51,16 +50,6 @@ log() {
                 echo '{}' | grep -o '[a-f0-9]\{7\}' | head -1 |
                 xargs -I % sh -c 'git show --color=always % | less -R'"
 }
-
-# Start an HTTP server from a directory, optionally specifying the port
-function server() {
-	local port="${1:-8000}"
-	open "http://localhost:${port}/" &
-	# statik is good because it won't expose hidden folders/files by default.
-	# npm install -g statik
-	statik --port "$port" .
-}
-
 
 # Copy w/ progress
 cp_p () {
