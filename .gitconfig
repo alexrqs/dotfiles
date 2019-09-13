@@ -1,5 +1,3 @@
-[core]
-	editor = vim
 [alias]
 	co = checkout
 	st = status
@@ -20,5 +18,8 @@
 	cmd = /usr/bin/diffmerge --merge --result=\"$MERGED\" \"$LOCAL\" \"$BASE\" \"$REMOTE\"
 [push]
 	default = simple
+	followTags = true
+[core]
+	editor = vim
 [commit]
-	gpgsign = tru
+	gpgsign = true
