@@ -1,5 +1,17 @@
 #!/bin/bash
 
+# GIT STUFF
+function gci() {
+	git add $1 && git ci -m "$2"
+	# echo "git add $1 && git ci -m '$2'"
+}
+
+function clone() {
+    git clone --depth=1 $1
+    cd $(basename ${1%.*})
+    yarn install
+}
+
 # Create a new directory and enter it
 function md() {
 	mkdir -p "$@" && cd "$@"
@@ -12,7 +24,7 @@ function f() {
 
 # List all files, long format, colorized, permissions in octal
 function la(){
- 	ls -l  "$@" | awk '
+  ls -l  "$@" | awk '
     {
       k=0;
       for (i=0;i<=8;i++)
