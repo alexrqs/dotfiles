@@ -1,10 +1,7 @@
-#!/bin/bash
-
 # This prompt inspired by gf3, sindresorhus, alrra, and mathiasbynens.
 # but customized to me. <3
 
 default_username='alex'
-
 
 if which thefuck > /dev/null; then
     eval "$(thefuck --alias)"
@@ -45,13 +42,13 @@ set_prompts() {
         blue=$(tput setaf 33)
         cyan=$(tput setaf 37)
         green=$(tput setaf 190)
-        orange=$(tput setaf 172)
+        orange=$(tput setaf 208)
         purple=$(tput setaf 141)
         red=$(tput setaf 124)
         violet=$(tput setaf 61)
         magenta=$(tput setaf 9)
         white=$(tput setaf 8)
-        yellow=$(tput setaf 136)
+        yellow=$(tput setaf 3)
 
     else
 
@@ -79,14 +76,13 @@ set_prompts() {
         if [[ "${USER}" == *"root" ]]; then
             userStyle="${red}";
         else
-            userStyle="${magenta}";
+            userStyle="${cyan}";
         fi;
 
         userhost=""
-        userhost+="\[${userStyle}\]$USER "
-        userhost+="\[${white}\]at "
-        userhost+="\[${orange}\]$HOSTNAME "
-        userhost+="\[${white}\]in"
+        userhost+="\[${userStyle}\]$USER"
+        userhost+="\[${white}\]@"
+        userhost+="\[${white}\]$HOSTNAME "
 
         if [ $USER != "$default_username" ]; then echo $userhost ""; fi
     }
@@ -140,8 +136,8 @@ set_prompts() {
     PS1="\[\033]0;\w\007\]"                                 # terminal title (set to the current working directory)
     PS1+="\n\[$bold\]"
     PS1+="\[$(usernamehost)\]"                              # username at host
-    PS1+="\[$green\]\w"                                     # working directory
-    PS1+="\$(prompt_git \"$white on $purple\" \"$cyan\")"   # git repository details
+    PS1+="\[$blue\]\w"                                     # working directory
+    PS1+="\$(prompt_git \"$white:$yellow\" \"$cyan\")"   # git repository details
     PS1+="\n"
     PS1+="\[$reset$white\]\\$ \[$reset\]"
 
@@ -171,8 +167,6 @@ set_prompts() {
     #   zprof is also hot.
 
 }
-
-
 
 set_prompts
 unset set_prompts
