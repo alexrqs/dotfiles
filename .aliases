@@ -42,23 +42,6 @@ alias lsd='ls -l | grep "^d"' # only directories
 # `cat` with beautiful colors. requires: sudo easy_install -U Pygments
 alias c='pygmentize -O style=monokai -f console256 -g'
 
-###
-# GIT STUFF
-
-function clone() {
-    git clone --depth=1 $1
-    cd $(basename ${1%.*})
-    yarn install
-}
-alias push="git push"
-
-# Undo a `git push`
-alias undopush="git push -f origin HEAD^:master"
-
-# git root
-alias gr='[ ! -z `git rev-parse --show-cdup` ] && cd `git rev-parse --show-cdup || pwd`'
-alias master="git checkout master"
-
 # Networking. IP address, dig, DNS
 alias ip="dig +short myip.opendns.com @resolver1.opendns.com"
 # alias dig="dig +nocmd any +multiline +noall +answer"
@@ -72,7 +55,6 @@ alias diskspace_report="df -P -kHl"
 alias free_diskspace_report="diskspace_report"
 
 # Shortcuts
-alias g="git"
 alias v="vim"
 alias ungz="gunzip -k"
 
@@ -80,6 +62,8 @@ alias ungz="gunzip -k"
 alias fs="stat -f \"%z bytes\""
 
 # Empty the Trash on all mounted volumes and the main HDD. then clear the useless sleepimage
+
+# MAC only
 alias emptytrash=" \
     sudo rm -rfv /Volumes/*/.Trashes; \
     rm -rfv ~/.Trash/*; \
@@ -92,5 +76,14 @@ alias dev="npm run dev"
 alias build="npm run build"
 alias test="npm run test"
 
-alias pr="git pull --rebase origin master"
 alias bye="rimraf"
+alias beef='cd ~/Sites/beef && ./beef'
+alias flush='sudo service networking restart'
+
+# Undo a `git push`
+alias undopush="git push -f origin HEAD^:master"
+
+# git root
+alias gr='[ ! -z `git rev-parse --show-cdup` ] && cd `git rev-parse --show-cdup || pwd`'
+
+alias g="git"
