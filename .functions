@@ -176,6 +176,8 @@ function push () {
 		result="git push -u origin ${branchName} --force-with-lease"
 	elif [[ $1 == '++' ]]; then
 		result="git push -u origin +${branchName}"
+  elif [[ $1 == 'sparta' ]]; then
+    result="git push -u origin +${branchName} --no-verify"
 	else
 		result="git push -u origin ${branchName}"
 	fi
