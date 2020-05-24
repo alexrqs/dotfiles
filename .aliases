@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # Easier navigation: .., ..., ~ and -
 alias ..="cd .."
 alias cd..="cd .."
@@ -63,18 +65,9 @@ alias fs="stat -f \"%z bytes\""
 
 # Empty the Trash on all mounted volumes and the main HDD. then clear the useless sleepimage
 
-# MAC only
-alias emptytrash=" \
-    sudo rm -rfv /Volumes/*/.Trashes; \
-    rm -rfv ~/.Trash/*; \
-    sudo rm -v /private/var/vm/sleepimage; \
-    rm -rv \"/Users/alex/Library/Application Support/stremio/Cache\";  \
-    rm -rv \"/Users/alex/Library/Application Support/stremio/stremio-cache\" \
-"
-
 alias dev="npm run dev"
 alias build="npm run build"
-alias test="npm run test"
+# alias test="npm run test"
 
 alias bye="rimraf"
 alias beef='cd ~/Sites/beef && ./beef'
@@ -86,5 +79,5 @@ alias undopush="git push -f origin HEAD^:master"
 # git root
 alias gr='[ ! -z `git rev-parse --show-cdup` ] && cd `git rev-parse --show-cdup || pwd`'
 
-
 alias aws='mv ~/aws/ ~/modules-changos || mv ~/modules-changos/ ~/aws/'
+alias blue='/opt/bluejeans/bluejeans-bin'
