@@ -1,21 +1,5 @@
 #!/bin/bash
 
-# GIT STUFF
-function gci() {
-    git add $1 && git ci -m "$2"
-}
-
-function clone() {
-    git clone --depth=1 $1
-    cd $(basename ${1%.*})
-    yarn install
-}
-
-# Create a new directory and enter it
-function md() {
-	mkdir -p "$@" && cd "$@"
-}
-
 # find shorthand
 function f() {
 	find . -name "$1" 2>&1 | grep -v 'Permission denied'
@@ -42,7 +26,7 @@ cdf() {  # short for cdfinder
 
 # git commit browser. needs fzf
 # only mac
-log() {
+glogs() {
   git log --graph --color=always \
       --format="%C(auto)%h%d %s %C(black)%C(bold)%cr" "$@" |
   fzf --ansi --no-sort --reverse --tiebreak=index --toggle-sort=\` \
@@ -150,10 +134,6 @@ function nullify() {
   "$@" >/dev/null 2>&1
 }
 
-
-# visual studio code. a la `subl`
-function code () { VSCODE_CWD="$PWD" open -n -b "com.microsoft.VSCode" --args $*; }
-
 # `shellswitch [bash |zsh]`
 #   Must be in /etc/shells
 shellswitch () {
@@ -165,54 +145,6 @@ function killport () {
 	echo "killing port $1"
 }
 
-function current_branch() {
-	git symbolic-ref --short -q HEAD
-}
-
-function push () {
-	branchName=$(current_branch)
-
-	if [[ $1 == '+' ]]; then
-		result="git push -u origin ${branchName} --force-with-lease"
-	elif [[ $1 == '++' ]]; then
-		result="git push -u origin +${branchName}"
-  elif [[ $1 == 'sparta' ]]; then
-    result="git push -u origin +${branchName} --no-verify"
-	else
-		result="git push -u origin ${branchName}"
-	fi
-
-	echo ${result}
-	eval ${result}
-}
-
-setENV() {
-	source .env
-	# echo "source applied"
-}
-
-function master_branch() {
-	setENV
-	branch="master"
-	if [[ $MASTER_BRANCH ]]; then
-		branch=$MASTER_BRANCH
-	fi
-
-	echo $branch
-}
-
-function master() {
-	command="git checkout $(master_branch)"
-	echo ${command}
-	eval ${command}
-}
-
-function pr() {
-	command="git pull --rebase origin $(master_branch)"
-	echo ${command}
-	eval ${command}
-}
-
 function reinstall() {
 	rm -fr node_modules
 	if [[ $1 == 'npm' ]]; then
@@ -220,28 +152,8 @@ function reinstall() {
 	elif [[ $1 == '+' ]]; then
 		yarn install --force
 	else
-		yarn
+		npm install
 	fi
-}
-
-function do_pull_request() {
-	http POST https://api.github.com/repos/natgeo/modules-video/pulls "Authorization:token ${GITHUB_TOKEN}" title="$1" head="$(current_branch)" base="$(master_branch)" body="bump"
-}
-
-current_version() {
-	jq .version -r package.json
-}
-
-function do_release() {
-	local version=${1:-patch}
-
-	master
-	pr
-	git co -b release/$(npx semver $(current_version) -i ${version})
-	npm version patch
-	push
-	do_pull_request $(current_version)
-	echo "Pull Request created to bump $version"
 }
 
 function ci() {
@@ -261,4 +173,8 @@ function ci() {
 	else
 		git ci -m "$1"
 	fi
+}
+
+function klogs () {
+  kl --tail 1 $(kgp | grep $1 | awk '{ print $1 }')
 }

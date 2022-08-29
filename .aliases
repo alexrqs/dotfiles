@@ -1,14 +1,5 @@
 #!/bin/bash
 
-# Easier navigation: .., ..., ~ and -
-alias ..="cd .."
-alias cd..="cd .."
-alias ...="cd ../.."
-alias ....="cd ../../.."
-alias .....="cd ../../../.."
-alias ~="cd ~" # `cd` is probably faster to type though
-alias -- -="cd -"
-
 # mv, rm, cp
 alias mv='mv -v'
 alias rm='rm -i -v'
@@ -27,6 +18,7 @@ alias ag='ag -f --hidden'
 ###
 # time to upgrade `ls`
 
+# brew install coreutils
 # use coreutils `ls` if possible…
 hash gls >/dev/null 2>&1 || alias gls="ls"
 
@@ -35,13 +27,10 @@ if gls --color > /dev/null 2>&1; then colorflag="--color"; else colorflag="-G"; 
 export CLICOLOR_FORCE=1
 
 # ls options: A = include hidden (but not . or ..), F = put `/` after folders, h = byte unit suffixes
-alias ls='gls -AFh ${colorflag} --group-directories-first'
+alias gls='gls -AFh ${colorflag} --group-directories-first'
 alias lsd='ls -l | grep "^d"' # only directories
 #    `la` defined in .functions
 ###
-
-# `cat` with beautiful colors. requires: sudo easy_install -U Pygments
-alias c='pygmentize -O style=monokai -f console256 -g'
 
 # Networking. IP address, dig, DNS
 alias ip="dig +short myip.opendns.com @resolver1.opendns.com"
@@ -56,8 +45,6 @@ alias diskspace_report="df -P -kHl"
 alias free_diskspace_report="diskspace_report"
 
 # Shortcuts
-alias g="git"
-alias v="vim"
 alias ungz="gunzip -k"
 
 # File size
@@ -69,8 +56,6 @@ alias dev="npm run dev"
 alias build="npm run build"
 # alias test="npm run test"
 
-alias bye="rimraf"
-alias beef='cd ~/Sites/beef && ./beef'
 alias flush='sudo service networking restart'
 
 # Undo a `git push`
@@ -79,5 +64,34 @@ alias undopush="git push -f origin HEAD^:master"
 # git root
 alias gr='[ ! -z `git rev-parse --show-cdup` ] && cd `git rev-parse --show-cdup || pwd`'
 
-alias aws='mv ~/aws/ ~/modules-changos || mv ~/modules-changos/ ~/aws/'
-alias blue='/opt/bluejeans/bluejeans-bin'
+# Kubernetes shortcuts
+alias k='kubectl'
+alias kns='kubens'
+alias kl='kubectl logs -f'
+alias ks='k scale --replicas='
+alias kgp='kubectl get pods'
+alias kgpowide='kubectl get pods -owide'
+alias kgdep='kubectl get deployments'
+alias kgdepoyaml='kubectl get deployments -oyaml'
+alias kgsvc='kubectl get services'
+alias kgsvcoyaml='kubectl get services -oyaml'
+alias kgcm='kubectl get cm'
+alias kgcmoyaml='kubectl get cm -oyaml'
+alias kgsec='kubectl get secrets'
+alias kgsecoyaml='kubectl get secrets -oyaml'
+alias kgno='kubectl get nodes'
+alias kging='kubectl get ingress'
+alias kgingoyaml='kubectl get ingress -oyaml'
+alias kdp='kubectl describe pods'
+alias kddep='kubectl describe deployments'
+alias kdsec='kubectl describe secrets'
+alias kdsvc='kuectl describe service'
+alias kdno='kubectl describe node'
+alias kdcm='kubectl describe cm'
+alias krmpo='kubectl delete po'
+alias krmdep='kubectl delete deployment'
+alias krmsec='kubectl delete secret'
+alias krming='kubectl delete ingress'
+alias krmsvc='kubectl delete svc'
+
+alias wget="curl -O"
