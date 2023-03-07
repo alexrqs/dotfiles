@@ -1,0 +1,164 @@
+format = """
+$localip\
+$shlvl\
+$singularity\
+$kubernetes\
+$directory\
+$vcsh\
+$git_branch\
+$git_state\
+$git_status\
+$git_metrics\
+$docker_context\
+$deno\
+$fill\
+$nodejs\
+$cmd_duration $jobs\
+$battery\
+$aws\
+$line_break\
+$status\
+$container\
+$shell\
+$sudo\
+$character"""
+
+command_timeout = 10000
+
+[jobs]
+symbol = ""
+style = "bold red"
+number_threshold = 1
+format = "[$symbol]($style)"
+
+[aws]
+format = 'on [$symbol($profile )($region )(\[$duration\] )]($style)'
+style = "bold blue"
+symbol = "☁️  "
+
+[aws.region_aliases]
+ap-southeast-2 = "au"
+us-west-2 = "w-2"
+
+[battery]
+full_symbol = "🔋 "
+charging_symbol = "⚡️ "
+discharging_symbol = "💀 "
+
+[buf]
+symbol = " "
+
+[c]
+symbol = " "
+
+[character]
+success_symbol = "[❯](purple)"
+error_symbol = "[❯](red)"
+vicmd_symbol = "[❮](green)"
+
+
+[cmd_duration]
+format = "[ $duration]($style)"
+style = "yellow"
+
+[conda]
+symbol = " "
+
+[dart]
+symbol = " "
+
+[directory]
+style = "blue"
+read_only = " "
+truncation_length = 4
+truncate_to_repo = true
+
+[docker_context]
+symbol = " "
+
+[elixir]
+symbol = " "
+
+[elm]
+symbol = " "
+
+[fill]
+symbol = " "
+
+[git_branch]
+symbol = " "
+format = "[$symbol$branch]($style) "
+style = "bright-black"
+
+[git_status]
+format = '($all_status$ahead_behind($style) )'
+conflicted = "🐷 "
+ahead = "🏎 💨"
+behind = "😰"
+diverged = "😵"
+up_to_date = "😎"
+untracked = "🐲 "
+stashed = "🥶 "
+modified = "🎈 "
+staged = '[++$count ](green)'
+renamed = "👅"
+deleted = "🗑  "
+
+[git_state]
+format = '\([$state( $progress_current/$progress_total)]($style)\) '
+style = "bright-black"
+
+[golang]
+symbol = " "
+
+[haskell]
+symbol = " "
+
+[hg_branch]
+symbol = " "
+
+[java]
+symbol = " "
+
+[julia]
+symbol = " "
+
+[lua]
+symbol = " "
+
+[memory_usage]
+symbol = " "
+
+[nim]
+symbol = " "
+
+[nix_shell]
+symbol = " "
+
+[nodejs]
+format = "[$symbol($version)]($style)"
+version_format = "${raw}"
+style = "italic green"
+
+[package]
+symbol = "🎁 "
+
+[python]
+symbol = " "
+
+[rlang]
+symbol = "ﳒ "
+
+[ruby]
+symbol = " "
+
+[rust]
+symbol = " "
+
+[spack]
+symbol = "🅢 "
+
+[time]
+disabled = false
+style = "bright-black"
+format = "[$time]($style)"
