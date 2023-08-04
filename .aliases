@@ -6,6 +6,7 @@ alias rm='rm -i -v'
 alias cp='cp -v'
 
 alias chmox='chmod -x'
+alias py='python3'
 
 alias cask='brew cask' # i <3 u cask
 alias where=which # sometimes i forget
@@ -46,6 +47,7 @@ alias free_diskspace_report="diskspace_report"
 
 # Shortcuts
 alias ungz="gunzip -k"
+alias c=bat
 
 # File size
 alias fs="stat -f \"%z bytes\""
@@ -65,33 +67,7 @@ alias undopush="git push -f origin HEAD^:master"
 alias gr='[ ! -z `git rev-parse --show-cdup` ] && cd `git rev-parse --show-cdup || pwd`'
 
 # Kubernetes shortcuts
-alias k='kubectl'
 alias kns='kubens'
-alias kl='kubectl logs -f'
-alias ks='k scale --replicas='
-alias kgp='kubectl get pods'
-alias kgpowide='kubectl get pods -owide'
-alias kgdep='kubectl get deployments'
-alias kgdepoyaml='kubectl get deployments -oyaml'
-alias kgsvc='kubectl get services'
-alias kgsvcoyaml='kubectl get services -oyaml'
-alias kgcm='kubectl get cm'
-alias kgcmoyaml='kubectl get cm -oyaml'
-alias kgsec='kubectl get secrets'
-alias kgsecoyaml='kubectl get secrets -oyaml'
-alias kgno='kubectl get nodes'
-alias kging='kubectl get ingress'
-alias kgingoyaml='kubectl get ingress -oyaml'
-alias kdp='kubectl describe pods'
-alias kddep='kubectl describe deployments'
-alias kdsec='kubectl describe secrets'
-alias kdsvc='kuectl describe service'
-alias kdno='kubectl describe node'
-alias kdcm='kubectl describe cm'
-alias krmpo='kubectl delete po'
-alias krmdep='kubectl delete deployment'
-alias krmsec='kubectl delete secret'
-alias krming='kubectl delete ingress'
-alias krmsvc='kubectl delete svc'
 
 alias wget="curl -O"
+alias code="code-insiders"
