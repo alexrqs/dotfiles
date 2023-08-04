@@ -145,8 +145,23 @@ function killport () {
 	echo "killing port $1"
 }
 
-function reinstall() {
-	rm -fr node_modules
+spinner() {
+  local pid=$1
+  local delay=0.05
+  local spinstr='|/-\'
+  while [ "$(ps a | awk '{print $1}' | grep $pid)" ]; do
+    local temp=${spinstr#?}
+    printf " [%c]  Deleting..." "$spinstr"
+    local spinstr=$temp${spinstr%"$temp"}
+    sleep $delay
+    printf "\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b"
+  done
+  printf "    \b\b\b\b"
+}
+
+function refresh() {
+	(rm -rf node_modules/ > /dev/null 2>&1) & spinner $!
+
 	if [[ $1 == 'npm' ]]; then
 		npm install
 	elif [[ $1 == '+' ]]; then
@@ -195,5 +210,47 @@ load-nvmrc() {
   elif [ "$node_version" != "$(nvm version default)" ]; then
     echo "Reverting to nvm default version"
     nvm use default
+  fi
+}
+
+unalias gco
+function gco() {
+  if [[ $# -eq 2 && $1 == "-b" ]]; then
+    local branch_type
+    branch_type=$(echo -e "feature\nfix\nhotfix\nchore" | fzf)
+    if [[ -n $branch_type ]]; then
+      local branch="$branch_type/lx/webst-$2"
+      git checkout -b "$branch"
+    else
+      echo "No branch type selected."
+    fi
+  elif [[ $# -eq 1 ]]; then
+    local branches
+    branches=$(git branch -a | grep "$1")
+    if [[ $(echo "$branches" | wc -l) -eq 1 ]]; then
+      git checkout "$branches"
+    else
+      local branch
+      branch=$(echo "$branches" | fzf)
+      if [[ -n $branch ]]; then
+        git checkout "$branch"
+      else
+        echo "No branch selected."
+      fi
+    fi
+  else
+    git checkout "$@"
+  fi
+}
+
+function kkl() {
+  local pod
+  pod=$(kubectl get pods --no-headers -o custom-columns=":metadata.name" | fzf --exit-0)
+
+  if [[ -n $pod ]]; then
+    echo "Selected pod: $pod"
+    kl "${pod}"
+  else
+    echo "No pod selected."
   fi
 }
