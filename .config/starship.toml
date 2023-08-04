@@ -1,10 +1,14 @@
+"$schema" = 'https://starship.rs/config-schema.json'
+
 format = """
+$username\
 $localip\
 $shlvl\
 $singularity\
 $kubernetes\
 $directory\
 $vcsh\
+$fossil_branch\
 $git_branch\
 $git_state\
 $git_status\
@@ -13,6 +17,7 @@ $docker_context\
 $deno\
 $fill\
 $nodejs\
+$rust\
 $cmd_duration $jobs\
 $aws\
 $line_break\
@@ -39,6 +44,15 @@ symbol = "☁️  "
 ap-southeast-2 = "au"
 us-west-2 = "w-2"
 
+[battery]
+full_symbol = '🔋 '
+charging_symbol = '⚡️ '
+discharging_symbol = '💀 '
+
+[[battery.display]]
+threshold = 50
+style = 'bold red'
+
 [buf]
 symbol = " "
 
@@ -46,9 +60,12 @@ symbol = " "
 symbol = " "
 
 [character]
-success_symbol = "[❯](purple)"
-error_symbol = "[❯](red)"
-vicmd_symbol = "[❮](green)"
+# success_symbol = "[❯](purple)"
+# error_symbol = "[❯](red)"
+# vicmd_symbol = "[❮](green)"
+success_symbol = "[#](purple)"
+error_symbol = "😫 [#](red)"
+vicmd_symbol = "[❯](green)"
 
 
 [cmd_duration]
@@ -63,21 +80,29 @@ symbol = " "
 
 [directory]
 style = "blue"
-read_only = " "
+read_only = " 🔒"
 truncation_length = 4
 truncate_to_repo = true
+# truncation_symbol = '…/'
 
 [docker_context]
-symbol = " "
+format = '[$context$symbol]($style) '
+symbol = " 🐳"
 
 [elixir]
-symbol = " "
+symbol = "💧 "
 
 [elm]
 symbol = " "
 
 [fill]
 symbol = " "
+
+[fossil_branch]
+symbol = '🦎 '
+truncation_length = 4
+truncation_symbol = ''
+disabled = false
 
 [git_branch]
 symbol = " "
@@ -117,6 +142,11 @@ symbol = " "
 [julia]
 symbol = " "
 
+[localip]
+ssh_only = true 
+format = '[$localipv4](italic yellow) @ '
+disabled = false
+
 [lua]
 symbol = " "
 
@@ -138,7 +168,7 @@ style = "italic green"
 symbol = "🎁 "
 
 [python]
-symbol = " "
+symbol = "🐍 "
 
 [rlang]
 symbol = "ﳒ "
@@ -147,12 +177,28 @@ symbol = "ﳒ "
 symbol = " "
 
 [rust]
-symbol = " "
+symbol = "🦀 "
 
 [spack]
 symbol = "🅢 "
+
+[sudo]
+format = "[$symbol]($style)"
+style = 'bold green'
+# symbol =  '💪 '
+# symbol = '👑 '
+# symbol = '🦄 '
+symbol = '💥 '
+disabled = false
 
 [time]
 disabled = false
 style = "bright-black"
 format = "[$time]($style)"
+
+[username]
+style_user = 'white bold'
+style_root = 'black bold'
+format = '[$user]($style) '
+disabled = false
+# show_always = true
