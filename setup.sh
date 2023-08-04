@@ -84,3 +84,5 @@ git clone --depth 1 -- https://github.com/marlonrichert/zsh-autocomplete.git
 for file in .{aliases,exports,functions,gitconfig,temp,preflight,zshrc}; do
   [ -r "$file" ] && echo "ln -s $(pwd)/$file ~/$file"
 done
+
+ln -s $(pwd)/.config/startship.toml ~/.config/startship.toml
