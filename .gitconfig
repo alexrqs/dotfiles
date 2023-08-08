@@ -7,19 +7,40 @@
 	bib = bisect bad
 	cp = cherry-pick
 	ci = commit
+	mt = mergetool
+
+[delta]
+    navigate = true    # use n and N to move between diff sections
+    light = false      # set to true if you're in a terminal w/ a light background color (e.g. the default macOS terminal)
+    side-by-side = true
+	line-numbers = true
+
 [diff]
-	tool = diffmerge
-[difftool "diffmerge"]
-	cmd = /usr/bin/diffmerge \"$LOCAL\" \"$REMOTE\"
+	tool = nvimdiff
+	colorMoved = default
+
+[difftool "nvimdiff"]
+	cmd = NVIM_APPNAME=LazyVim nvim -d \"$LOCAL\" \"$REMOTE\" -c \"wincmd w\" -c \"wincmd L\"
+
 [merge]
-	tool = diffmerge
-[mergetool "diffmerge"]
+	tool = nvimdiff4
+	conflictstyle = diff3
+
+[mergetool "nvimdiff4"]
 	trustExitCode = true
-	cmd = /usr/bin/diffmerge --merge --result=\"$MERGED\" \"$LOCAL\" \"$BASE\" \"$REMOTE\"
+	cmd = nvim -d \"$LOCAL\" \"$BASE\" \"$REMOTE\" \"$MERGED\" -c \"wincmd w\" -c \"wincmd J\"
+
 [push]
 	default = simple
 	followTags = true
+
 [core]
-	editor = vim
-[commit]
-	gpgsign = true
+	editor = nvim
+	pager = delta
+    
+[interactive]
+    diffFilter = delta --color-only
+
+[user]
+	name = Alex Lopez
+	email = lex.2418@gmail.com

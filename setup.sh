@@ -61,7 +61,8 @@ brew install cyberduck
 # replaced maccy with raytrace clipboard
 # brew install maccy
 # brew install docker
-brew install obs
+brew install orbstack
+
 brew install flameshot
 brew install caffeine
 brew install keycastr
@@ -72,10 +73,11 @@ brew install font-hack-nerd-font
 brew install font-operator-mono-nerd-font
 brew install font-operator-mono-lig
 brew install font-lobster
-brew install orbstack
+brew install obs
 brew install --cask adobe-creative-cloud
 brew install elixir
 brew install neovim
+brew install git-delta
 
 cd 
 cd .oh-my-zsh/custom/plugins
