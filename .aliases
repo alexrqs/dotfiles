@@ -71,3 +71,4 @@ alias kns='kubens'
 
 alias wget="curl -O"
 alias code="code-insiders"
+alias lz="NVIM_APPNAME=LazyVim nvim"
