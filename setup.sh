@@ -88,3 +88,5 @@ for file in .{aliases,exports,functions,gitconfig,temp,preflight,zshrc}; do
 done
 
 ln -s $(pwd)/.config/startship.toml ~/.config/startship.toml
+ln -s $(pwd)/delta-themes.gitconfig ~/delta-themes.gitconfig
+ln -s $(pwd)/.git-hooks ~/.git-hooks

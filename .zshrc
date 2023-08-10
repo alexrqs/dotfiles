@@ -26,6 +26,7 @@ export ZSH="/Users/${userPath}/.oh-my-zsh"
 # Case-sensitive completion must be off. _ and - will be interchangeable.
 # HYPHEN_INSENSITIVE="true"
 
+echo "Loading ZSH mode"
 # Uncomment one of the following lines to change the auto-update behavior
 # zstyle ':omz:update' mode disabled  # disable automatic updates
 # zstyle ':omz:update' mode auto      # update automatically without asking
@@ -65,6 +66,7 @@ zstyle ':omz:update' mode reminder  # just remind me to update when it's time
 # see 'man strftime' for details.
 # HIST_STAMPS="mm/dd/yyyy"
 
+echo "Loading ZSH plugins"
 # Would you like to use another custom folder than $ZSH/custom?
 # ZSH_CUSTOM=/path/to/new-custom-folder
 export FZF_BASE=/usr/local/opt/fzf/
@@ -73,13 +75,24 @@ export FZF_BASE=/usr/local/opt/fzf/
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git z zsh-syntax-highlighting fzf bgnotify kubectl)
+# source ~/.oh-my-zsh/custom/plugins/zsh-autocomplete/zsh-autocomplete.plugin.zsh
+plugins=(git z zsh-syntax-highlighting bgnotify kubectl zsh-autosuggestions iterm2 fzf)
+# bindkey '^\t' autosuggest-accept
+# bindkey '^e' autosuggest-execute
 
+echo "Loading Sources"
 source $ZSH/oh-my-zsh.sh
 source ~/.aliases
 source ~/.functions
 source ~/.temp
+
 # User configuration
+echo "Loading User Configuration"
+autoload -U promptinit
+promptinit
+
+# autoload -U compinit
+# compinit -i
 
 # export MANPATH="/usr/local/man:$MANPATH"
 
@@ -113,31 +126,77 @@ export PATH="$PATH:$NPM_PACKAGES/bin"
 # Otherwise, fall back to `manpath` so we can inherit from `/etc/manpath`.
 export MANPATH="${MANPATH-$(manpath)}:$NPM_PACKAGES/share/man"
 
-HISTFILE="/Users/${userPath}/Dropbox/history/.history"
+# HISTFILE="/Users/${userPath}/Dropbox/history/.history"
+HISTFILE="/Users/${userPath}/Library/CloudStorage/Dropbox/history/.history"
+# HISTFILE="/Users/toptal/Library/CloudStorage/Dropbox/history/.history"
 HISTSIZE=500000
 SAVEHIST=500000
 setopt appendhistory
 setopt INC_APPEND_HISTORY
 setopt SHARE_HISTORY
+setopt HIST_IGNORE_ALL_DUPS
 
 # Generated for envman. Do not edit.
 # [ -s "$HOME/.config/envman/load.sh" ] && source "$HOME/.config/envman/load.sh"
 
+echo "Loading Starship"
 eval "$(starship init zsh)"
 
+echo "Loading NVM"
 export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
+# [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 autoload -U add-zsh-hook
 add-zsh-hook chpwd load-nvmrc
 load-nvmrc
 
+echo "Loading Bun"
 # bun completions
-# [ -s "/Users/${userPath}/.bun/_bun" ] && source "/Users/${userPath}/.bun/_bun"
+[ -s "/Users/${userPath}/.bun/_bun" ] && source "/Users/${userPath}/.bun/_bun"
 
 # bun
-# export BUN_INSTALL="$HOME/.bun"
-# export PATH="$BUN_INSTALL/bin:$PATH"
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH";
+
+# bun completions
+[ -s "/Users/toptal/.bun/_bun" ] && source "/Users/toptal/.bun/_bun"
+
 
 # Fig post block. Keep at the bottom of this file.
 # [[ -f "$HOME/.fig/shell/zshrc.post.zsh" ]] && builtin source "$HOME/.fig/shell/zshrc.post.zsh"
+echo "Color enhancements"
+
+# ZSH_HIGHLIGHT_STYLES[default]='fg=white'
+# ZSH_HIGHLIGHT_STYLES[command]='fg=blue'
+ZSH_HIGHLIGHT_STYLES[argument]='fg=yellow'
+ZSH_HIGHLIGHT_STYLES[option]='fg=green'
+# ZSH_HIGHLIGHT_STYLES[comment]='fg=gray'
+# ZSH_HIGHLIGHT_STYLES[path]='fg=cyan'
+
+# ZSH_HIGHLIGHT_STYLES[globbing]='fg=red'
+# ZSH_HIGHLIGHT_STYLES[alias]='fg=blue'
+# ZSH_HIGHLIGHT_STYLES[function]='fg=magenta'
+ZSH_HIGHLIGHT_STYLES[precommand]='fg=yellow'
+ZSH_HIGHLIGHT_STYLES[commandseparator]='fg=green'
+ZSH_HIGHLIGHT_STYLES[hashed-command]='fg=blue'
+ZSH_HIGHLIGHT_STYLES[single-hyphen-option]='fg=white,bold'
+ZSH_HIGHLIGHT_STYLES[double-hyphen-option]='fg=yellow'
+ZSH_HIGHLIGHT_STYLES[back-quoted-argument]='fg=green'
+# ZSH_HIGHLIGHT_STYLES[single-quoted-argument]='fg=red'
+# ZSH_HIGHLIGHT_STYLES[double-quoted-argument]='fg=blue'
+# ZSH_HIGHLIGHT_STYLES[dollar-quoted-argument]='fg=magenta'
+ZSH_HIGHLIGHT_STYLES[rc-quote]='fg=yellow'
+ZSH_HIGHLIGHT_STYLES[reserved-word]='fg=red'
+ZSH_HIGHLIGHT_STYLES[reserved]='fg=cyan,underline'
+ZSH_HIGHLIGHT_STYLES[commandseparator]='fg=magenta'
+
+ZSH_HIGHLIGHT_STYLES[path-path]='fg=green'
+# ZSH_HIGHLIGHT_STYLES[path_prefix]='fg=197'
+ZSH_HIGHLIGHT_STYLES[path_prefix_pathseparator]='fg=white'
+# LS_COLORS=$LS_COLORS:'di=01;36:' ; export LS_COLORS
+zstyle ':completion:*' list-colors 'di=01;36'
+
+bindkey '^f' forward-word
+bindkey '^e' autosuggest-execute
+# bindkey -v
