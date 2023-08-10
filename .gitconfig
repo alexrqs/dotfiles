@@ -46,6 +46,7 @@
 	editor = nvim
 	pager = delta
 	hooksPath = ~/.git-hooks
+	ignorecase = false
     
 [interactive]
     diffFilter = delta --color-only
