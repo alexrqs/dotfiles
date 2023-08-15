@@ -5,6 +5,7 @@ source ~/.preflight
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
+echo "Loading ZSH path"
 export ZSH="/Users/${userPath}/.oh-my-zsh"
 
 # Set name of the theme to load --- if set to "random", it will
@@ -80,10 +81,13 @@ plugins=(git z zsh-syntax-highlighting bgnotify kubectl zsh-autosuggestions iter
 # bindkey '^\t' autosuggest-accept
 # bindkey '^e' autosuggest-execute
 
-echo "Loading Sources"
+echo "Loading oh-my-zsh.sh"
 source $ZSH/oh-my-zsh.sh
+echo "Loading aliases"
 source ~/.aliases
+echo "Loading functions"
 source ~/.functions
+echo "Loading temp"
 source ~/.temp
 
 # User configuration
@@ -149,7 +153,8 @@ export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || pr
 
 autoload -U add-zsh-hook
 add-zsh-hook chpwd load-nvmrc
-load-nvmrc
+# avoid loading nvmrc if we're in a direnv project
+# load-nvmrc
 
 echo "Loading Bun"
 # bun completions
@@ -165,7 +170,7 @@ export PATH="$BUN_INSTALL/bin:$PATH";
 
 # Fig post block. Keep at the bottom of this file.
 # [[ -f "$HOME/.fig/shell/zshrc.post.zsh" ]] && builtin source "$HOME/.fig/shell/zshrc.post.zsh"
-echo "Color enhancements"
+echo "Loading color enhancements"
 
 # ZSH_HIGHLIGHT_STYLES[default]='fg=white'
 # ZSH_HIGHLIGHT_STYLES[command]='fg=blue'
