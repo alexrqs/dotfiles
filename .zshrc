@@ -132,16 +132,12 @@ export MANPATH="${MANPATH-$(manpath)}:$NPM_PACKAGES/share/man"
 
 # HISTFILE="/Users/${userPath}/Dropbox/history/.history"
 HISTFILE="/Users/${userPath}/Library/CloudStorage/Dropbox/history/.history"
-# HISTFILE="/Users/toptal/Library/CloudStorage/Dropbox/history/.history"
 HISTSIZE=500000
 SAVEHIST=500000
 setopt appendhistory
 setopt INC_APPEND_HISTORY
 setopt SHARE_HISTORY
 setopt HIST_IGNORE_ALL_DUPS
-
-# Generated for envman. Do not edit.
-# [ -s "$HOME/.config/envman/load.sh" ] && source "$HOME/.config/envman/load.sh"
 
 echo "Loading Starship"
 eval "$(starship init zsh)"
@@ -151,6 +147,7 @@ export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || pr
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
 # [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
+echo "Loading zsh-hook for nvm"
 autoload -U add-zsh-hook
 add-zsh-hook chpwd load-nvmrc
 # avoid loading nvmrc if we're in a direnv project
