@@ -12,6 +12,7 @@
 	ci = commit
 	mt = mergetool
     last = diff --name-only HEAD
+	sw = switch
 
 [delta]
     navigate = true    # use n and N to move between diff sections
