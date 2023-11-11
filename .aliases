@@ -54,8 +54,8 @@ alias fs="stat -f \"%z bytes\""
 
 # Empty the Trash on all mounted volumes and the main HDD. then clear the useless sleepimage
 
-alias dev="npm run dev"
-alias build="npm run build"
+alias dev="bun run dev"
+alias build="bun run build"
 # alias test="npm run test"
 
 alias flush='sudo service networking restart'
