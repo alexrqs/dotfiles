@@ -202,3 +202,5 @@ zstyle ':completion:*' list-colors 'di=01;36'
 bindkey '^f' forward-word
 bindkey '^e' autosuggest-execute
 # bindkey -v
+
+source /Users/toptal/.config/broot/launcher/bash/br

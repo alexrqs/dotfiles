@@ -31,6 +31,13 @@ brew install htop
 brew install tree
 brew install terminal-notifier
 brew install iterm2
+brew install neovim
+brew install elixir
+brew install git-delta
+brew install ripgrep
+brew install lazygit
+brew install op
+
 # browsers
 brew install google-chrome
 brew install --cask arc
@@ -44,47 +51,51 @@ brew install dbeaver-community
 brew install rectangle
 brew install spotify
 brew install discord
+
+# Stopped using fig be ause it's really annoying that UI gettings stuck all the time
 # brew install fig
 brew install rar
 brew install appcleaner
+
 # video transcoder
 brew install handbrake
 brew install zoom
 # QuickLook plugin that lets you view text files without their own dedicated QuickLook plugin
 brew install qlstephen
 brew install audacity
-brew install raytrace
-# Cyberduck is a libre server and cloud storage browser for Mac 
-# and Windows with support for FTP, SFTP, WebDAV, Amazon S3, 
+# brew install raytrace
+
+# Cyberduck is a libre server and cloud storage browser for Mac
+# and Windows with support for FTP, SFTP, WebDAV, Amazon S3,
 # OpenStack Swift, Backblaze B2, Microsoft Azure & OneDrive, Google Drive and Dropbox
 brew install cyberduck
+
+# Create a custom DNS
+brew install duckdns
 # replaced maccy with raytrace clipboard
 # brew install maccy
 # brew install docker
 brew install orbstack
 
 brew install flameshot
-brew install caffeine
 brew install keycastr
 brew install vscodium
 brew install --cask visual-studio-code-insiders
-brew install font-fira-code
+
+# required for font installation
+brew tap homebrew/cask-fonts
+brew install font-fira-code-nerd-font
 brew install font-hack-nerd-font
 brew install font-operator-mono-nerd-font
 brew install font-operator-mono-lig
 brew install font-lobster
 brew install obs
 brew install --cask adobe-creative-cloud
-brew install elixir
-brew install neovim
-brew install git-delta
 
-cd 
-cd .oh-my-zsh/custom/plugins
-git clone --depth 1 -- https://github.com/marlonrichert/zsh-autocomplete.git
+git clone --depth 1 -- https://github.com/marlonrichert/zsh-autocomplete.git ~/.oh-my-zsh/custom/plugins/zsh-autocomplete
 
 for file in .{aliases,exports,functions,gitconfig,temp,preflight,zshrc}; do
-  [ -r "$file" ] && echo "ln -s $(pwd)/$file ~/$file"
+	[ -r "$file" ] && echo "ln -s $(pwd)/$file ~/$file"
 done
 
 ln -s $(pwd)/.config/startship.toml ~/.config/startship.toml
