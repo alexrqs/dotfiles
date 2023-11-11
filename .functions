@@ -200,6 +200,7 @@ load-nvmrc() {
 
   if [ -n "$nvmrc_path" ]; then
     local nvmrc_node_version=$(nvm version "$(cat "${nvmrc_path}")")
+	fi
 
 	if [ "$nvmrc_node_version" = "N/A" ]; then
 		nvm install
@@ -207,10 +208,10 @@ load-nvmrc() {
 		nvm use
 	fi
 
-  elif [ "$node_version" != "$(nvm version default)" ]; then
-    echo "Reverting to nvm default version"
-    nvm use default
-  fi
+  # elif [ "$node_version" != "$(nvm version default)" ]; then
+  #   echo "Reverting to nvm default version"
+  #   nvm use default
+  # fi
 }
 
 unalias gco

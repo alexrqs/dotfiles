@@ -13,12 +13,16 @@ $git_state\
 $git_status\
 $git_metrics\
 $docker_context\
-$deno\
 $fill\
+$deno\
+$c\
+$elixir\
+$golang\
 $nodejs\
 $rust\
 $cmd_duration $jobs\
 $aws\
+$memory_usage\
 $line_break\
 $status\
 $container\
@@ -57,6 +61,7 @@ symbol = " "
 
 [c]
 symbol = " "
+format = '[$symbol($version )($mod_version )]($style)'
 
 [character]
 # success_symbol = "[❯](purple)"
@@ -89,7 +94,8 @@ format = '[$context$symbol]($style) '
 symbol = " 🐳"
 
 [elixir]
-symbol = "💧 "
+symbol = "🔮"
+format = '[$symbol($version )($mod_version )]($style)'
 
 [elm]
 symbol = " "
@@ -104,9 +110,11 @@ truncation_symbol = ''
 disabled = false
 
 [git_branch]
-symbol = " "
+# symbol = " "
+symbol = '🌱 '
 format = "[$symbol$branch]($style) "
 style = "bright-black"
+
 
 [git_status]
 format = '($all_status$ahead_behind($style) )'
@@ -126,8 +134,10 @@ deleted = "🗑  "
 format = '\([$state( $progress_current/$progress_total)]($style)\) '
 style = "bright-black"
 
+# [golang]
 [golang]
 symbol = " "
+format = '[$symbol($version )($mod_version )]($style)'
 
 [haskell]
 symbol = " "
@@ -150,7 +160,11 @@ disabled = false
 symbol = " "
 
 [memory_usage]
-symbol = " "
+disabled = false
+# symbol = " "
+style = "bright-black"
+threshold = 75
+format = '$symbol[$ram( | $swap)]($style) '
 
 [nim]
 symbol = " "
@@ -176,7 +190,8 @@ symbol = "ﳒ "
 symbol = " "
 
 [rust]
-symbol = "🦀 "
+symbol = "🦀"
+format = " [$symbol($version)]($style)"
 
 [spack]
 symbol = "🅢 "
