@@ -11,7 +11,8 @@ brew install md5sha1sum
 brew install wget
 brew install starship
 brew install alt-tab
-brew install nmap
+# optional due to AV restrictions
+# brew install nmap
 brew install wakeonlan
 brew install httpie
 brew install bat
@@ -90,7 +91,7 @@ brew uninstall font-lobster
 brew install --cask adobe-creative-cloud
 
 # Optional packages 
-brew_packages=("discord" "kubectx" "kubens" "kubectl" "httrack") # Add your packages here
+brew_packages=("nmap" "discord" "kubectx" "kubens" "kubectl" "httrack") # Add your packages here
 
 # Function to ask for user confirmation
 confirm_install() {
