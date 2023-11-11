@@ -6,8 +6,8 @@ function f() {
 }
 
 # List all files, long format, colorized, permissions in octal
-function la(){
-  ls -l  "$@" | awk '
+function la() {
+	ls -l "$@" | awk '
     {
       k=0;
       for (i=0;i<=8;i++)
@@ -20,24 +20,24 @@ function la(){
 
 # cd into whatever is the forefront Finder window.
 # only mac
-cdf() {  # short for cdfinder
-  cd "`osascript -e 'tell app "Finder" to POSIX path of (insertion location as alias)'`"
+cdf() { # short for cdfinder
+	cd "$(osascript -e 'tell app "Finder" to POSIX path of (insertion location as alias)')"
 }
 
 # git commit browser. needs fzf
 # only mac
 glogs() {
-  git log --graph --color=always \
-      --format="%C(auto)%h%d %s %C(black)%C(bold)%cr" "$@" |
-  fzf --ansi --no-sort --reverse --tiebreak=index --toggle-sort=\` \
-      --bind "ctrl-m:execute:
+	git log --graph --color=always \
+		--format="%C(auto)%h%d %s %C(black)%C(bold)%cr" "$@" |
+		fzf --ansi --no-sort --reverse --tiebreak=index --toggle-sort=\` \
+			--bind "ctrl-m:execute:
                 echo '{}' | grep -o '[a-f0-9]\{7\}' | head -1 |
                 xargs -I % sh -c 'git show --color=always % | less -R'"
 }
 
 # Copy w/ progress
-cp_p () {
-  rsync -WavP --human-readable --progress $1 $2
+cp_p() {
+	rsync -WavP --human-readable --progress $1 $2
 }
 
 # get gzipped size
@@ -92,79 +92,78 @@ function extract() {
 		fi
 		mkdir -p "$foldername" && cd "$foldername"
 		case $1 in
-			*.tar.bz2) tar xjf "$fullpath" ;;
-			*.tar.gz) tar xzf "$fullpath" ;;
-			*.tar.xz) tar Jxvf "$fullpath" ;;
-			*.tar.Z) tar xzf "$fullpath" ;;
-			*.tar) tar xf "$fullpath" ;;
-			*.taz) tar xzf "$fullpath" ;;
-			*.tb2) tar xjf "$fullpath" ;;
-			*.tbz) tar xjf "$fullpath" ;;
-			*.tbz2) tar xjf "$fullpath" ;;
-			*.tgz) tar xzf "$fullpath" ;;
-			*.txz) tar Jxvf "$fullpath" ;;
-			*.zip) unzip "$fullpath" ;;
-			*) echo "'$1' cannot be extracted via extract()" && cd .. && ! $didfolderexist && rm -r "$foldername" ;;
+		*.tar.bz2) tar xjf "$fullpath" ;;
+		*.tar.gz) tar xzf "$fullpath" ;;
+		*.tar.xz) tar Jxvf "$fullpath" ;;
+		*.tar.Z) tar xzf "$fullpath" ;;
+		*.tar) tar xf "$fullpath" ;;
+		*.taz) tar xzf "$fullpath" ;;
+		*.tb2) tar xjf "$fullpath" ;;
+		*.tbz) tar xjf "$fullpath" ;;
+		*.tbz2) tar xjf "$fullpath" ;;
+		*.tgz) tar xzf "$fullpath" ;;
+		*.txz) tar Jxvf "$fullpath" ;;
+		*.zip) unzip "$fullpath" ;;
+		*) echo "'$1' cannot be extracted via extract()" && cd .. && ! $didfolderexist && rm -r "$foldername" ;;
 		esac
 	else
 		echo "'$1' is not a valid file"
 	fi
 }
 
-
 # animated gifs from any video
 # from alex sexton   gist.github.com/SlexAxton/4989674
 gifify() {
-  if [[ -n "$1" ]]; then
-	if [[ $2 == '--good' ]]; then
-	  ffmpeg -i $1 -r 10 -vcodec png out-static-%05d.png
-	  time convert -verbose +dither -layers Optimize -resize 900x900\> out-static*.png  GIF:- | gifsicle --colors 128 --delay=5 --loop --optimize=3 --multifile - > $1.gif
-	  rm out-static*.png
+	if [[ -n "$1" ]]; then
+		if [[ $2 == '--good' ]]; then
+			ffmpeg -i $1 -r 10 -vcodec png out-static-%05d.png
+			time convert -verbose +dither -layers Optimize -resize 900x900\> out-static*.png GIF:- | gifsicle --colors 128 --delay=5 --loop --optimize=3 --multifile - >$1.gif
+			rm out-static*.png
+		else
+			ffmpeg -i $1 -s 600x400 -pix_fmt rgb24 -r 10 -f gif - | gifsicle --optimize=3 --delay=3 >$1.gif
+		fi
 	else
-	  ffmpeg -i $1 -s 600x400 -pix_fmt rgb24 -r 10 -f gif - | gifsicle --optimize=3 --delay=3 > $1.gif
+		echo "proper usage: gifify <input_movie.mov>. You DO need to include extension."
 	fi
-  else
-	echo "proper usage: gifify <input_movie.mov>. You DO need to include extension."
-  fi
 }
-
 
 # direct it all to /dev/null
 function nullify() {
-  "$@" >/dev/null 2>&1
+	"$@" >/dev/null 2>&1
 }
 
 # `shellswitch [bash |zsh]`
 #   Must be in /etc/shells
-shellswitch () {
+shellswitch() {
 	chsh -s $(brew --prefix)/bin/$1
 }
 
-function killport () {
+function killport() {
 	fuser -n tcp -k "$1"
 	echo "killing port $1"
 }
 
 spinner() {
-  local pid=$1
-  local delay=0.05
-  local spinstr='|/-\'
-  while [ "$(ps a | awk '{print $1}' | grep $pid)" ]; do
-    local temp=${spinstr#?}
-    printf " [%c]  Deleting..." "$spinstr"
-    local spinstr=$temp${spinstr%"$temp"}
-    sleep $delay
-    printf "\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b"
-  done
-  printf "    \b\b\b\b"
+	local pid=$1
+	local delay=0.05
+	local spinstr='|/-\'
+	while [ "$(ps a | awk '{print $1}' | grep $pid)" ]; do
+		local temp=${spinstr#?}
+		printf " [%c]  Deleting..." "$spinstr"
+		local spinstr=$temp${spinstr%"$temp"}
+		sleep $delay
+		printf "\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b"
+	done
+	printf "    \b\b\b\b"
 }
 
 function refresh() {
-	(rm -rf node_modules/ > /dev/null 2>&1) & spinner $!
+	(rm -rf build/ dist/ node_modules/ .next/ >/dev/null 2>&1) &
+	spinner $!
 
-	if [[ $1 == 'npm' ]]; then
-		npm install
-	elif [[ $1 == '+' ]]; then
+	if [[ $1 == 'bun' ]]; then
+		bun install
+	elif [[ $1 == 'y' ]]; then
 		yarn install --force
 	else
 		npm install
@@ -178,8 +177,8 @@ function ci() {
 	add='false'
 	while getopts "am:" option; do
 		case $option in
-		  a) add='true';;
-		  m) message=$OPTARG;;
+		a) add='true' ;;
+		m) message=$OPTARG ;;
 		esac
 	done
 
@@ -190,22 +189,27 @@ function ci() {
 	fi
 }
 
-function klogs () {
-  kl --tail 1 $(kgp | grep $1 | awk '{ print $1 }')
+function klogs() {
+	kl --tail 1 $(kgp | grep $1 | awk '{ print $1 }')
 }
 
 load-nvmrc() {
-  local node_version="$(nvm version)"
-  local nvmrc_path="$(nvm_find_nvmrc)"
+	local node_version="$(nvm version)"
+	local nvmrc_path="$(nvm_find_nvmrc)"
 
   if [ -n "$nvmrc_path" ]; then
     local nvmrc_node_version=$(nvm version "$(cat "${nvmrc_path}")")
 	fi
 
-	if [ "$nvmrc_node_version" = "N/A" ]; then
-		nvm install
-	elif [ "$nvmrc_node_version" != "$node_version" ]; then
-		nvm use
+  if [ "$nvmrc_node_version" = "N/A" ]; then
+    nvm install
+  elif [ "$nvmrc_node_version" != "$node_version" ]; then
+    nvm use
+  fi
+
+	elif [ "$node_version" != "$(nvm version default)" ]; then
+		# echo "Reverting to nvm default version"
+		# nvm use default
 	fi
 
   # elif [ "$node_version" != "$(nvm version default)" ]; then
@@ -214,44 +218,14 @@ load-nvmrc() {
   # fi
 }
 
-unalias gco
-function gco() {
-  if [[ $# -eq 2 && $1 == "-b" ]]; then
-    local branch_type
-    branch_type=$(echo -e "feature\nfix\nhotfix\nchore" | fzf)
-    if [[ -n $branch_type ]]; then
-      local branch="$branch_type/lx/webst-$2"
-      git checkout -b "$branch"
-    else
-      echo "No branch type selected."
-    fi
-  elif [[ $# -eq 1 ]]; then
-    local branches
-    branches=$(git branch -a | grep "$1")
-    if [[ $(echo "$branches" | wc -l) -eq 1 ]]; then
-      git checkout "$branches"
-    else
-      local branch
-      branch=$(echo "$branches" | fzf)
-      if [[ -n $branch ]]; then
-        git checkout "$branch"
-      else
-        echo "No branch selected."
-      fi
-    fi
-  else
-    git checkout "$@"
-  fi
-}
-
 function kkl() {
-  local pod
-  pod=$(kubectl get pods --no-headers -o custom-columns=":metadata.name" | fzf --exit-0)
+	local pod
+	pod=$(kubectl get pods --no-headers -o custom-columns=":metadata.name" | fzf --exit-0)
 
-  if [[ -n $pod ]]; then
-    echo "Selected pod: $pod"
-    kl "${pod}"
-  else
-    echo "No pod selected."
-  fi
+	if [[ -n $pod ]]; then
+		echo "Selected pod: $pod"
+		kl "${pod}"
+	else
+		echo "No pod selected."
+	fi
 }
