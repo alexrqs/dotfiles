@@ -15,6 +15,8 @@ chmod u+w /opt/homebrew /opt/homebrew/share/aclocal /opt/homebrew/share/info /op
 brew install fzf
 brew install fd
 brew install jq
+brew install noahgorstein/tap/jqp
+brew install expect
 brew install md5sha1sum
 brew install wget
 brew install starship
@@ -44,7 +46,8 @@ brew install --cask arc
 brew install tor-browser
 brew install firefox
 
-brew install ngrok
+# replace ngrock with port forwarding from vscode
+# brew install ngrok
 brew install slack
 brew install vlc
 brew install dbeaver-community
@@ -74,11 +77,18 @@ brew install cyberduck
 brew install duckdns
 # replaced maccy with raytrace clipboard
 # brew install maccy
+
+# raytrace is not yet in the workflow
+# brew install raytrace
+
+# replace docker with orbstack
 # brew install docker
 brew install orbstack
 
 brew install flameshot
 brew install keycastr
+
+brew install obs
 brew install vscodium
 brew install --cask visual-studio-code-insiders
 
@@ -89,7 +99,7 @@ brew install font-hack-nerd-font
 brew install font-operator-mono-nerd-font
 brew install font-operator-mono-lig
 brew install font-lobster
-brew install obs
+
 brew install --cask adobe-creative-cloud
 
 git clone --depth 1 -- https://github.com/marlonrichert/zsh-autocomplete.git ~/.oh-my-zsh/custom/plugins/zsh-autocomplete
