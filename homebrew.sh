@@ -20,12 +20,7 @@ brew install htop
 brew install tree
 brew install terminal-notifier
 brew install iterm2
-brew install neovim
 brew install elixir
-brew install git-delta
-brew install ripgrep
-brew install lazygit
-brew install lazydocker
 brew install --cask 1password
 brew install --cask 1password-cli
 
@@ -77,8 +72,15 @@ brew install flameshot
 brew install keycastr
 
 brew install obs
+
+# Code Editors
 brew install vscodium
 brew install --cask visual-studio-code-insiders
+brew install neovim
+brew install git-delta
+brew install ripgrep
+brew install lazygit
+brew install lazydocker
 
 # required for font installation
 brew tap homebrew/cask-fonts
