@@ -21,4 +21,5 @@ done
 
 ln -s $(pwd)/.config/startship.toml ~/.config/startship.toml
 ln -s $(pwd)/delta-themes.gitconfig ~/delta-themes.gitconfig
+ln -s $(pwd)/.config/nvim ~/.config/nvim
 # WIP ln -s $(pwd)/.git-hooks ~/.git-hooks
