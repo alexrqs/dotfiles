@@ -86,8 +86,6 @@ brew install lazydocker
 brew tap homebrew/cask-fonts
 brew install font-fira-code-nerd-font
 brew install font-hack-nerd-font
-brew install font-operator-mono-nerd-font
-brew install font-operator-mono-lig
 brew uninstall font-lobster
 
 brew install --cask adobe-creative-cloud
