@@ -9,10 +9,12 @@ alias chmox='chmod -x'
 alias py='python3'
 
 alias cask='brew cask' # i <3 u cask
-alias where=which # sometimes i forget
-alias brwe=brew  #typos
+alias where=which      # sometimes i forget
+alias brwe=brew        #typos
+alias brewi='brew install'
+alias brewu='brew update && brew upgrade && brew clean'
 
-alias hosts='sudo $EDITOR /etc/hosts'   # yes I occasionally 127.0.0.1 twitter.com ;)
+alias hosts='sudo $EDITOR /etc/hosts' # yes I occasionally 127.0.0.1 twitter.com ;)
 
 alias ag='ag -f --hidden'
 
@@ -24,7 +26,7 @@ alias ag='ag -f --hidden'
 hash gls >/dev/null 2>&1 || alias gls="ls"
 
 # always use color, even when piping (to awk,grep,etc)
-if gls --color > /dev/null 2>&1; then colorflag="--color"; else colorflag="-G"; fi;
+if gls --color >/dev/null 2>&1; then colorflag="--color"; else colorflag="-G"; fi
 export CLICOLOR_FORCE=1
 
 # ls options: A = include hidden (but not . or ..), F = put `/` after folders, h = byte unit suffixes
@@ -71,4 +73,5 @@ alias kns='kubens'
 
 alias wget="curl -O"
 alias code="code-insiders"
-alias lz="NVIM_APPNAME=LazyVim nvim"
+# alias lz="NVIM_APPNAME=LazyVim nvim"
+alias lz="nvim"
