@@ -70,7 +70,7 @@ brew install orbstack
 
 brew install flameshot
 brew install keycastr
-
+brew install monitorcontrol
 brew install obs
 
 # Code Editors
