@@ -7,10 +7,17 @@ brew install fd
 brew install jq
 brew install noahgorstein/tap/jqp
 brew install expect
+brew install exa
 brew install md5sha1sum
 brew install wget
 brew install starship
 brew install alt-tab
+# dig replacement
+# brew install dog
+
+# du replacement
+# brew install dust
+
 # optional due to AV restrictions
 # brew install nmap
 brew install wakeonlan
@@ -77,10 +84,12 @@ brew install obs
 brew install vscodium
 brew install --cask visual-studio-code-insiders
 brew install neovim
+brew install gnu-sed
 brew install git-delta
 brew install ripgrep
 brew install lazygit
 brew install lazydocker
+brew install lazynpm
 
 # required for font installation
 brew tap homebrew/cask-fonts
