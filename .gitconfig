@@ -1,5 +1,5 @@
 [include]
-    path = ./delta-themes.gitconfig
+  path = ./delta-themes.gitconfig
 
 [alias]
 	co = checkout
@@ -11,18 +11,18 @@
 	cp = cherry-pick
 	ci = commit
 	mt = mergetool
-    last = diff --name-only HEAD
+  last = diff --name-only HEAD
 	sw = switch
 
 [delta]
-    navigate = true    # use n and N to move between diff sections
-    light = false      # set to true if you're in a terminal w/ a light background color (e.g. the default macOS terminal)
-    side-by-side = true
+  navigate = true    # use n and N to move between diff sections
+  light = false      # set to true if you're in a terminal w/ a light background color (e.g. the default macOS terminal)
+  side-by-side = true
 	line-numbers = true
-    true-color = always
-    hyperlinks = true
-    hyperlinks-file-link-format = "vscode://file/{path}:{line}"
-    features = "mantis-shrimp"
+  true-color = always
+  hyperlinks = true
+  hyperlinks-file-link-format = "vscode://file/{path}:{line}"
+  features = "mantis-shrimp"
 
 [diff]
 	tool = nvimdiff
@@ -50,8 +50,8 @@
 	ignorecase = false
     
 [interactive]
-    diffFilter = delta --color-only
+  diffFilter = delta --color-only
 
 [user]
 	name = Alex Lopez
-	email = lex.2418@gmail.com
+  emai = email@email.com
