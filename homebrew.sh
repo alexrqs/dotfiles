@@ -27,6 +27,7 @@ brew install htop
 brew install tree
 brew install terminal-notifier
 brew install iterm2
+brew install kitty
 brew install elixir
 brew install --cask 1password
 brew install --cask 1password-cli
@@ -66,13 +67,13 @@ brew install cyberduck
 brew install duckdns
 
 # replaced maccy with raytrace clipboard
-brew uninstall maccy
+# brew uninstall maccy
 
 # raycast is not yet in the workflow
-brew uninstall raycast
+# brew uninstall raycast
 
 # replace docker with orbstack
-brew uninstall docker
+# brew uninstall docker
 brew install orbstack
 
 brew install flameshot
@@ -95,7 +96,7 @@ brew install lazynpm
 brew tap homebrew/cask-fonts
 brew install font-fira-code-nerd-font
 brew install font-hack-nerd-font
-brew uninstall font-lobster
+# brew uninstall font-lobster
 
 brew install --cask adobe-creative-cloud
 
