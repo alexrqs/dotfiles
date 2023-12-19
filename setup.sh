@@ -15,7 +15,7 @@ chmod u+w /opt/homebrew /opt/homebrew/share/aclocal /opt/homebrew/share/info /op
 
 git clone --depth 1 -- https://github.com/marlonrichert/zsh-autocomplete.git ~/.oh-my-zsh/custom/plugins/zsh-autocomplete
 
-for file in .{aliases,exports,functions,gitconfig,temp,preflight,zshrc}; do
+for file in .{aliases,exports,functions,gitconfig,temp,preflight,zshrc,vimrc}; do
 	[ -r "$file" ] && echo "ln -s $(pwd)/$file ~/$file"
 done
 

@@ -5,6 +5,7 @@ source ~/.preflight
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
+clear
 echo "Loading ZSH path"
 export ZSH="/Users/${userPath}/.oh-my-zsh"
 
@@ -27,6 +28,7 @@ export ZSH="/Users/${userPath}/.oh-my-zsh"
 # Case-sensitive completion must be off. _ and - will be interchangeable.
 # HYPHEN_INSENSITIVE="true"
 
+clear
 echo "Loading ZSH mode"
 # Uncomment one of the following lines to change the auto-update behavior
 # zstyle ':omz:update' mode disabled  # disable automatic updates
@@ -67,7 +69,8 @@ zstyle ':omz:update' mode reminder  # just remind me to update when it's time
 # see 'man strftime' for details.
 # HIST_STAMPS="mm/dd/yyyy"
 
-echo "Loading ZSH plugins"
+clear
+echo -e "\e[46mLoading\e[49m ZSH plugins"
 # Would you like to use another custom folder than $ZSH/custom?
 # ZSH_CUSTOM=/path/to/new-custom-folder
 export FZF_BASE=/usr/local/opt/fzf/
@@ -81,16 +84,24 @@ plugins=(git z zsh-syntax-highlighting bgnotify kubectl zsh-autosuggestions iter
 # bindkey '^\t' autosuggest-accept
 # bindkey '^e' autosuggest-execute
 
+clear
 echo "Loading oh-my-zsh.sh"
 source $ZSH/oh-my-zsh.sh
+
+clear
 echo "Loading aliases"
 source ~/.aliases
+
+clear
 echo "Loading functions"
 source ~/.functions
+
+clear
 echo "Loading temp"
 source ~/.temp
 
-# User configuration
+# User Configuration
+clear
 echo "Loading User Configuration"
 autoload -U promptinit
 promptinit
@@ -139,20 +150,24 @@ setopt INC_APPEND_HISTORY
 setopt SHARE_HISTORY
 setopt HIST_IGNORE_ALL_DUPS
 
+clear
 echo "Loading Starship"
 eval "$(starship init zsh)"
 
+clear
 echo "Loading NVM"
 export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
 # [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
+clear
 echo "Loading zsh-hook for nvm"
 autoload -U add-zsh-hook
 add-zsh-hook chpwd load-nvmrc
 # avoid loading nvmrc if we're in a direnv project
 # load-nvmrc
 
+clear
 echo "Loading Bun"
 # bun completions
 [ -s "/Users/${userPath}/.bun/_bun" ] && source "/Users/${userPath}/.bun/_bun"
@@ -167,6 +182,7 @@ export PATH="$BUN_INSTALL/bin:$PATH";
 
 # Fig post block. Keep at the bottom of this file.
 # [[ -f "$HOME/.fig/shell/zshrc.post.zsh" ]] && builtin source "$HOME/.fig/shell/zshrc.post.zsh"
+clear
 echo "Loading color enhancements"
 
 # ZSH_HIGHLIGHT_STYLES[default]='fg=white'
@@ -204,3 +220,6 @@ bindkey '^e' autosuggest-execute
 # bindkey -v
 
 source /Users/toptal/.config/broot/launcher/bash/br
+
+clear
+echo -e "\e[92mTerminal Loaded!"
