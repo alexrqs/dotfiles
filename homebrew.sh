@@ -29,6 +29,7 @@ brew install terminal-notifier
 brew install iterm2
 brew install kitty
 brew install elixir
+brew install livebook
 brew install --cask 1password
 brew install --cask 1password-cli
 
