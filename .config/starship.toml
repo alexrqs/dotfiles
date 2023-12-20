@@ -118,17 +118,17 @@ style = "bright-black"
 
 [git_status]
 format = '($all_status$ahead_behind($style) )'
-conflicted = "🐷 "
+conflicted = "🐷"
 ahead = "🏎💨"
 behind = "😰"
 diverged = "😵"
 up_to_date = "😎"
-untracked = "🐲 "
-stashed = "🥶 "
-modified = "🎈 "
+untracked = "🐲"
+stashed = "🥶"
+modified = "🎈"
 staged = '[++$count ](green)'
 renamed = "👅"
-deleted = "🗑  "
+deleted = "🗑"
 
 [git_state]
 format = '\([$state( $progress_current/$progress_total)]($style)\) '
@@ -152,7 +152,7 @@ symbol = " "
 symbol = " "
 
 [localip]
-ssh_only = true 
+ssh_only = true
 format = '[studio](italic yellow) '
 disabled = false
 
