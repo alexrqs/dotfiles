@@ -1,4 +1,4 @@
-colorscheme monokai-phoenix
+" colorscheme monokai-phoenix
 filetype plugin on
 set autoindent
 set clipboard=unnamedplus

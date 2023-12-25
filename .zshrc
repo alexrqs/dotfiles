@@ -1,8 +1,4 @@
 source ~/.preflight
-# Fig pre block. Keep at the top of this file.
-# [[ -f "$HOME/.fig/shell/zshrc.pre.zsh" ]] && builtin source "$HOME/.fig/shell/zshrc.pre.zsh"
-# If you come from bash you might have to change your $PATH.
-# export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
 clear
@@ -69,8 +65,11 @@ zstyle ':omz:update' mode reminder  # just remind me to update when it's time
 # see 'man strftime' for details.
 # HIST_STAMPS="mm/dd/yyyy"
 
+bindkey -v
+bindkey -M vicmd "q" push-line
+
 clear
-echo -e "\e[46mLoading\e[49m ZSH plugins"
+echo "Loading ZSH plugins"
 # Would you like to use another custom folder than $ZSH/custom?
 # ZSH_CUSTOM=/path/to/new-custom-folder
 export FZF_BASE=/usr/local/opt/fzf/
@@ -80,7 +79,7 @@ export FZF_BASE=/usr/local/opt/fzf/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 # source ~/.oh-my-zsh/custom/plugins/zsh-autocomplete/zsh-autocomplete.plugin.zsh
-plugins=(git z zsh-syntax-highlighting bgnotify kubectl zsh-autosuggestions iterm2 fzf)
+plugins=(bgnotify fzf git kubectl z zsh-syntax-highlighting zsh-autosuggestions )
 # bindkey '^\t' autosuggest-accept
 # bindkey '^e' autosuggest-execute
 
@@ -133,6 +132,8 @@ promptinit
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
+clear
+echo "Loading NPM globals"
 NPM_PACKAGES="${HOME}/.npm-packages"
 
 export PATH="$PATH:$NPM_PACKAGES/bin"
@@ -141,8 +142,16 @@ export PATH="$PATH:$NPM_PACKAGES/bin"
 # Otherwise, fall back to `manpath` so we can inherit from `/etc/manpath`.
 export MANPATH="${MANPATH-$(manpath)}:$NPM_PACKAGES/share/man"
 
-# HISTFILE="/Users/${userPath}/Dropbox/history/.history"
-HISTFILE="/Users/${userPath}/Library/CloudStorage/Dropbox/history/.history"
+clear
+echo "Loading history"
+
+local dropboxPath="Dropbox"
+# calculate dropbox path if i386 or arm64
+if [ $(uname -m) = "arm64" ]; then
+  dropboxPath="Library/CloudStorage/Dropbox"
+fi
+
+HISTFILE="/Users/${userPath}/${dropboxPath}/history/.history"
 HISTSIZE=500000
 SAVEHIST=500000
 setopt appendhistory
@@ -152,7 +161,7 @@ setopt HIST_IGNORE_ALL_DUPS
 
 clear
 echo "Loading Starship"
-eval "$(starship init zsh)"
+eval "$(starship init zsh --print-full-init)"
 
 clear
 echo "Loading NVM"
@@ -176,12 +185,6 @@ echo "Loading Bun"
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH";
 
-# bun completions
-[ -s "/Users/toptal/.bun/_bun" ] && source "/Users/toptal/.bun/_bun"
-
-
-# Fig post block. Keep at the bottom of this file.
-# [[ -f "$HOME/.fig/shell/zshrc.post.zsh" ]] && builtin source "$HOME/.fig/shell/zshrc.post.zsh"
 clear
 echo "Loading color enhancements"
 
@@ -219,7 +222,16 @@ bindkey '^f' forward-word
 bindkey '^e' autosuggest-execute
 # bindkey -v
 
-source /Users/toptal/.config/broot/launcher/bash/br
+# TODO delete broot
+source /Users/${userPath}/.config/broot/launcher/bash/br
+
+clear
+echo "Loading binutils path"
+export PATH="/usr/local/opt/binutils/bin:$PATH"
+
+clear
+echo "Loading fzf completion"
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 clear
 echo -e "\e[92mTerminal Loaded!"

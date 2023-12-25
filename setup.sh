@@ -13,6 +13,10 @@ chmod u+w /opt/homebrew /opt/homebrew/share/aclocal /opt/homebrew/share/info /op
 # Install brew packages
 ./homebrew.sh
 
+# After Kitty Terminal installation, icon cache should be cleared
+yes | rm /var/folders/*/*/*/com.apple.dock.iconcache
+killall Dock
+
 git clone --depth 1 -- https://github.com/marlonrichert/zsh-autocomplete.git ~/.oh-my-zsh/custom/plugins/zsh-autocomplete
 
 for file in .{aliases,exports,functions,gitconfig,temp,preflight,zshrc,vimrc}; do
@@ -24,3 +28,6 @@ ln -s $(pwd)/delta-themes.gitconfig ~/delta-themes.gitconfig
 ln -s $(pwd)/.config/nvim ~/.config/nvim
 ln -s $(pwd)/.config/kitty ~/.config/kitty
 # WIP ln -s $(pwd)/.git-hooks ~/.git-hooks
+# Misc
+# reduce the initial wait to repeat key presses
+defaults write -g InitialKeyRepeat -int 11
