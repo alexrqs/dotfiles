@@ -5,6 +5,7 @@
 brew install fzf
 brew install fd
 brew install jq
+brew install jless
 brew install noahgorstein/tap/jqp
 brew install expect
 brew install exa
@@ -12,6 +13,8 @@ brew install md5sha1sum
 brew install wget
 brew install starship
 brew install alt-tab
+brew install tldr
+
 # dig replacement
 # brew install dog
 
@@ -56,7 +59,7 @@ brew install appcleaner
 brew install handbrake
 brew install zoom
 # QuickLook plugin that lets you view text files without their own dedicated QuickLook plugin
-brew install qlstephen
+# brew install qlstephen
 brew install audacity
 
 # Cyberduck is a libre server and cloud storage browser for Mac
@@ -79,6 +82,8 @@ brew install orbstack
 
 brew install flameshot
 brew install keycastr
+
+# control the brightness of your external monitors
 brew install monitorcontrol
 brew install obs
 
@@ -86,6 +91,8 @@ brew install obs
 brew install vscodium
 brew install --cask visual-studio-code-insiders
 brew install neovim
+
+# Needed by neovim
 brew install gnu-sed
 brew install git-delta
 brew install ripgrep
@@ -97,6 +104,7 @@ brew install lazynpm
 brew tap homebrew/cask-fonts
 brew install font-fira-code-nerd-font
 brew install font-hack-nerd-font
+brew install font-symbols-only-nerd-font
 # brew uninstall font-lobster
 
 brew install --cask adobe-creative-cloud

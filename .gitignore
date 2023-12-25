@@ -1,3 +1,4 @@
 .temp
 .preflight
 .DS_Store?
+.config/.DS_Store
