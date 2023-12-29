@@ -22,6 +22,7 @@ return {
       "vim",
       "yaml",
     },
+    auto_install = true,
     incremental_selection = {
       enable = true,
       keymaps = {
@@ -30,5 +31,16 @@ return {
         scope_incremental = false,
       },
     },
+    config = function(_, opts)
+      require("nvim-treesitter.configs").setup(opts)
+
+      -- MDX
+      vim.filetype.add({
+        extension = {
+          mdx = "mdx",
+        },
+      })
+      vim.treesitter.language.register("markdown", "mdx")
+    end,
   },
 }
