@@ -31,6 +31,9 @@ brew install tree
 brew install terminal-notifier
 brew install iterm2
 brew install kitty
+brew install node
+brew install nvm
+brew install go
 brew install elixir
 brew install livebook
 brew install --cask 1password
@@ -99,6 +102,7 @@ brew install ripgrep
 brew install lazygit
 brew install lazydocker
 brew install lazynpm
+brew install derailed/k9s/k9s
 
 # required for font installation
 brew tap homebrew/cask-fonts
