@@ -38,6 +38,8 @@ brew install elixir
 brew install livebook
 brew install --cask 1password
 brew install --cask 1password-cli
+brew install telegram
+brew install nordvpn
 
 # browsers
 brew install google-chrome
@@ -95,9 +97,10 @@ brew install vscodium
 brew install --cask visual-studio-code-insiders
 brew install neovim
 
-# Needed by neovim
+# Cool 4 neovim
 brew install gnu-sed
 brew install git-delta
+brew install gh
 brew install ripgrep
 brew install lazygit
 brew install lazydocker
@@ -109,7 +112,6 @@ brew tap homebrew/cask-fonts
 brew install font-fira-code-nerd-font
 brew install font-hack-nerd-font
 brew install font-symbols-only-nerd-font
-# brew uninstall font-lobster
 
 brew install --cask adobe-creative-cloud
 
