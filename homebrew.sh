@@ -116,7 +116,7 @@ brew install font-symbols-only-nerd-font
 brew install --cask adobe-creative-cloud
 
 # Optional packages 
-brew_packages=("nmap" "discord" "kubectx" "kubens" "kubectl" "httrack") # Add your packages here
+brew_packages=("nmap" "discord" "kubectx" "kubens" "kubectl" "httrack" "wacom-tablet") # Add your packages here
 
 # Function to ask for user confirmation
 confirm_install() {
