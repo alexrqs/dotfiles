@@ -33,6 +33,7 @@ brew install iterm2
 brew install kitty
 brew install node
 brew install nvm
+brew install python
 brew install go
 brew install elixir
 brew install livebook
