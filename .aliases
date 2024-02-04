@@ -7,6 +7,8 @@ alias cp='cp -v'
 
 alias chmox='chmod -x'
 alias py='python3'
+alias pe='pipenv'
+alias pi='pip install'
 
 alias cask='brew cask' # i <3 u cask
 alias where=which      # sometimes i forget
@@ -74,7 +76,8 @@ alias gr='[ ! -z `git rev-parse --show-cdup` ] && cd `git rev-parse --show-cdup 
 alias kns='kubens'
 
 alias wget="curl -O"
-alias code="code-insiders"
+alias vscode="code-insiders"
+alias code="nvim"
 # alias lz="NVIM_APPNAME=LazyVim nvim"
 alias lz="nvim"
 alias lzd="lazydocker"
