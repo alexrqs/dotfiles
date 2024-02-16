@@ -19,6 +19,7 @@ $c\
 $elixir\
 $golang\
 $nodejs\
+$python\
 $rust\
 $cmd_duration $jobs\
 $aws\
@@ -185,7 +186,9 @@ style = "italic green"
 symbol = "🎁 "
 
 [python]
-symbol = "🐍 "
+symbol = " "
+#symbol = "🐍 "
+format = '[${symbol}${pyenv_prefix}(${version} )(\($virtualenv\) )]($style)'
 
 [rlang]
 symbol = "ﳒ "
