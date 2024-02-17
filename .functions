@@ -64,14 +64,46 @@ function whois() {
 
 # only for mac
 function localip() {
-	function _localip() { echo "📶  "$(ipconfig getifaddr "$1"); }
-	export -f _localip
 	local purple="\x1B\[35m" reset="\x1B\[m"
 	networksetup -listallhardwareports |
-		sed -r "s/Hardware Port: (.*)/${purple}\1${reset}/g" |
-		sed -r "s/Device: (en.*)$/_localip \1/e" |
-		sed -r "s/Ethernet Address:/📘 /g" |
-		sed -r "s/(VLAN Configurations)|==*//g"
+		gsed -r "s/Hardware Port: (.*)/${purple}\1${reset}/g" |
+		gsed -r "s/Device:/📶 /g" |
+		gsed -r "s/Ethernet Address:/📘 /g" |
+		gsed -r "/VLAN Configurations/d; /^==*$/d"
+}
+function lip() {
+	# Define colors for output
+	local purple="\033[35m"
+	local reset="\033[0m"
+	local hardware_port=""
+	local device=""
+	local ip_address=""
+
+	echo -e "${purple}Hardware Port                  Device               IP Address${reset}"
+
+	# Read the output of networksetup line by line
+	while IFS= read -r line; do
+		# Check for the line containing 'Hardware Port'
+		if echo "$line" | grep -q "Hardware Port"; then
+			hardware_port=$(echo "$line" | cut -d ":" -f2 | xargs)
+		fi
+
+		# Check for the line containing 'Device'
+		if echo "$line" | grep -q "Device"; then
+			device=$(echo "$line" | cut -d ":" -f2 | xargs)
+			# Try to get the IP address for the device
+			ip_address=$(ipconfig getifaddr "$device" 2>/dev/null)
+		fi
+
+		# Once we have the device, try to print even if IP address is not found to maintain the table structure
+		if [[ -n "$hardware_port" && -n "$device" ]]; then
+			printf "%-30s %-20s %-20s\n" "$hardware_port" "$device" "${ip_address:-'N/A'}"
+			# Reset variables for the next set
+			hardware_port=""
+			device=""
+			ip_address=""
+		fi
+	done < <(networksetup -listallhardwareports)
 }
 
 # Extract archives - use: extract <file>
