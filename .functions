@@ -63,14 +63,6 @@ function whois() {
 }
 
 # only for mac
-function localip() {
-	local purple="\x1B\[35m" reset="\x1B\[m"
-	networksetup -listallhardwareports |
-		gsed -r "s/Hardware Port: (.*)/${purple}\1${reset}/g" |
-		gsed -r "s/Device:/📶 /g" |
-		gsed -r "s/Ethernet Address:/📘 /g" |
-		gsed -r "/VLAN Configurations/d; /^==*$/d"
-}
 function lip() {
 	# Define colors for output
 	local purple="\033[35m"
