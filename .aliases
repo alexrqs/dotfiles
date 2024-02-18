@@ -16,7 +16,7 @@ alias brwe=brew        #typos
 alias brewi='brew install'
 alias brewu='brew update && brew upgrade && brew cleanup'
 
-alias hosts='sudo $EDITOR /etc/hosts' # yes I occasionally 127.0.0.1 twitter.com ;)
+alias hosts='sudo vim /etc/hosts'
 
 alias ag='ag -f --hidden'
 
