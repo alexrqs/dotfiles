@@ -14,6 +14,7 @@ return {
       "http",
       "javascript",
       "json",
+      "kotlin",
       "lua",
       "python",
       "query",
