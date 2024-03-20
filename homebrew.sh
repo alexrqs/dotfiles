@@ -102,11 +102,15 @@ brew install neovim
 brew install gnu-sed
 brew install git-delta
 brew install gh
+brew install glab
 brew install ripgrep
 brew install lazygit
 brew install lazydocker
 brew install lazynpm
 brew install derailed/k9s/k9s
+
+# required for aws cli
+brew install groff
 
 # required for font installation
 brew tap homebrew/cask-fonts
@@ -115,6 +119,13 @@ brew install font-hack-nerd-font
 brew install font-symbols-only-nerd-font
 
 brew install --cask adobe-creative-cloud
+
+# for kotlin
+# brew install kotlin
+# brew install --cask intellij-idea-ce
+# brew install gradle
+# brew tap spirng-io/tap
+# brew install spring-boot
 
 # Optional packages 
 brew_packages=("nmap" "discord" "kubectx" "kubens" "kubectl" "httrack" "wacom-tablet") # Add your packages here
