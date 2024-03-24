@@ -83,4 +83,9 @@ alias lz="nvim"
 alias lzd="lazydocker"
 alias lzg="lazygit"
 alias lzn="lazynpm"
-alias foo="pbpaste | lz -"
+alias foo="pbpaste | nvim -"
+
+# AWS
+alias axx="aws secretsmanager"
+alias axxshow="aws secretsmanager get-secret-value --secret-id $1"
+alias axxindex="aws list-secrets | jless"
