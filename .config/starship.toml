@@ -168,7 +168,7 @@ symbol = " "
 disabled = false
 # symbol = " "
 style = "bright-black"
-threshold = 75
+threshold = 79
 format = '$symbol[$ram( | $swap)]($style) '
 
 [nim]
