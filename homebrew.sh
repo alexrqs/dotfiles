@@ -109,6 +109,13 @@ brew install lazydocker
 brew install lazynpm
 brew install derailed/k9s/k9s
 
+# for Lua
+brew install luarocks
+
+# for rest-nvim
+brew install tidy-html5
+# brew install jq # already installed
+
 # required for aws cli
 brew install groff
 
