@@ -65,7 +65,7 @@ alias build="bun run build"
 alias b=build
 alias i="npm install"
 alias ib="bun run install"
-# alias test="npm run test"
+alias t="npm run test"
 
 alias flush='sudo service networking restart'
 
@@ -79,7 +79,7 @@ alias wget="curl -O"
 alias vscode="code-insiders"
 alias code="nvim"
 # alias lz="NVIM_APPNAME=LazyVim nvim"
-alias lz="nvim $(pwd)"
+# alias lz="nvim ." # this is now a function lz in .functions
 alias lzd="lazydocker"
 alias lzg="lazygit"
 alias lzn="lazynpm"

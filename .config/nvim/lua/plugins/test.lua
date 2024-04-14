@@ -1,7 +1,7 @@
 return {
   {
     "nvim-neotest/neotest",
-    dependencies = { "haydenmade/neotest-jest" },
+    dependencies = { "haydenmeade/neotest-jest" },
     opts = function(_, opts)
       table.insert(
         opts.adapters,
