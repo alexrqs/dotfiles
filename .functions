@@ -243,3 +243,29 @@ function kkl() {
 		echo "No pod selected."
 	fi
 }
+
+# toggle node environment between development and production
+tnn() {
+	# Check for .env or .env.local in the current directory
+	if [ -f ".env" ]; then
+		ENV_FILE=".env"
+	elif [ -f ".env.local" ]; then
+		ENV_FILE=".env.local"
+	else
+		echo "No .env or .env.local file found in the current directory."
+		return 1
+	fi
+
+	# Determine the current state and toggle
+	if grep -q "NODE_ENV=production" "$ENV_FILE"; then
+		sed -i '' 's/NODE_ENV=production/NODE_ENV=development/' "$ENV_FILE"
+		echo "NODE_ENV set to development in $ENV_FILE"
+	elif grep -q "NODE_ENV=development" "$ENV_FILE"; then
+		sed -i '' 's/NODE_ENV=development/NODE_ENV=production/' "$ENV_FILE"
+		echo "NODE_ENV set to production in $ENV_FILE"
+	else
+		echo "NODE_ENV entry not found in $ENV_FILE."
+	fi
+}
+
+lz() { nvim "${1:-.}"; }
