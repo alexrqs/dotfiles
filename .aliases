@@ -5,7 +5,7 @@ alias mv='mv -v'
 alias rm='rm -i -v'
 alias cp='cp -v'
 
-alias chmox='chmod -x'
+alias cx='chmod -x'
 alias py='python3'
 alias pe='pipenv'
 alias pi='pip install'
@@ -62,12 +62,12 @@ alias fs="stat -f \"%z bytes\""
 
 alias dev="bun run dev"
 alias build="bun run build"
+alias b=build
+alias i="npm install"
+alias ib="bun run install"
 # alias test="npm run test"
 
 alias flush='sudo service networking restart'
-
-# Undo a `git push`
-alias undopush="git push -f origin HEAD^:master"
 
 # git root
 alias gr='[ ! -z `git rev-parse --show-cdup` ] && cd `git rev-parse --show-cdup || pwd`'
@@ -79,7 +79,7 @@ alias wget="curl -O"
 alias vscode="code-insiders"
 alias code="nvim"
 # alias lz="NVIM_APPNAME=LazyVim nvim"
-alias lz="nvim"
+alias lz="nvim $(pwd)"
 alias lzd="lazydocker"
 alias lzg="lazygit"
 alias lzn="lazynpm"
