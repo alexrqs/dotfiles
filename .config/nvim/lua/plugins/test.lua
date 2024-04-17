@@ -1,7 +1,7 @@
 return {
   {
     "nvim-neotest/neotest",
-    dependencies = { "haydenmeade/neotest-jest" },
+    dependencies = { "nvim-neotest/neotest-jest" },
     keys = {
       {
         "<leader>tl",
