@@ -7,6 +7,7 @@ brew install fd
 brew install jq
 brew install jless
 brew install noahgorstein/tap/jqp
+brew install ast-grep
 brew install expect
 brew install exa
 brew install md5sha1sum
@@ -21,10 +22,16 @@ brew install tldr
 # du replacement
 # brew install dust
 
+# for network
+brew install iftop
+brew install k6
+
 # optional due to AV restrictions
 # brew install nmap
 brew install wakeonlan
 brew install httpie
+
+# for terminal
 brew install bat
 brew install htop
 brew install tree
@@ -39,8 +46,12 @@ brew install elixir
 brew install livebook
 brew install --cask 1password
 brew install --cask 1password-cli
-brew install telegram
 brew install nordvpn
+
+# Code Editors
+brew install vscodium
+brew install --cask visual-studio-code-insiders
+brew install neovim
 
 # browsers
 brew install google-chrome
@@ -55,6 +66,7 @@ brew install vlc
 brew install dbeaver-community
 brew install rectangle
 brew install spotify
+brew install telegram
 
 # Stopped using fig be ause it's really annoying that UI gettings stuck all the time
 # brew install fig
@@ -92,11 +104,6 @@ brew install keycastr
 # control the brightness of your external monitors
 brew install monitorcontrol
 brew install obs
-
-# Code Editors
-brew install vscodium
-brew install --cask visual-studio-code-insiders
-brew install neovim
 
 # Cool 4 neovim
 brew install gnu-sed
