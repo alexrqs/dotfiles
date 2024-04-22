@@ -16,6 +16,9 @@ brew install starship
 brew install alt-tab
 brew install tldr
 
+# for metadata
+brew install exiftool
+
 # dig replacement
 # brew install dog
 
