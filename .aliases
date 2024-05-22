@@ -16,7 +16,7 @@ alias brwe=brew        #typos
 alias brewi='brew install'
 alias brewu='brew update && brew upgrade && brew cleanup'
 
-alias hosts='sudo vim /etc/hosts'
+alias hosts='sudo nvim /etc/hosts'
 
 alias ag='ag -f --hidden'
 
@@ -89,3 +89,4 @@ alias foo="pbpaste | nvim -"
 alias axx="aws secretsmanager"
 alias axxshow="aws secretsmanager get-secret-value --secret-id $1"
 alias axxindex="aws list-secrets | jless"
+alias kitty-icon="yes | rm /var/folders/*/*/*/com.apple.dock.iconcache && killall Dock"
