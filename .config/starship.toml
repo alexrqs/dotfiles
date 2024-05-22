@@ -2,7 +2,6 @@
 
 format = """
 $hostname\
-$shlvl\
 $singularity\
 $kubernetes\
 $directory\
@@ -22,14 +21,14 @@ $nodejs\
 $python\
 $rust\
 $cmd_duration $jobs\
-$aws\
 $memory_usage\
 $line_break\
 $status\
 $container\
-$shell\
+$shlvl\
 $sudo\
-$character"""
+$character\
+"""
 
 command_timeout = 10000
 
@@ -120,16 +119,16 @@ style = "bright-black"
 [git_status]
 format = '($all_status$ahead_behind($style) )'
 conflicted = "🐷"
-ahead = "🏎💨"
+ahead = "🛵"
 behind = "😰"
 diverged = "😵"
 up_to_date = "😎"
 untracked = "🐲"
 stashed = "🥶"
-modified = "🎈"
+modified = "📚"
 staged = '[++$count ](green)'
-renamed = "👅"
-deleted = "🗑"
+renamed = "🐙"
+deleted = "🗑 "
 
 [git_state]
 format = '\([$state( $progress_current/$progress_total)]($style)\) '
@@ -200,6 +199,13 @@ symbol = " "
 symbol = "🦀"
 format = " [$symbol($version)]($style)"
 
+[shell]
+disabled = true
+
+[shlvl]
+symbol = ">"
+disabled = false
+
 [spack]
 symbol = "🅢 "
 
@@ -213,6 +219,7 @@ symbol = '🦄 '
 disabled = false
 
 [time]
+# remember to use time range for long nights
 disabled = false
 style = "bright-black"
 format = "[$time]($style)"
