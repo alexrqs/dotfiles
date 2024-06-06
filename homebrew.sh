@@ -37,6 +37,7 @@ brew install httpie
 # for terminal
 brew install bat
 brew install htop
+brew install ngrok/ngrok/ngrok
 brew install tree
 brew install terminal-notifier
 brew install iterm2
@@ -128,6 +129,9 @@ brew install tidy-html5
 
 # required for aws cli
 brew install groff
+
+# virtualization like virtualbox
+brew install qemu
 
 # required for font installation
 brew tap homebrew/cask-fonts
