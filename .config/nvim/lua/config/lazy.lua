@@ -17,34 +17,7 @@ require("lazy").setup({
     -- NOTE: Neovim plugin for automatically highlighting other uses
     -- of the word under the cursor using either LSP, Tree-sitter, or regex matching.
     { import = "lazyvim.plugins.extras.editor.illuminate" },
-    -- {
-    --   import = "lazyvim.plugins.extras.editor.mini-move",
-    --   config = function()
-    --     require("mini.move").setup({
-    --       -- Module mappings. Use `''` (empty string) to disable one.
-    --       mappings = {
-    --         -- Move visual selection in Visual mode. Using Option (Alt) + hjkl.
-    --         left = "<M-h>",
-    --         right = "<M-l>",
-    --         down = "<C-S-j>",
-    --         up = "<C-S-k>",
-    --
-    --         -- Move current line in Normal mode
-    --         line_left = "<M-h>",
-    --         line_right = "<M-l>",
-    --         line_down = "<C-S-j>",
-    --         line_up = "<C-S-k>",
-    --       },
-    --
-    --       -- Options for moving visual selection in Visual mode
-    --       options = {
-    --         -- Automatically reindent selection during linewise vertical move
-    --         reindent_linewise = true,
-    --       },
-    --     })
-    --   end,
-    -- },
-    -- { import = "lazyvim.plugins.extras.editor.leap" },
+
     -- import/override with your plugins
     { import = "plugins" },
   },
