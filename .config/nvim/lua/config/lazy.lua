@@ -12,12 +12,38 @@ require("lazy").setup({
     -- add LazyVim and import its plugins
     { "LazyVim/LazyVim", import = "lazyvim.plugins" },
     -- import any extras modules here
-    { import = "lazyvim.plugins.extras.lang.typescript" },
-    { import = "lazyvim.plugins.extras.lang.json" },
     -- { import = "lazyvim.plugins.extras.ui.mini-animate" },
-    { import = "lazyvim.plugins.extras.linting.eslint" },
-    { import = "lazyvim.plugins.extras.formatting.prettier" },
-    { import = "lazyvim.plugins.extras.lang.elixir" },
+
+    -- NOTE: Neovim plugin for automatically highlighting other uses
+    -- of the word under the cursor using either LSP, Tree-sitter, or regex matching.
+    { import = "lazyvim.plugins.extras.editor.illuminate" },
+    -- {
+    --   import = "lazyvim.plugins.extras.editor.mini-move",
+    --   config = function()
+    --     require("mini.move").setup({
+    --       -- Module mappings. Use `''` (empty string) to disable one.
+    --       mappings = {
+    --         -- Move visual selection in Visual mode. Using Option (Alt) + hjkl.
+    --         left = "<M-h>",
+    --         right = "<M-l>",
+    --         down = "<C-S-j>",
+    --         up = "<C-S-k>",
+    --
+    --         -- Move current line in Normal mode
+    --         line_left = "<M-h>",
+    --         line_right = "<M-l>",
+    --         line_down = "<C-S-j>",
+    --         line_up = "<C-S-k>",
+    --       },
+    --
+    --       -- Options for moving visual selection in Visual mode
+    --       options = {
+    --         -- Automatically reindent selection during linewise vertical move
+    --         reindent_linewise = true,
+    --       },
+    --     })
+    --   end,
+    -- },
     -- { import = "lazyvim.plugins.extras.editor.leap" },
     -- import/override with your plugins
     { import = "plugins" },
@@ -31,7 +57,10 @@ require("lazy").setup({
     version = false, -- always use the latest git commit
     -- version = "*", -- try installing the latest stable version for plugins that support semver
   },
-  -- install = { colorscheme = { "catppuccin-mocha" } },
+
+  -- NOTE: Initial colorsheme even when lazy is installing packages
+  install = { colorscheme = { "catppuccin-mocha" } },
+
   checker = { enabled = true }, -- automatically check for plugin updates
   performance = {
     rtp = {
