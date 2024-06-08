@@ -1,12 +1,12 @@
 return {
   "nvim-telescope/telescope.nvim",
-  -- dependencies = {
-  --   { "nvim-lua/plenary.nvim" },
-  --   {
-  --     "nvim-telescope/telescope-fzf-native.nvim",
-  --     build = "make",
-  --   },
-  -- },
+  dependencies = {
+    { "nvim-lua/plenary.nvim" },
+    {
+      "nvim-telescope/telescope-fzf-native.nvim",
+      build = "make",
+    },
+  },
   opts = {
     defaults = {
       file_ignore_patterns = {
@@ -30,12 +30,22 @@ return {
           additional_args = { "--hidden" },
         },
       },
-      -- extensions = {
-      --   "fzf",
-      -- },
+      extensions = {
+        "fzf",
+      },
     })
     -- telescope.load_extension("fzf")
   end,
+  keys = {
+    { "<leader>h", "<cmd>Telescope help_tags<cr>", desc = "Help" },
+    { "<leader>fk", "<cmd>Telescope keymaps<cr>", desc = "Keymaps" },
+    { "<leader>fs", "<cmd>Telescope treesitter<cr>", desc = "Symbols" },
+    { "<leader>fo", "<cmd>Telescope oldfiles<cr>", desc = "Old files" },
+    { "<leader>fl", "<cmd>Telescope lsp_references<cr>", desc = "Lsp References" },
+    { "<leader>f/", "<cmd>Telescope current_buffer_fuzzy_find<cr>", desc = "Buffer search" },
+    --         { "<leader>fr", '<cmd>Telescope live_grep<cr>',                 desc = "Ripgrep", },
+    --         { "<leader>fs", '<cmd>Telescope grep_string<cr>',               desc = "Grep String", },
+  },
 }
 
 -- return {
