@@ -1,3 +1,4 @@
+-- NOTE: edit and manage window layouts
 return {
   "folke/edgy.nvim",
   event = "VeryLazy",
