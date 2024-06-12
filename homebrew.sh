@@ -68,7 +68,8 @@ brew install firefox
 brew install slack
 brew install vlc
 brew install dbeaver-community
-brew install rectangle
+# NOTE: remove rectangle in favor of raycast window management
+# brew install rectangle
 brew install spotify
 brew install telegram
 
