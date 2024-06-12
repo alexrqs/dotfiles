@@ -96,7 +96,7 @@ brew install duckdns
 # brew uninstall maccy
 
 # raycast is not yet in the workflow
-# brew uninstall raycast
+brew uninstall raycast
 
 # replace docker with orbstack
 # brew uninstall docker
