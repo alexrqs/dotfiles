@@ -182,7 +182,7 @@ spinner() {
 }
 
 function refresh() {
-	(rm -rf build/ dist/ node_modules/ .next/ >/dev/null 2>&1) &
+	(bunx rimraf build/ dist/ node_modules/ .next/ >/dev/null 2>&1) &
 	spinner $!
 
 	if [[ $1 == 'bun' ]]; then

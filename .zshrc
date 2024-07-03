@@ -4,7 +4,6 @@
 source ~/.preflight
 
 # Path to your oh-my-zsh installation.
-
 echo "Loading ZSH path"
 export ZSH="/Users/${userPath}/.oh-my-zsh"
 
@@ -26,7 +25,6 @@ export ZSH="/Users/${userPath}/.oh-my-zsh"
 # Uncomment the following line to use hyphen-insensitive completion.
 # Case-sensitive completion must be off. _ and - will be interchangeable.
 # HYPHEN_INSENSITIVE="true"
-
 
 echo "Loading ZSH mode"
 # Uncomment one of the following lines to change the auto-update behavior
@@ -71,7 +69,6 @@ zstyle ':omz:update' mode reminder  # just remind me to update when it's time
 bindkey -v
 bindkey -M vicmd "q" push-line
 
-
 echo "Loading ZSH plugins"
 # Would you like to use another custom folder than $ZSH/custom?
 # ZSH_CUSTOM=/path/to/new-custom-folder
@@ -82,10 +79,18 @@ export FZF_BASE=/usr/local/opt/fzf/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 # source ~/.oh-my-zsh/custom/plugins/zsh-autocomplete/zsh-autocomplete.plugin.zsh
-plugins=(zsh-vi-mode bgnotify fzf git kubectl z zsh-syntax-highlighting zsh-autosuggestions )
-# bindkey '^\t' autosuggest-accept
-# bindkey '^e' autosuggest-execute
+plugins=(zsh-vi-mode bgnotify fzf git z zsh-syntax-highlighting zsh-autosuggestions )
 
+echo "Loading ZSH shortcuts"
+# NOTE: reinitialize the shortcuts due to zsh-vi-mode reseting them
+
+function my_init() {
+  echo "Loading fzf completion"
+  # NOTE: run with <() since was installed with brew
+  source <(fzf --zsh)
+}
+
+zvm_after_init_commands+=(my_init)
 
 echo "Loading oh-my-zsh.sh"
 source $ZSH/oh-my-zsh.sh
@@ -117,8 +122,11 @@ echo "Loading User Configuration"
 autoload -U promptinit
 promptinit
 
-echo "Loading git auto completion"
+echo "Loading git auto-completion"
 autoload -Uz compinit && compinit
+
+# autoload -U compinit
+# compinit -i
 
 # export MANPATH="/usr/local/man:$MANPATH"
 
@@ -150,6 +158,7 @@ NPM_PACKAGES="${HOME}/.npm-packages"
 
 export PATH="$PATH:$NPM_PACKAGES/bin"
 
+echo "loading MANPATH"
 # Preserve MANPATH if you already defined it somewhere in your config.
 # Otherwise, fall back to `manpath` so we can inherit from `/etc/manpath`.
 export MANPATH="${MANPATH-$(manpath)}:$NPM_PACKAGES/share/man"
@@ -157,13 +166,7 @@ export MANPATH="${MANPATH-$(manpath)}:$NPM_PACKAGES/share/man"
 
 echo "Loading history"
 
-local dropboxPath="Dropbox"
-# calculate dropbox path if i386 or arm64
-if [ $(uname -m) = "arm64" ]; then
-  dropboxPath="Library/CloudStorage/Dropbox"
-fi
-
-HISTFILE="/Users/${userPath}/${dropboxPath}/history/.history"
+# HISTFILE="/Users/${userPath}/${dropboxPath}/history/.history"
 HISTSIZE=500000
 SAVEHIST=500000
 setopt appendhistory
@@ -175,14 +178,13 @@ echo "Loading Starship"
 eval "$(starship init zsh --print-full-init)"
 
 echo "Loading NVM"
-export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
-# [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+export NVM_DIR="$HOME/.nvm"
+  [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
+  [ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
 
-# echo "Loading zsh-hook for nvm"
-# autoload -U add-zsh-hook
-# add-zsh-hook chpwd load-nvmrc
-#
+echo "Loading zsh-hook for nvm"
+autoload -U add-zsh-hook
+add-zsh-hook chpwd load-nvmrc
 # avoid loading nvmrc if we're in a direnv project
 # load-nvmrc
 
@@ -230,9 +232,17 @@ bindkey '^f' forward-word
 bindkey '^e' autosuggest-execute
 # bindkey -v
 
+# TODO delete broot
+# source /Users/${userPath}/.config/broot/launcher/bash/br
+
 echo "Loading binutils path"
 export PATH="/usr/local/opt/binutils/bin:$PATH"
 
+clear
+echo "Loading fzf completion"
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+clear
 echo -e "\e[92mTerminal Loaded!"
 
 # NOTE: end of profiler

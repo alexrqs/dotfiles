@@ -17,6 +17,7 @@ $deno\
 $c\
 $elixir\
 $golang\
+$bun\
 $nodejs\
 $python\
 $rust\
@@ -58,6 +59,9 @@ style = 'bold red'
 
 [buf]
 symbol = " "
+
+[bun]
+format = '[🍔 $version](bold yellow) '
 
 [c]
 symbol = " "
