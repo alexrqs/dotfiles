@@ -1,7 +1,10 @@
+# NOTE: start of profiler
+# zmodload zsh/zprof
+
 source ~/.preflight
 
 # Path to your oh-my-zsh installation.
-clear
+
 echo "Loading ZSH path"
 export ZSH="/Users/${userPath}/.oh-my-zsh"
 
@@ -24,7 +27,7 @@ export ZSH="/Users/${userPath}/.oh-my-zsh"
 # Case-sensitive completion must be off. _ and - will be interchangeable.
 # HYPHEN_INSENSITIVE="true"
 
-clear
+
 echo "Loading ZSH mode"
 # Uncomment one of the following lines to change the auto-update behavior
 # zstyle ':omz:update' mode disabled  # disable automatic updates
@@ -68,7 +71,7 @@ zstyle ':omz:update' mode reminder  # just remind me to update when it's time
 bindkey -v
 bindkey -M vicmd "q" push-line
 
-clear
+
 echo "Loading ZSH plugins"
 # Would you like to use another custom folder than $ZSH/custom?
 # ZSH_CUSTOM=/path/to/new-custom-folder
@@ -79,34 +82,43 @@ export FZF_BASE=/usr/local/opt/fzf/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 # source ~/.oh-my-zsh/custom/plugins/zsh-autocomplete/zsh-autocomplete.plugin.zsh
-plugins=(bgnotify fzf git kubectl z zsh-syntax-highlighting zsh-autosuggestions )
+plugins=(zsh-vi-mode bgnotify fzf git kubectl z zsh-syntax-highlighting zsh-autosuggestions )
 # bindkey '^\t' autosuggest-accept
 # bindkey '^e' autosuggest-execute
 
-clear
+
 echo "Loading oh-my-zsh.sh"
 source $ZSH/oh-my-zsh.sh
 
-clear
+echo "Shortcuts"
+function after_init() {
+
+  echo "\e[93mAfter Init"
+  source <(fzf --zsh)
+}
+
+zvm_after_init_commands+=(after_init)
+
+
 echo "Loading aliases"
 source ~/.aliases
 
-clear
+
 echo "Loading functions"
 source ~/.functions
 
-clear
+
 echo "Loading temp"
 source ~/.temp
 
 # User Configuration
-clear
+
 echo "Loading User Configuration"
 autoload -U promptinit
 promptinit
 
-# autoload -U compinit
-# compinit -i
+echo "Loading git auto completion"
+autoload -Uz compinit && compinit
 
 # export MANPATH="/usr/local/man:$MANPATH"
 
@@ -132,7 +144,7 @@ promptinit
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-clear
+
 echo "Loading NPM globals"
 NPM_PACKAGES="${HOME}/.npm-packages"
 
@@ -142,7 +154,7 @@ export PATH="$PATH:$NPM_PACKAGES/bin"
 # Otherwise, fall back to `manpath` so we can inherit from `/etc/manpath`.
 export MANPATH="${MANPATH-$(manpath)}:$NPM_PACKAGES/share/man"
 
-clear
+
 echo "Loading history"
 
 local dropboxPath="Dropbox"
@@ -159,24 +171,21 @@ setopt INC_APPEND_HISTORY
 setopt SHARE_HISTORY
 setopt HIST_IGNORE_ALL_DUPS
 
-clear
 echo "Loading Starship"
 eval "$(starship init zsh --print-full-init)"
 
-clear
 echo "Loading NVM"
 export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
 # [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
-clear
-echo "Loading zsh-hook for nvm"
-autoload -U add-zsh-hook
-add-zsh-hook chpwd load-nvmrc
+# echo "Loading zsh-hook for nvm"
+# autoload -U add-zsh-hook
+# add-zsh-hook chpwd load-nvmrc
+#
 # avoid loading nvmrc if we're in a direnv project
 # load-nvmrc
 
-clear
 echo "Loading Bun"
 # bun completions
 [ -s "/Users/${userPath}/.bun/_bun" ] && source "/Users/${userPath}/.bun/_bun"
@@ -185,7 +194,6 @@ echo "Loading Bun"
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH";
 
-clear
 echo "Loading color enhancements"
 
 # ZSH_HIGHLIGHT_STYLES[default]='fg=white'
@@ -222,16 +230,10 @@ bindkey '^f' forward-word
 bindkey '^e' autosuggest-execute
 # bindkey -v
 
-# TODO delete broot
-source /Users/${userPath}/.config/broot/launcher/bash/br
-
-clear
 echo "Loading binutils path"
 export PATH="/usr/local/opt/binutils/bin:$PATH"
 
-clear
-echo "Loading fzf completion"
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
-clear
 echo -e "\e[92mTerminal Loaded!"
+
+# NOTE: end of profiler
+# zprof
