@@ -5,3 +5,4 @@
 .config/kitty/.DS_Store
 sandbox/*
 !sandbox/.gitkeep
+.DS_Store
