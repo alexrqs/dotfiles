@@ -11,7 +11,7 @@ vim.o.number = false
 vim.opt.relativenumber = false
 
 -- Set conceallevel
-vim.o.conceallevel = 2
+vim.o.conceallevel = 0
 
 vim.cmd([[
   augroup JsConceal

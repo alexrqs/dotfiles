@@ -124,13 +124,14 @@ return {
     dependencies = {
       {
         "microsoft/vscode-js-debug",
-        build = "bun install --legacy-peer-deps && bunx gulp vsDebugServerBundle && mv dist out",
+        build = "bun install --legacy-peer-deps --ignore-scripts && bunx gulp vsDebugServerBundle && mv dist out",
       },
       {
         "mxsdev/nvim-dap-vscode-js",
         config = function()
           require("dap-vscode-js").setup({
-            -- the path to the vscode-js-debug extension
+
+            -- NOTE: the path to the vscode-js-debug extension
             -- ~/.local/share/nvim is the directory from vim.fn.stdpath("data")
             debugger_path = vim.fn.resolve(vim.fn.stdpath("data") .. "/lazy/vscode-js-debug"),
 

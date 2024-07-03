@@ -5,6 +5,7 @@
     "lazyvim.plugins.extras.coding.mini-surround",
     "lazyvim.plugins.extras.coding.neogen",
     "lazyvim.plugins.extras.dap.core",
+    "lazyvim.plugins.extras.editor.dial",
     "lazyvim.plugins.extras.editor.mini-move",
     "lazyvim.plugins.extras.editor.outline",
     "lazyvim.plugins.extras.editor.refactoring",
@@ -29,3 +30,4 @@
   },
   "version": 6
 }
+
