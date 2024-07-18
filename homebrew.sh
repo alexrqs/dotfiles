@@ -9,7 +9,6 @@ brew install jless
 brew install noahgorstein/tap/jqp
 brew install ast-grep
 brew install expect
-brew install exa
 brew install md5sha1sum
 brew install wget
 brew install starship
@@ -48,6 +47,7 @@ brew install python
 brew install go
 brew install elixir
 brew install livebook
+brew install rust
 brew install --cask 1password
 brew install --cask 1password-cli
 brew install nordvpn
