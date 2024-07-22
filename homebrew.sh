@@ -6,6 +6,8 @@ brew install fzf
 brew install fd
 brew install jq
 brew install jless
+# maintained replacement from exa, ls replacement
+brew install eza
 brew install noahgorstein/tap/jqp
 brew install ast-grep
 brew install expect
