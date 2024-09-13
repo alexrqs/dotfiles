@@ -1,0 +1,17 @@
+- rule:
+    pattern: const $VAR = require($MOD)
+    replace: import $VAR from $MOD
+
+- rule:
+    pattern: const { $DESTRUCTURE } = require($MOD)
+    replace: import { $DESTRUCTURE } from $MOD
+
+- rule:
+    pattern: |
+      const {
+        $DESTRUCTURE
+      } = require($MOD)
+    replace: |
+      import {
+        $DESTRUCTURE
+      } from $MOD

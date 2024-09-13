@@ -9,9 +9,7 @@ return {
   },
   opts = {
     defaults = {
-      file_ignore_patterns = {
-        "node_modules",
-      },
+      file_ignore_patterns = { "node_modules", ".git", ".venv", "package%-lock%.json" },
     },
   },
   config = function()
@@ -19,7 +17,7 @@ return {
     telescope.setup({
       pickers = {
         live_grep = {
-          file_ignore_patterns = { "node_modules", ".git", ".venv" },
+          file_ignore_patterns = { "node_modules", ".git", ".venv", "package%-lock%.json" },
           additional_args = { "--hidden" },
         },
         find_files = {
@@ -34,7 +32,8 @@ return {
         "fzf",
       },
     })
-    -- telescope.load_extension("fzf")
+
+    telescope.load_extension("fzf")
   end,
   keys = {
     { "<leader>h", "<cmd>Telescope help_tags<cr>", desc = "Help" },
