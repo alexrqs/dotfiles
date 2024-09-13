@@ -80,6 +80,7 @@ return {
               end)
             end,
             webRoot = "${workspace}",
+            runtimeArgs = { "--load-extension=${workspaceFolder}" },
             skipFiles = { "<node_internals>/**/*.js" },
             protocol = "inspector",
             sourceMaps = true,
@@ -124,7 +125,8 @@ return {
     dependencies = {
       {
         "microsoft/vscode-js-debug",
-        build = "bun install --legacy-peer-deps --ignore-scripts && bunx gulp vsDebugServerBundle && mv dist out",
+        build = "bun install --ignore-scripts --legacy-peer-deps && bunx gulp vsDebugServerBundle && mv dist out && git checkout .",
+        -- commit = "6767098",
       },
       {
         "mxsdev/nvim-dap-vscode-js",
@@ -132,6 +134,7 @@ return {
           require("dap-vscode-js").setup({
 
             -- NOTE: the path to the vscode-js-debug extension
+            -- the path to the vscode-js-debug extension
             -- ~/.local/share/nvim is the directory from vim.fn.stdpath("data")
             debugger_path = vim.fn.resolve(vim.fn.stdpath("data") .. "/lazy/vscode-js-debug"),
 

@@ -2,7 +2,8 @@
 
 # mv, rm, cp
 alias mv='mv -v'
-alias rm='rm -i -v'
+# alias rm='rm -i -v'
+alias rm='bunx rimraf'
 alias cp='cp -v'
 
 alias cx='chmod -x'
