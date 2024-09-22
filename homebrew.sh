@@ -43,13 +43,10 @@ brew install htop
 brew install tree
 brew install terminal-notifier
 brew install kitty
-brew install nvm
-brew install --cask 1password
-brew install --cask 1password-cli
-brew install nordvpn
 
 # Language tools
 brew install node
+brew install nvm
 brew install python
 brew install go
 brew install elixir
@@ -63,6 +60,24 @@ brew install nordvpn
 brew install vscodium
 brew install --cask visual-studio-code-insiders
 brew install neovim
+
+# Cool 4 neovim
+brew install gnu-sed
+brew install git-delta
+brew install git-extras
+brew install gh
+brew install glab
+brew install ripgrep
+brew install lazygit
+brew install lazydocker
+brew install lazynpm
+brew install derailed/k9s/k9s
+
+# for Lua
+brew install luarocks
+
+# for rest-nvim
+brew install tidy-html5
 
 # browsers
 brew install google-chrome
@@ -107,6 +122,10 @@ brew uninstall raycast
 # NOTE: replace docker with orbstack
 # brew uninstall docker
 brew install orbstack
+brew install ansible
+
+# required for aws cli
+brew install groff
 
 brew install flameshot
 brew install keycastr
@@ -118,26 +137,6 @@ brew install audacity
 # NOTE: screen recorder
 brew install obs
 
-# Cool 4 neovim
-brew install gnu-sed
-brew install git-delta
-brew install git-extras
-brew install gh
-brew install glab
-brew install ripgrep
-brew install lazygit
-brew install lazydocker
-brew install lazynpm
-brew install derailed/k9s/k9s
-
-# for Lua
-brew install luarocks
-
-# for rest-nvim
-brew install tidy-html5
-
-# required for aws cli
-brew install groff
 
 # virtualization like virtualbox
 # brew install qemu
