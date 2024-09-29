@@ -238,11 +238,9 @@ bindkey '^e' autosuggest-execute
 echo "Loading binutils path"
 export PATH="/usr/local/opt/binutils/bin:$PATH"
 
-clear
 echo "Loading fzf completion"
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-clear
 echo -e "\e[92mTerminal Loaded!"
 
 # NOTE: end of profiler
