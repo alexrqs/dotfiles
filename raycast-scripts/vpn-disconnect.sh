@@ -10,4 +10,4 @@
 # @raycast.packageName Dev
 
 echo "Disconnected VPN"
-networksetup -disconnectpppoeservice "Mongo"
+networksetup -disconnectpppoeservice "TT"

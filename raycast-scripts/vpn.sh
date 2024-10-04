@@ -10,4 +10,4 @@
 # @raycast.packageName Dev
 
 echo "VPN!"
-networksetup -connectpppoeservice "Mongo"
+networksetup -connectpppoeservice "TT"
