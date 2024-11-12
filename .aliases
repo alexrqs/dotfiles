@@ -77,8 +77,7 @@ alias gr='[ ! -z `git rev-parse --show-cdup` ] && cd `git rev-parse --show-cdup 
 alias kns='kubens'
 
 alias wget="curl -O"
-alias vscode="code-insiders"
-alias code="nvim"
+alias codi="code-insiders"
 # alias lz="NVIM_APPNAME=LazyVim nvim"
 # alias lz="nvim ." # this is now a function lz in .functions
 alias lzd="lazydocker"

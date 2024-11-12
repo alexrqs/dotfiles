@@ -87,7 +87,7 @@ symbol = " "
 symbol = " "
 
 [directory]
-style = "blue"
+ style = "cyan"
 read_only = " 🔒"
 truncation_length = 4
 truncate_to_repo = true
@@ -105,7 +105,7 @@ format = '[$symbol($version )($mod_version )]($style)'
 symbol = " "
 
 [fill]
-symbol = " "
+# symbol = "<"
 
 [fossil_branch]
 symbol = '🦎 '
@@ -117,8 +117,7 @@ disabled = false
 # symbol = " "
 symbol = '🌱 '
 format = "[$symbol$branch]($style) "
-style = "bright-black"
-
+# style = "bright-black"
 
 [git_status]
 format = '($all_status$ahead_behind($style) )'
@@ -165,13 +164,14 @@ format = '[$localipv4](italic yellow) '
 disabled = false
 
 [lua]
-symbol = " "
+# symbol = " "
+symbol = "🌙 "
 
 [memory_usage]
 disabled = false
 # symbol = " "
 style = "bright-black"
-threshold = 79
+threshold = 85
 format = '$symbol[$ram( | $swap)]($style) '
 
 [nim]
@@ -183,7 +183,7 @@ symbol = " "
 [nodejs]
 format = "[$symbol($version)]($style)"
 version_format = "${raw}"
-style = "italic green"
+# style = "italic green"
 
 [package]
 symbol = "🎁 "
@@ -216,10 +216,7 @@ symbol = "🅢 "
 [sudo]
 format = "[$symbol]($style)"
 style = 'bold green'
-# symbol =  '💪 '
-# symbol = '👑 '
 symbol = '🦄 '
-# symbol = '💥 '
 disabled = false
 
 [time]

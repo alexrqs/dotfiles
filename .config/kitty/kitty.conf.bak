@@ -190,7 +190,8 @@ symbol_map U+23FB-U+23FE,U+2665,U+26A1,U+2B58,U+E000-U+E00A,U+E0A0-U+E0A3,U+E0B0
 #: }}}
 
 #: Cursor customization {{{
-# cursor #00cccc
+
+cursor #00cccc
 
 #: Default cursor color. If set to the special value none the cursor
 #: will be rendered with a "reverse video" effect. It's color will be
@@ -626,7 +627,8 @@ visual_bell_duration 0.2
 
 #: The visual bell duration (in seconds). Flash the screen when a bell
 #: occurs for the specified number of seconds. Set to zero to disable.
-# visual_bell_color #f7768e
+
+visual_bell_color #f7768e
 
 #: The color used by visual bell. Set to none will fall back to
 #: selection background color. If you feel that the visual bell is too
@@ -744,10 +746,12 @@ window_margin_width 5 5 40 5
 
 #: The color for the border of the active window. Set this to none to
 #: not draw borders around the active window.
-# inactive_border_color #666666
+
+inactive_border_color #666666
 
 #: The color for the border of inactive windows.
-# bell_border_color #ff5a00
+
+bell_border_color #ff5a00
 
 #: The color for the border of inactive windows in which a bell has
 #: occurred.
@@ -988,8 +992,9 @@ tab_title_template "{fmt.fg.red}{bell_symbol}{activity_symbol}{fmt.fg.tab}{index
 #: }}}
 
 #: Color scheme {{{
-# foreground #a9b1d6
-# background #1a1b26
+
+foreground #a9b1d6
+background #1a1b26
 
 #: The foreground and background colors.
 
@@ -1052,7 +1057,7 @@ dynamic_background_opacity yes
 #: means no dimming and zero means fully dimmed (i.e. invisible).
 
 # selection_foreground #000000
-# selection_background #c1ddff
+selection_background #c1ddff
 
 #: The foreground and background colors for text selected with the
 #: mouse. Setting both of these to none will cause a "reverse video"
@@ -1067,36 +1072,44 @@ dynamic_background_opacity yes
 #: The 256 terminal colors. There are 8 basic colors, each color has a
 #: dull and bright version, for the first 16 colors. You can set the
 #: remaining 240 colors as color16 to color255.
-# color0 #32344a
-# color8 #444b6a
+
+color0 #32344a
+color8 #444b6a
 
 #: black
-# color1 #f7768e
-# color9 #ff7a93
+
+color1 #f7768e
+color9 #ff7a93
 
 #: red
-# color2  #57eb89
-# color10 #b9f27c
+
+color2  #57eb89
+color10 #b9f27c
 
 #: green
-# color3  #e0af68
-# color11 #ff9e64
+
+color3  #e0af68
+color11 #ff9e64
 
 #: yellow
-# color4  #7aa2f7
-# color12 #7da6ff
+
+color4  #7aa2f7
+color12 #7da6ff
 
 #: blue
-# color5  #fd6ac0
-# color13 #bb9af7
+
+color5  #fd6ac0
+color13 #bb9af7
 
 #: magenta
-# color6  #449dab
-# color14 #0db9d7
+
+color6  #449dab
+color14 #0db9d7
 
 #: cyan
-# color7  #787c99
-# color15 #acb0d0
+
+color7  #787c99
+color15 #acb0d0
 
 #: white
 
@@ -2237,9 +2250,3 @@ map cmd+l next_layout
 #: }}}
 
 #: }}}
-
-
-# BEGIN_KITTY_THEME
-# Catppuccin-Mocha
-include current-theme.conf
-# END_KITTY_THEME
