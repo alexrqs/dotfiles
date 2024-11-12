@@ -55,6 +55,7 @@ alias free_diskspace_report="diskspace_report"
 # Shortcuts
 alias ungz="gunzip -k"
 alias c=bat
+alias x=bunx
 
 # File size
 alias fs="stat -f \"%z bytes\""
