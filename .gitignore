@@ -6,3 +6,5 @@
 sandbox/*
 !sandbox/.gitkeep
 .DS_Store
+.config/github-copilot
+.config/raycast/extensions

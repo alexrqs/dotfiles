@@ -1,17 +1,16 @@
-# NOTE: start of profiler
-# zmodload zsh/zprof
+# If you come from bash you might have to change your $PATH.
+# export PATH=$HOME/bin:$HOME/.local/bin:/usr/local/bin:$PATH
 
 source ~/.preflight
 
-# Path to your oh-my-zsh installation.
 echo "Loading ZSH path"
-export ZSH="/Users/${userPath}/.oh-my-zsh"
+# Path to your Oh My Zsh installation.
+export ZSH="$HOME/.oh-my-zsh"
 
 # Set name of the theme to load --- if set to "random", it will
-# load a random theme each time oh-my-zsh is loaded, in which case,
+# load a random theme each time Oh My Zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-# ZSH_THEME="robbyrussell"
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -66,67 +65,24 @@ zstyle ':omz:update' mode reminder  # just remind me to update when it's time
 # see 'man strftime' for details.
 # HIST_STAMPS="mm/dd/yyyy"
 
-bindkey -v
-bindkey -M vicmd "q" push-line
-
-echo "Loading ZSH plugins"
 # Would you like to use another custom folder than $ZSH/custom?
 # ZSH_CUSTOM=/path/to/new-custom-folder
-export FZF_BASE=/usr/local/opt/fzf/
+
 # Which plugins would you like to load?
 # Standard plugins can be found in $ZSH/plugins/
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-# source ~/.oh-my-zsh/custom/plugins/zsh-autocomplete/zsh-autocomplete.plugin.zsh
-plugins=(zsh-vi-mode bgnotify fzf git z zsh-syntax-highlighting zsh-autosuggestions )
-
-echo "Loading ZSH shortcuts"
-# NOTE: reinitialize the shortcuts due to zsh-vi-mode reseting them
-
-function my_init() {
-  echo "Loading fzf completion"
-  # NOTE: run with <() since was installed with brew
-  source <(fzf --zsh)
-}
-
-zvm_after_init_commands+=(my_init)
+echo "Loading ZSH plugins"
+plugins=(bgnotify fzf git z zsh-syntax-highlighting zsh-autosuggestions)
 
 echo "Loading oh-my-zsh.sh"
 source $ZSH/oh-my-zsh.sh
 
-echo "Shortcuts"
-function after_init() {
-
-  echo "\e[93mAfter Init"
-  source <(fzf --zsh)
-}
-
-zvm_after_init_commands+=(after_init)
-
-
-echo "Loading aliases"
-source ~/.aliases
-
-
-echo "Loading functions"
-source ~/.functions
-
-
-echo "Loading temp"
-source ~/.temp
-
 # User Configuration
-
-echo "Loading User Configuration"
-autoload -U promptinit
-promptinit
-
 echo "Loading git auto-completion"
 autoload -Uz compinit && compinit
-
-# autoload -U compinit
-# compinit -i
+# User configuration
 
 # export MANPATH="/usr/local/man:$MANPATH"
 
@@ -137,111 +93,71 @@ autoload -Uz compinit && compinit
 # if [[ -n $SSH_CONNECTION ]]; then
 #   export EDITOR='vim'
 # else
-#   export EDITOR='mvim'
+#   export EDITOR='nvim'
 # fi
 
 # Compilation flags
-# export ARCHFLAGS="-arch x86_64"
+# export ARCHFLAGS="-arch $(uname -m)"
 
-# Set personal aliases, overriding those provided by oh-my-zsh libs,
-# plugins, and themes. Aliases can be placed here, though oh-my-zsh
-# users are encouraged to define aliases within the ZSH_CUSTOM folder.
+# Set personal aliases, overriding those provided by Oh My Zsh libs,
+# plugins, and themes. Aliases can be placed here, though Oh My Zsh
+# users are encouraged to define aliases within a top-level file in
+# the $ZSH_CUSTOM folder, with .zsh extension. Examples:
+# - $ZSH_CUSTOM/aliases.zsh
+# - $ZSH_CUSTOM/macos.zsh
 # For a full list of active aliases, run `alias`.
 #
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
+echo "Loading aliases"
+source ~/.aliases
 
-echo "Loading NPM globals"
-NPM_PACKAGES="${HOME}/.npm-packages"
+echo "Loading functions"
+source ~/.functions
 
-export PATH="$PATH:$NPM_PACKAGES/bin"
+echo "Loading temp"
+source ~/.temp
 
-echo "loading MANPATH"
-# Preserve MANPATH if you already defined it somewhere in your config.
-# Otherwise, fall back to `manpath` so we can inherit from `/etc/manpath`.
-export MANPATH="${MANPATH-$(manpath)}:$NPM_PACKAGES/share/man"
-
-
-echo "Loading history"
-
-# HISTFILE="/Users/${userPath}/${dropboxPath}/history/.history"
-HISTSIZE=500000
-SAVEHIST=500000
-setopt appendhistory
-setopt INC_APPEND_HISTORY
-setopt SHARE_HISTORY
+echo "Setting up history"
+HISTSIZE=50000
+SAVEHIST=50000
+HISTORY_IGNORE="(ls|cd|pwd|exit|cd ..|clear|history)"
 setopt HIST_IGNORE_ALL_DUPS
+setopt HIST_SAVE_NO_DUPS
+setopt HIST_REDUCE_BLANKS
+setopt HIST_IGNORE_SPACE
+
+echo "Loading Homebrew"
+eval "$(/opt/homebrew/bin/brew shellenv)"
 
 echo "Loading Starship"
-eval "$(starship init zsh --print-full-init)"
+eval "$(starship init zsh)"
+
+echo "Loading fzf"
+source <(fzf --zsh)
 
 echo "Loading NVM"
 export NVM_DIR="$HOME/.nvm"
   [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
   [ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
 
-echo "Loading zsh-hook for nvm"
-autoload -U add-zsh-hook
-add-zsh-hook chpwd load-nvmrc
-# avoid loading nvmrc if we're in a direnv project
-# load-nvmrc
-
-echo "Loading Bun"
+echo "Loading bun"
 # bun completions
-[ -s "/Users/${userPath}/.bun/_bun" ] && source "/Users/${userPath}/.bun/_bun"
+[ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
 
 # bun
 export BUN_INSTALL="$HOME/.bun"
-export PATH="$BUN_INSTALL/bin:$PATH";
+export PATH="$BUN_INSTALL/bin:$PATH"
 
-echo "Loading color enhancements"
+echo "Bind keys"
+bindkey '^M' accept-line
+bindkey '^[[Z' forward-word
 
-# ZSH_HIGHLIGHT_STYLES[default]='fg=white'
-# ZSH_HIGHLIGHT_STYLES[command]='fg=blue'
-ZSH_HIGHLIGHT_STYLES[argument]='fg=yellow'
-ZSH_HIGHLIGHT_STYLES[option]='fg=green'
-# ZSH_HIGHLIGHT_STYLES[comment]='fg=gray'
-# ZSH_HIGHLIGHT_STYLES[path]='fg=cyan'
-
-# ZSH_HIGHLIGHT_STYLES[globbing]='fg=red'
-# ZSH_HIGHLIGHT_STYLES[alias]='fg=blue'
-# ZSH_HIGHLIGHT_STYLES[function]='fg=magenta'
-ZSH_HIGHLIGHT_STYLES[precommand]='fg=yellow'
-ZSH_HIGHLIGHT_STYLES[commandseparator]='fg=green'
-ZSH_HIGHLIGHT_STYLES[hashed-command]='fg=blue'
-ZSH_HIGHLIGHT_STYLES[single-hyphen-option]='fg=white,bold'
-ZSH_HIGHLIGHT_STYLES[double-hyphen-option]='fg=yellow'
-ZSH_HIGHLIGHT_STYLES[back-quoted-argument]='fg=green'
-# ZSH_HIGHLIGHT_STYLES[single-quoted-argument]='fg=red'
-# ZSH_HIGHLIGHT_STYLES[double-quoted-argument]='fg=blue'
-# ZSH_HIGHLIGHT_STYLES[dollar-quoted-argument]='fg=magenta'
-ZSH_HIGHLIGHT_STYLES[rc-quote]='fg=yellow'
-ZSH_HIGHLIGHT_STYLES[reserved-word]='fg=red'
-ZSH_HIGHLIGHT_STYLES[reserved]='fg=cyan,underline'
-ZSH_HIGHLIGHT_STYLES[commandseparator]='fg=magenta'
-
-ZSH_HIGHLIGHT_STYLES[path-path]='fg=green'
-# ZSH_HIGHLIGHT_STYLES[path_prefix]='fg=197'
-ZSH_HIGHLIGHT_STYLES[path_prefix_pathseparator]='fg=white'
-# LS_COLORS=$LS_COLORS:'di=01;36:' ; export LS_COLORS
-zstyle ':completion:*' list-colors 'di=01;36'
-
-bindkey '^f' forward-word
-bindkey '^e' autosuggest-execute
-# bindkey -v
-
-# TODO delete broot
-# source /Users/${userPath}/.config/broot/launcher/bash/br
-
-echo "Loading binutils path"
-export PATH="/usr/local/opt/binutils/bin:$PATH"
-
-echo "Loading fzf completion"
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+# Ensure autosuggestions still work option + enter
+bindkey '^[[1;2B' autosuggest-execute
+bindkey '^[OM' autosuggest-execute
+bindkey '^[^M' autosuggest-execute
 
 echo -e "\e[92mTerminal Loaded!"
-
-# NOTE: end of profiler
-# zprof

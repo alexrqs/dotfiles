@@ -16,6 +16,8 @@ alias where=which      # sometimes i forget
 alias brwe=brew        #typos
 alias brewi='brew install'
 alias brewu='brew update && brew upgrade && brew cleanup'
+alias ping='prettyping'
+alias h='history'
 
 alias hosts='sudo nvim /etc/hosts'
 

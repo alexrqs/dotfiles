@@ -22,7 +22,7 @@
   true-color = always
   hyperlinks = true
   hyperlinks-file-link-format = "vscode://file/{path}:{line}"
-  features = "mantis-shrimp"
+  features = "catppuccin-mocha"
 
 [diff]
 	tool = nvimdiff
@@ -42,16 +42,14 @@
 [push]
 	default = simple
 	followTags = true
+  autoSetupRemote = true
 
 [core]
 	editor = nvim
 	pager = delta
 	hooksPath = ~/.git-hooks
 	ignorecase = false
-    
+ 
 [interactive]
   diffFilter = delta --color-only
 
-[user]
-	name = Alex Lopez
-  emai = email@email.com
