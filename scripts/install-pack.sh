@@ -18,6 +18,8 @@ brew install wget
 brew install starship
 brew install alt-tab
 brew install tldr
+brew install stow
+brew install prettyping
 
 # for metadata
 brew install exiftool
@@ -30,6 +32,8 @@ brew install dust
 
 # for network
 brew install iftop
+
+# load testing k6.io
 brew install k6
 
 # optional due to AV restrictions
@@ -45,19 +49,18 @@ brew install terminal-notifier
 brew install kitty
 
 # Language tools
-brew install node
+# brew install node
 brew install nvm
-brew install python
-brew install go
-brew install elixir
-brew install livebook
-brew install rust
+# brew install python
+# brew install go
+# brew install elixir
+# brew install livebook
+# brew install rust
 brew install --cask 1password
 brew install --cask 1password-cli
 brew install nordvpn
 
 # Code Editors
-brew install vscodium
 brew install --cask visual-studio-code-insiders
 brew install neovim
 
@@ -71,10 +74,9 @@ brew install ripgrep
 brew install lazygit
 brew install lazydocker
 brew install lazynpm
-brew install derailed/k9s/k9s
 
 # for Lua
-brew install luarocks
+# brew install luarocks
 
 # for rest-nvim
 brew install tidy-html5
@@ -94,10 +96,10 @@ brew install telegram
 # Stopped using fig because it's really annoying that UI gettings stuck all the time
 # brew install fig
 brew install rar
-brew install appcleaner
+# brew install appcleaner
 
 # video transcoder
-brew install handbrake
+# brew install handbrake
 brew install zoom
 
 # QuickLook plugin that lets you view text files without their own dedicated QuickLook plugin
@@ -150,7 +152,7 @@ brew install font-symbols-only-nerd-font
 # brew install --cask adobe-creative-cloud
 
 # Optional packages 
-brew_packages=("nmap" "discord" "kubectx" "kubens" "kubectl" "httrack" "wacom-tablet") # Add your packages here
+brew_packages=("nmap" "discord" "kubectx" "kubens" "kubectl" "httrack" "wacom-tablet" "derailed/k9s/k9s") # Add your packages here
 
 # Function to ask for user confirmation
 confirm_install() {
@@ -172,3 +174,13 @@ for pkg in "${brew_packages[@]}"; do
         echo "Skipping $pkg"
     fi
 done
+
+# Install zsh-syntax-highlighting
+git clone --depth 1 https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+rm -fr ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting/.git
+rm -fr ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting/.github
+
+# Install zsh-autosuggestions
+git clone --depth 1 https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+rm -fr ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions/.git
+rm -fr ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions/.github

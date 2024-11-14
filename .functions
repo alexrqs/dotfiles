@@ -1,13 +1,22 @@
 #!/bin/bash
 
+# Auto-list directory stack after cd
+chpwd() {
+  ls -a
+  # dirs -v | head -10
+  if git rev-parse --git-dir >/dev/null 2>&1; then
+    gss
+  fi
+}
+
 # find shorthand
 function f() {
-	find . -name "$1" 2>&1 | grep -v 'Permission denied'
+  find . -name "$1" 2>&1 | grep -v 'Permission denied'
 }
 
 # List all files, long format, colorized, permissions in octal
 function la() {
-	ls -l "$@" | awk '
+  ls -l "$@" | awk '
     {
       k=0;
       for (i=0;i<=8;i++)
@@ -21,251 +30,249 @@ function la() {
 # cd into whatever is the forefront Finder window.
 # only mac
 cdf() { # short for cdfinder
-	cd "$(osascript -e 'tell app "Finder" to POSIX path of (insertion location as alias)')"
+  cd "$(osascript -e 'tell app "Finder" to POSIX path of (insertion location as alias)')"
 }
 
 # git commit browser. needs fzf
 # only mac
-glogs() {
-	git log --graph --color=always \
-		--format="%C(auto)%h%d %s %C(black)%C(bold)%cr" "$@" |
-		fzf --ansi --no-sort --reverse --tiebreak=index --toggle-sort=\` \
-			--bind "ctrl-m:execute:
+gfzf() {
+  git log --graph --color=always \
+    --format="%C(auto)%h%d %s %C(black)%C(bold)%cr" "$@" |
+    fzf --ansi --no-sort --reverse --tiebreak=index --toggle-sort=\` \
+      --bind "ctrl-m:execute:
                 echo '{}' | grep -o '[a-f0-9]\{7\}' | head -1 |
                 xargs -I % sh -c 'git show --color=always % | less -R'"
 }
 
 # Copy w/ progress
 cp_p() {
-	rsync -WavP --human-readable --progress $1 $2
+  rsync -WavP --human-readable --progress $1 $2
 }
 
 # get gzipped size
 function gz() {
-	echo "orig size    (bytes): "
-	cat "$1" | wc -c
-	echo "gzipped size (bytes): "
-	gzip -c "$1" | wc -c
+  echo "orig size    (bytes): "
+  cat "$1" | wc -c
+  echo "gzipped size (bytes): "
+  gzip -c "$1" | wc -c
 }
 
 # whois a domain or a URL
 function whois() {
-	local domain=$(echo "$1" | awk -F/ '{print $3}') # get domain from URL
-	if [ -z $domain ]; then
-		domain=$1
-	fi
-	echo "Getting whois record for: $domain …"
+  local domain=$(echo "$1" | awk -F/ '{print $3}') # get domain from URL
+  if [ -z $domain ]; then
+    domain=$1
+  fi
+  echo "Getting whois record for: $domain …"
 
-	# avoid recursion
-	# this is the best whois server
-	# strip extra fluff
-	/usr/bin/whois -h whois.internic.net $domain | sed '/NOTICE:/q'
+  # avoid recursion
+  # this is the best whois server
+  # strip extra fluff
+  /usr/bin/whois -h whois.internic.net $domain | sed '/NOTICE:/q'
 }
 
 # only for mac
 function lip() {
-	# Define colors for output
-	local purple="\033[35m"
-	local reset="\033[0m"
-	local hardware_port=""
-	local device=""
-	local ip_address=""
+  # Define colors for output
+  local purple="\033[35m"
+  local reset="\033[0m"
+  local hardware_port=""
+  local device=""
+  local ip_address=""
 
-	echo -e "${purple}Hardware Port                  Device               IP Address${reset}"
+  echo -e "${purple}Hardware Port                  Device               IP Address${reset}"
 
-	# Read the output of networksetup line by line
-	while IFS= read -r line; do
-		# Check for the line containing 'Hardware Port'
-		if echo "$line" | grep -q "Hardware Port"; then
-			hardware_port=$(echo "$line" | cut -d ":" -f2 | xargs)
-		fi
+  # Read the output of networksetup line by line
+  while IFS= read -r line; do
+    # Check for the line containing 'Hardware Port'
+    if echo "$line" | grep -q "Hardware Port"; then
+      hardware_port=$(echo "$line" | cut -d ":" -f2 | xargs)
+    fi
 
-		# Check for the line containing 'Device'
-		if echo "$line" | grep -q "Device"; then
-			device=$(echo "$line" | cut -d ":" -f2 | xargs)
-			# Try to get the IP address for the device
-			ip_address=$(ipconfig getifaddr "$device" 2>/dev/null)
-		fi
+    # Check for the line containing 'Device'
+    if echo "$line" | grep -q "Device"; then
+      device=$(echo "$line" | cut -d ":" -f2 | xargs)
+      # Try to get the IP address for the device
+      ip_address=$(ipconfig getifaddr "$device" 2>/dev/null)
+    fi
 
-		# Once we have the device, try to print even if IP address is not found to maintain the table structure
-		if [[ -n "$hardware_port" && -n "$device" ]]; then
-			printf "%-30s %-20s %-20s\n" "$hardware_port" "$device" "${ip_address:-'N/A'}"
-			# Reset variables for the next set
-			hardware_port=""
-			device=""
-			ip_address=""
-		fi
-	done < <(networksetup -listallhardwareports)
+    # Once we have the device, try to print even if IP address is not found to maintain the table structure
+    if [[ -n "$hardware_port" && -n "$device" ]]; then
+      printf "%-30s %-20s %-20s\n" "$hardware_port" "$device" "${ip_address:-'N/A'}"
+      # Reset variables for the next set
+      hardware_port=""
+      device=""
+      ip_address=""
+    fi
+  done < <(networksetup -listallhardwareports)
 }
 
 # Extract archives - use: extract <file>
 # Based on http://dotfiles.org/~pseup/.bashrc
 function extract() {
-	if [ -f "$1" ]; then
-		local filename=$(basename "$1")
-		local foldername="${filename%%.*}"
-		local fullpath=$(perl -e 'use Cwd "abs_path";print abs_path(shift)' "$1")
-		local didfolderexist=false
-		if [ -d "$foldername" ]; then
-			didfolderexist=true
-			read -p "$foldername already exists, do you want to overwrite it? (y/n) " -n 1
-			echo
-			if [[ $REPLY =~ ^[Nn]$ ]]; then
-				return
-			fi
-		fi
-		mkdir -p "$foldername" && cd "$foldername"
-		case $1 in
-		*.tar.bz2) tar xjf "$fullpath" ;;
-		*.tar.gz) tar xzf "$fullpath" ;;
-		*.tar.xz) tar Jxvf "$fullpath" ;;
-		*.tar.Z) tar xzf "$fullpath" ;;
-		*.tar) tar xf "$fullpath" ;;
-		*.taz) tar xzf "$fullpath" ;;
-		*.tb2) tar xjf "$fullpath" ;;
-		*.tbz) tar xjf "$fullpath" ;;
-		*.tbz2) tar xjf "$fullpath" ;;
-		*.tgz) tar xzf "$fullpath" ;;
-		*.txz) tar Jxvf "$fullpath" ;;
-		*.zip) unzip "$fullpath" ;;
-		*) echo "'$1' cannot be extracted via extract()" && cd .. && ! $didfolderexist && rm -r "$foldername" ;;
-		esac
-	else
-		echo "'$1' is not a valid file"
-	fi
-}
-
-# animated gifs from any video
-# from alex sexton   gist.github.com/SlexAxton/4989674
-gifify() {
-	if [[ -n "$1" ]]; then
-		if [[ $2 == '--good' ]]; then
-			ffmpeg -i $1 -r 10 -vcodec png out-static-%05d.png
-			time convert -verbose +dither -layers Optimize -resize 900x900\> out-static*.png GIF:- | gifsicle --colors 128 --delay=5 --loop --optimize=3 --multifile - >$1.gif
-			rm out-static*.png
-		else
-			ffmpeg -i $1 -s 600x400 -pix_fmt rgb24 -r 10 -f gif - | gifsicle --optimize=3 --delay=3 >$1.gif
-		fi
-	else
-		echo "proper usage: gifify <input_movie.mov>. You DO need to include extension."
-	fi
+  if [ -f "$1" ]; then
+    local filename=$(basename "$1")
+    local foldername="${filename%%.*}"
+    local fullpath=$(perl -e 'use Cwd "abs_path";print abs_path(shift)' "$1")
+    local didfolderexist=false
+    if [ -d "$foldername" ]; then
+      didfolderexist=true
+      read -p "$foldername already exists, do you want to overwrite it? (y/n) " -n 1
+      echo
+      if [[ $REPLY =~ ^[Nn]$ ]]; then
+        return
+      fi
+    fi
+    mkdir -p "$foldername" && cd "$foldername"
+    case $1 in
+    *.tar.bz2) tar xjf "$fullpath" ;;
+    *.tar.gz) tar xzf "$fullpath" ;;
+    *.tar.xz) tar Jxvf "$fullpath" ;;
+    *.tar.Z) tar xzf "$fullpath" ;;
+    *.tar) tar xf "$fullpath" ;;
+    *.taz) tar xzf "$fullpath" ;;
+    *.tb2) tar xjf "$fullpath" ;;
+    *.tbz) tar xjf "$fullpath" ;;
+    *.tbz2) tar xjf "$fullpath" ;;
+    *.tgz) tar xzf "$fullpath" ;;
+    *.txz) tar Jxvf "$fullpath" ;;
+    *.zip) unzip "$fullpath" ;;
+    *) echo "'$1' cannot be extracted via extract()" && cd .. && ! $didfolderexist && rm -r "$foldername" ;;
+    esac
+  else
+    echo "'$1' is not a valid file"
+  fi
 }
 
 # direct it all to /dev/null
 function nullify() {
-	"$@" >/dev/null 2>&1
-}
-
-# `shellswitch [bash |zsh]`
-#   Must be in /etc/shells
-shellswitch() {
-	chsh -s $(brew --prefix)/bin/$1
+  "$@" >/dev/null 2>&1
 }
 
 function killport() {
-	fuser -n tcp -k "$1"
-	echo "killing port $1"
+  fuser -n tcp -k "$1"
+  echo "killing port $1"
 }
 
 spinner() {
-	local pid=$1
-	local delay=0.05
-	local spinstr='|/-\'
-	while [ "$(ps a | awk '{print $1}' | grep $pid)" ]; do
-		local temp=${spinstr#?}
-		printf " [%c]  Deleting..." "$spinstr"
-		local spinstr=$temp${spinstr%"$temp"}
-		sleep $delay
-		printf "\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b"
-	done
-	printf "    \b\b\b\b"
+  local pid=$1
+  local delay=0.05
+  local spinstr='|/-\'
+  while [ "$(ps a | awk '{print $1}' | grep $pid)" ]; do
+    local temp=${spinstr#?}
+    printf " [%c]  Deleting..." "$spinstr"
+    local spinstr=$temp${spinstr%"$temp"}
+    sleep $delay
+    printf "\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b"
+  done
+  printf "    \b\b\b\b"
 }
 
 function refresh() {
-	(bunx rimraf build/ dist/ node_modules/ .next/ >/dev/null 2>&1) &
-	spinner $!
+  (bunx rimraf build/ dist/ node_modules/ .next/ >/dev/null 2>&1) &
+  spinner $!
 
-	if [[ $1 == 'bun' ]]; then
-		bun install
-	elif [[ $1 == 'y' ]]; then
-		yarn install --force
-	else
-		npm install
-	fi
-}
-
-function ci() {
-	# when using getopts inside a function
-	# local OPTIND needs precide the use
-	local OPTIND
-	add='false'
-	while getopts "am:" option; do
-		case $option in
-		a) add='true' ;;
-		m) message=$OPTARG ;;
-		esac
-	done
-
-	if [[ $add == 'true' ]]; then
-		git ci -am "${message}"
-	else
-		git ci -m "$1"
-	fi
+  if [[ $1 == 'bun' ]]; then
+    bun install
+  else
+    npm install
+  fi
 }
 
 function klogs() {
-	kl --tail 1 $(kgp | grep $1 | awk '{ print $1 }')
+  kl --tail 1 $(kgp | grep $1 | awk '{ print $1 }')
 }
 
 function load-nvmrc() {
-	local node_version="$(nvm version)"
-	local nvmrc_path="$(nvm_find_nvmrc)"
+  local node_version="$(nvm version)"
+  local nvmrc_path="$(nvm_find_nvmrc)"
 
-	if [ -n "$nvmrc_path" ]; then
-		local nvmrc_node_version=$(nvm version "$(cat "${nvmrc_path}")")
+  if [ -n "$nvmrc_path" ]; then
+    local nvmrc_node_version=$(nvm version "$(cat "${nvmrc_path}")")
 
-		if [ "$nvmrc_node_version" = "N/A" ]; then
-			nvm install
-		elif [ "$nvmrc_node_version" != "$node_version" ]; then
-			nvm use
-		fi
-	fi
+    if [ "$nvmrc_node_version" = "N/A" ]; then
+      nvm install
+    elif [ "$nvmrc_node_version" != "$node_version" ]; then
+      nvm use
+    fi
+  fi
 }
 
 function kkl() {
-	local pod
-	pod=$(kubectl get pods --no-headers -o custom-columns=":metadata.name" | fzf --exit-0)
+  local pod
+  pod=$(kubectl get pods --no-headers -o custom-columns=":metadata.name" | fzf --exit-0)
 
-	if [[ -n $pod ]]; then
-		echo "Selected pod: $pod"
-		kl "${pod}"
-	else
-		echo "No pod selected."
-	fi
+  if [[ -n $pod ]]; then
+    echo "Selected pod: $pod"
+    kl "${pod}"
+  else
+    echo "No pod selected."
+  fi
 }
 
 # toggle node environment between development and production
 tnn() {
-	# Check for .env or .env.local in the current directory
-	if [ -f ".env" ]; then
-		ENV_FILE=".env"
-	elif [ -f ".env.local" ]; then
-		ENV_FILE=".env.local"
-	else
-		echo "No .env or .env.local file found in the current directory."
-		return 1
-	fi
+  # Check for .env or .env.local in the current directory
+  if [ -f ".env" ]; then
+    ENV_FILE=".env"
+  elif [ -f ".env.local" ]; then
+    ENV_FILE=".env.local"
+  else
+    echo "No .env or .env.local file found in the current directory."
+    return 1
+  fi
 
-	# Determine the current state and toggle
-	if grep -q "NODE_ENV=production" "$ENV_FILE"; then
-		sed -i '' 's/NODE_ENV=production/NODE_ENV=development/' "$ENV_FILE"
-		echo "NODE_ENV set to development in $ENV_FILE"
-	elif grep -q "NODE_ENV=development" "$ENV_FILE"; then
-		sed -i '' 's/NODE_ENV=development/NODE_ENV=production/' "$ENV_FILE"
-		echo "NODE_ENV set to production in $ENV_FILE"
-	else
-		echo "NODE_ENV entry not found in $ENV_FILE."
-	fi
+  # Determine the current state and toggle
+  if grep -q "NODE_ENV=production" "$ENV_FILE"; then
+    sed -i '' 's/NODE_ENV=production/NODE_ENV=development/' "$ENV_FILE"
+    echo "NODE_ENV set to development in $ENV_FILE"
+  elif grep -q "NODE_ENV=development" "$ENV_FILE"; then
+    sed -i '' 's/NODE_ENV=development/NODE_ENV=production/' "$ENV_FILE"
+    echo "NODE_ENV set to production in $ENV_FILE"
+  else
+    echo "NODE_ENV entry not found in $ENV_FILE."
+  fi
 }
 
 lz() { nvim "${1:-.}"; }
+
+yolo() {
+  # Check if we're on main/master
+  local current_branch=$(git branch --show-current)
+  if [[ "$current_branch" == "main" || "$current_branch" == "master" ]]; then
+    echo "⛔️ Refusing to YOLO on $current_branch branch"
+    return 1
+  fi
+
+  # Extract ticket info and type from branch name (case-insensitive)
+  if [[ "${current_branch:l}" =~ ^(feat|fix|chore)/([a-zA-Z]+)-([0-9]+) ]]; then
+    local type="${match[1]}"      # feat, fix, or chore
+    local project="${match[2]:u}" # project name in uppercase
+    local ticket="${match[3]}"    # the number
+
+    echo "🚀 YOLO-ing changes..."
+    git add .
+
+    # Use custom message if provided, otherwise use files changed
+    if [[ $# -gt 0 ]]; then
+      git commit -m "[${project}-${ticket}] ${type}: $*"
+    else
+      local changed_files=$(git diff --cached --name-only | tr '\n' ', ' | sed 's/,$//')
+      git commit -m "[${project}-${ticket}] ${type}: diff, $changed_files"
+    fi
+  else
+    echo "⚠️ Branch name doesn't match pattern feat|fix|chore/project-XXX"
+    echo "Current branch: $current_branch"
+
+    # Still commit and push, but without ticket
+    git add .
+    if [[ $# -gt 0 ]]; then
+      git commit -m "$*"
+    else
+      local changed_files=$(git diff --cached --name-only | tr '\n' ', ' | sed 's/,$//')
+      git commit -m "changes in: $changed_files"
+    fi
+  fi
+
+  git push --force-with-lease
+}
