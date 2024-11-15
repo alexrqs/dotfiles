@@ -16,8 +16,6 @@ alias where=which      # sometimes i forget
 alias brwe=brew        #typos
 alias brewi='brew install'
 alias brewu='brew update && brew upgrade && brew cleanup'
-alias ping='prettyping'
-alias h='history'
 
 alias hosts='sudo nvim /etc/hosts'
 
@@ -49,15 +47,16 @@ alias ip="dig +short myip.opendns.com @resolver1.opendns.com"
 alias wget="curl -O"
 
 # Recursively delete `.DS_Store` files
-alias cleanup_dsstore="find . -name '*.DS_Store' -type f -ls -delete"
+alias killds="find . -name '*.DS_Store' -type f -ls -delete"
 
-alias diskspace_report="df -P -kHl"
-alias free_diskspace_report="diskspace_report"
+alias diskspace="df -P -kHl"
 
 # Shortcuts
 alias ungz="gunzip -k"
 alias c=bat
 alias x=bunx
+alias ping='prettyping'
+alias h='history'
 
 # File size
 alias fs="stat -f \"%z bytes\""
@@ -67,8 +66,7 @@ alias fs="stat -f \"%z bytes\""
 alias dev="bun run dev"
 alias build="bun run build"
 alias b=build
-alias i="npm install"
-alias ib="bun run install"
+alias i="bun install --no-save"
 alias t="npm run test"
 
 alias flush='sudo service networking restart'
@@ -80,7 +78,6 @@ alias gr='[ ! -z `git rev-parse --show-cdup` ] && cd `git rev-parse --show-cdup 
 alias kns='kubens'
 
 alias wget="curl -O"
-alias codi="code-insiders"
 # alias lz="NVIM_APPNAME=LazyVim nvim"
 # alias lz="nvim ." # this is now a function lz in .functions
 alias lzd="lazydocker"
