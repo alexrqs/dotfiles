@@ -61,7 +61,7 @@ brew install --cask 1password-cli
 brew install nordvpn
 
 # Code Editors
-brew install --cask visual-studio-code-insiders
+brew install --cask visual-studio-code@insiders
 brew install neovim
 
 # Cool 4 neovim
