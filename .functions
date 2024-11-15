@@ -234,6 +234,7 @@ tnn() {
   fi
 }
 
+codi() { code-insiders "${1:-.}"; }
 lz() { nvim "${1:-.}"; }
 
 yolo() {
