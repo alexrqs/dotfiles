@@ -1,3 +1,7 @@
+if true then
+  return {}
+end
+
 return {
   "monaqa/dial.nvim",
   recommended = true,
