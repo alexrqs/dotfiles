@@ -2,6 +2,7 @@ return {
   {
     "nvim-neotest/neotest",
     dependencies = { "nvim-neotest/neotest-jest", "marilari88/neotest-vitest" },
+    lazy = true,
     keys = {
       {
         "<leader>tl",
