@@ -1,17 +1,29 @@
-- rule:
-    pattern: const $VAR = require($MOD)
-    replace: import $VAR from $MOD
+id: change-const-to-import
+language: js
+rule:
+  any:
+    - pattern: const $VAR = require($MOD)
+fix: import $VAR from $MOD
 
-- rule:
-    pattern: const { $DESTRUCTURE } = require($MOD)
-    replace: import { $DESTRUCTURE } from $MOD
+---
+id: change-const-to-import-destructure
+language: js
+rule:
+  any:
+    - pattern: const { $DESTRUCTURE } = require($MOD)
+fix:
+  import { $DESTRUCTURE } from $MOD
 
-- rule:
-    pattern: |
-      const {
-        $DESTRUCTURE
-      } = require($MOD)
-    replace: |
-      import {
-        $DESTRUCTURE
-      } from $MOD
+---
+id: change-const-to-import-destructure-multiline
+language: js
+rule:
+  any:
+    - pattern: |
+        const {
+          $DESTRUCTURE
+        } = require($MOD)
+fix: |
+    import {
+      $DESTRUCTURE
+    } from $MOD
