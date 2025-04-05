@@ -1,12 +1,10 @@
 local select = require("CopilotChat.select")
 return {
   "CopilotC-Nvim/CopilotChat.nvim",
+  { "zbirenbaum/copilot.lua" },
+  { "nvim-lua/plenary.nvim" },
   lazy = true,
   branch = "canary",
-  dependencies = {
-    { "zbirenbaum/copilot.lua" },
-    { "nvim-lua/plenary.nvim" },
-  },
   build = "make tiktoken",
   config = function()
     -- Pre-load buffer list
