@@ -1,0 +1,15 @@
+views:
+  # Alters the pod view column layout. Uses GVR as key
+  v1/pods:
+    # Overrides default sort column
+    sortColumn: NAME:asc
+    columns:
+      - READY
+      - STATUS
+      - AGE
+      - NAME
+      - RESTARTS
+      - IP
+      - CPU
+      - MEM
+      - NAMESPACE
