@@ -9,3 +9,4 @@ sandbox/*
 .config/github-copilot
 .config/raycast/extensions
 .config/kitty/.kitty.conf.swp
+.config/op
