@@ -55,7 +55,7 @@ alias diskspace="df -P -kHl"
 alias ungz="gunzip -k"
 alias c=bat
 alias x=bunx
-alias ping='prettyping'
+# alias ping='prettyping'
 alias h='history'
 
 # File size
@@ -91,3 +91,5 @@ alias axx="aws secretsmanager"
 alias axxshow="aws secretsmanager get-secret-value --secret-id $1"
 alias axxindex="aws list-secrets | jless"
 alias kitty-icon="yes | rm /var/folders/*/*/*/com.apple.dock.iconcache && killall Dock"
+alias explain="gh copilot explain"
+alias suggest="gh copilot suggest"
