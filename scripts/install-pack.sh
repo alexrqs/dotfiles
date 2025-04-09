@@ -52,6 +52,7 @@ brew install kitty
 # Language tools
 # brew install node
 brew install nvm
+brew install oven-sh/bun/bun
 # brew install python
 # brew install go
 # brew install elixir
