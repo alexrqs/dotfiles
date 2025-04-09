@@ -1,6 +1,6 @@
 # .dotfiles
 
-![represent](screenshot-2024.png)
+![represent](screenshot.png)
 
 - Run `scripts/setup.sh`
 - Run `scripts/install-pack.sh`
