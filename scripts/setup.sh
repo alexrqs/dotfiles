@@ -7,7 +7,7 @@
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
 # # Install brew packages
-./homebrew.sh
+./install-pack.sh
 
 # After Kitty Terminal installation, icon cache should be cleared
 yes | rm /var/folders/*/*/*/com.apple.dock.iconcache
