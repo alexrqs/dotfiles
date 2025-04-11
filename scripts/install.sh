@@ -25,7 +25,7 @@ else
   brew update
 fi
 
-DOTFILES_DIR="$HOME/.dotfiles"
+DOTFILES_DIR="$HOME/dotfiles"
 
 if [ ! -d "$DOTFILES_DIR" ]; then
   echo "Cloning dotfiles repository..."
