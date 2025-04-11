@@ -3,7 +3,7 @@
 # will install under /usr/local/opt/fzf/install
 # later referenced in ZSHRC export FZF_BASE=/usr/local/opt/fzf/
 brew install fzf
-brew install fd
+# brew install fd
 # brew install jq
 # NOTE: `dasel` is the replacement for jq, yq, etc
 brew install dasel
@@ -14,8 +14,8 @@ brew install eza
 brew install noahgorstein/tap/jqp
 brew install ast-grep
 brew install expect
-brew install md5sha1sum
-brew install wget
+# brew install md5sha1sum
+# brew install wget
 brew install starship
 brew install alt-tab
 # brew install tldr
@@ -29,24 +29,24 @@ brew install prettyping
 # brew install dog
 
 # NOTE: du replacement (du will measure the size of the directory)
-brew install dust
+# brew install dust
 
 # for network
-brew install iftop
+# brew install iftop
 
 # load testing k6.io
 # brew install k6
 
 # optional due to AV restrictions
 # brew install nmap
-brew install wakeonlan
-brew install httpie
+# brew install wakeonlan
+# brew install httpie
 
 # for terminal
 brew install bat
-brew install htop
+# brew install htop
 # brew install tree
-brew install terminal-notifier
+# brew install terminal-notifier
 brew install kitty
 
 # Language tools
@@ -60,22 +60,22 @@ brew install oven-sh/bun/bun
 # brew install rust
 brew install --cask 1password
 brew install --cask 1password-cli
-brew install nordvpn
+# brew install nordvpn
 
 # Code Editors
-brew install --cask visual-studio-code@insiders
+# brew install --cask visual-studio-code@insiders
 brew install neovim
 
 # Cool 4 neovim
 brew install gnu-sed
-brew install git-delta
-brew install git-extras
-brew install gh
-brew install glab
+# brew install git-delta
+# brew install git-extras
+# brew install gh
+# brew install glab
 brew install ripgrep
 brew install lazygit
 # brew install lazydocker
-brew install lazynpm
+# brew install lazynpm
 
 # for Lua
 # brew install luarocks
@@ -93,11 +93,11 @@ brew install slack
 # brew install vlc
 brew install dbeaver-community
 # brew install spotify
-brew install telegram
+# brew install telegram
 
 # Stopped using fig because it's really annoying that UI gettings stuck all the time
 # brew install fig
-brew install rar
+# brew install rar
 # brew install appcleaner
 
 # video transcoder
@@ -126,7 +126,7 @@ brew uninstall raycast
 # NOTE: replace docker with orbstack
 # brew install docker
 brew install orbstack
-brew install ansible
+# brew install ansible
 
 # required for aws cli
 brew install groff
