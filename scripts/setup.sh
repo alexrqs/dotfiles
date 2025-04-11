@@ -3,11 +3,10 @@
 ./preflight.generator.sh
 ./.temp.generator.sh
 
-# # install brew
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" &>/dev/null && pwd)"
 
 # # Install brew packages
-./install-pack.sh
+bash "$SCRIPT_DIR/install-pack.sh"
 
 # After Kitty Terminal installation, icon cache should be cleared
 yes | rm /var/folders/*/*/*/com.apple.dock.iconcache
