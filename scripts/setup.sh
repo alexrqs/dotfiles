@@ -3,6 +3,11 @@
 ./preflight.generator.sh
 ./.temp.generator.sh
 
+# create a symlink for .zshrc
+ln -sf "$(pwd)/../.zshrc" "$HOME/.zshrc"
+
+source ~/.zshrc
+
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" &>/dev/null && pwd)"
 
 # # Install brew packages
