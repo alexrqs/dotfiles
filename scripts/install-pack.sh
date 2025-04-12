@@ -122,6 +122,8 @@ brew install zoom
 # brew uninstall maccy
 
 brew uninstall raycast
+# NOTE: split menu and hide icons utility
+brew install --cask jordanbaird-ice
 
 # NOTE: replace docker with orbstack
 # brew install docker
