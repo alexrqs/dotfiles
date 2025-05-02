@@ -1,14 +1,13 @@
 #!/bin/bash
 
-./preflight.generator.sh
-./.temp.generator.sh
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" &>/dev/null && pwd)"
+bash "$SCRIPT_DIR/preflight.generator.sh"
+bash "$SCRIPT_DIR/.temp.generator.sh"
 
 # create a symlink for .zshrc
 ln -sf "$(pwd)/../.zshrc" "$HOME/.zshrc"
 
 source ~/.zshrc
-
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" &>/dev/null && pwd)"
 
 # # Install brew packages
 bash "$SCRIPT_DIR/install-pack.sh"
