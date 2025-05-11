@@ -36,13 +36,47 @@ return {
                 parameterTypes = { enabled = true },
                 variableTypes = { enabled = true },
                 propertyDeclarationTypes = { enabled = true },
-                functionLikeReturnTypes = { enabled = true },
+                functionLikeReturnTypeHints = { enabled = true },
                 enumMemberValues = { enabled = true },
               },
             },
           },
         },
-        eslint = {},
+        eslint = {
+          settings = {
+            -- Enable auto fix on save
+            codeAction = {
+              disableRuleComment = {
+                enable = true,
+                location = "separateLine",
+              },
+              showDocumentation = {
+                enable = true,
+              },
+            },
+            codeActionOnSave = {
+              enable = true,
+              mode = "all",
+            },
+            experimental = {
+              useFlatConfig = false,
+            },
+            format = true,
+            nodePath = "",
+            onIgnoredFiles = "off",
+            problems = {
+              shortenToSingleLine = false,
+            },
+            quiet = false,
+            rulesCustomizations = {},
+            run = "onType",
+            useESLintClass = false,
+            validate = "on",
+            workingDirectory = {
+              mode = "location",
+            },
+          },
+        },
         lua_ls = {
           settings = {
             Lua = {
@@ -94,6 +128,20 @@ return {
         local server_opts = servers[server_name] or {}
         server_opts.capabilities = capabilities
 
+        -- Special handling for ESLint
+        if server_name == "eslint" then
+          server_opts.on_attach = function(client, bufnr)
+            -- Enable formatting
+            client.server_capabilities.documentFormattingProvider = true
+
+            -- Auto fix on save
+            vim.api.nvim_create_autocmd("BufWritePre", {
+              buffer = bufnr,
+              command = "EslintFixAll",
+            })
+          end
+        end
+
         if lspconfig[server_name] then
           local ok, err = pcall(function()
             lspconfig[server_name].setup(server_opts)
@@ -108,21 +156,21 @@ return {
     end,
   },
 
-  -- Mason tools (don't try to ensure_install here either)
+  -- Mason tools
   {
     "williamboman/mason.nvim",
     opts = {},
   },
 
-  -- Format and lint setup
+  -- Format and lint setup with autoformat on save
   {
     "stevearc/conform.nvim",
     opts = {
       formatters_by_ft = {
-        javascript = { "prettier" },
-        typescript = { "prettier" },
-        javascriptreact = { "prettier" },
-        typescriptreact = { "prettier" },
+        javascript = { "prettier", "eslint_d" },
+        typescript = { "prettier", "eslint_d" },
+        javascriptreact = { "prettier", "eslint_d" },
+        typescriptreact = { "prettier", "eslint_d" },
         json = { "prettier" },
         css = { "prettier" },
         html = { "prettier" },
@@ -134,6 +182,7 @@ return {
 
   {
     "mfussenegger/nvim-lint",
+    event = { "BufWritePost", "BufReadPost", "InsertLeave" },
     opts = {
       linters_by_ft = {
         javascript = { "eslint_d" },
@@ -142,5 +191,16 @@ return {
         typescriptreact = { "eslint_d" },
       },
     },
+    config = function(_, opts)
+      local lint = require("lint")
+      lint.linters_by_ft = opts.linters_by_ft
+
+      -- Create autocommand for linting
+      vim.api.nvim_create_autocmd({ "BufWritePost", "BufReadPost", "InsertLeave" }, {
+        callback = function()
+          lint.try_lint()
+        end,
+      })
+    end,
   },
 }
