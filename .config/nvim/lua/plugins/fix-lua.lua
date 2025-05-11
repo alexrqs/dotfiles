@@ -1,105 +1,145 @@
 return {
+  -- Override the default LSP config to avoid the error
   {
     "neovim/nvim-lspconfig",
-    event = { "BufReadPre", "BufNewFile" },
     dependencies = {
       "mason.nvim",
       "williamboman/mason-lspconfig.nvim",
       "hrsh7th/cmp-nvim-lsp",
     },
-    config = function()
-      -- Setup keymaps using LazyVim's system
+    config = function(_, opts)
       local Util = require("lazyvim.util")
-      local Keys = require("lazyvim.plugins.lsp.keymaps")
+      local lspconfig = require("lspconfig")
 
-      -- On attach function for keymaps
+      -- Setup keymaps
       Util.lsp.on_attach(function(client, buffer)
-        Keys.on_attach(client, buffer)
+        require("lazyvim.plugins.lsp.keymaps").on_attach(client, buffer)
       end)
 
-      -- Setup capabilities for autocompletion
-      local capabilities = require("cmp_nvim_lsp").default_capabilities()
-
-      -- Setup diagnostics
-      vim.diagnostic.config({
-        virtual_text = true,
-        signs = true,
-        underline = true,
-        update_in_insert = false,
-        severity_sort = true,
-      })
-
-      -- Setup LSP servers
-      local lspconfig = require("lspconfig")
-      local mason_lspconfig = require("mason-lspconfig")
-
-      -- Setup function for each server
-      local function setup_server(server_name)
-        local server_config = {
-          capabilities = capabilities,
-        }
-
-        -- Special config for tsserver (TypeScript)
-        if server_name == "tsserver" then
-          server_config.settings = {
+      -- Setup servers
+      local servers = {
+        vtsls = {
+          settings = {
             typescript = {
               inlayHints = {
-                includeInlayParameterNameHints = "all",
-                includeInlayParameterNameHintsWhenArgumentMatchesName = false,
-                includeInlayFunctionParameterTypeHints = true,
-                includeInlayVariableTypeHints = true,
-                includeInlayPropertyDeclarationTypeHints = true,
-                includeInlayFunctionLikeReturnTypeHints = true,
-                includeInlayEnumMemberValueHints = true,
+                parameterNames = { enabled = "all" },
+                parameterTypes = { enabled = true },
+                variableTypes = { enabled = true },
+                propertyDeclarationTypes = { enabled = true },
+                functionLikeReturnTypes = { enabled = true },
+                enumMemberValues = { enabled = true },
               },
             },
             javascript = {
               inlayHints = {
-                includeInlayParameterNameHints = "all",
-                includeInlayParameterNameHintsWhenArgumentMatchesName = false,
-                includeInlayFunctionParameterTypeHints = true,
-                includeInlayVariableTypeHints = true,
-                includeInlayPropertyDeclarationTypeHints = true,
-                includeInlayFunctionLikeReturnTypeHints = true,
-                includeInlayEnumMemberValueHints = true,
+                parameterNames = { enabled = "all" },
+                parameterTypes = { enabled = true },
+                variableTypes = { enabled = true },
+                propertyDeclarationTypes = { enabled = true },
+                functionLikeReturnTypes = { enabled = true },
+                enumMemberValues = { enabled = true },
               },
             },
-          }
+          },
+        },
+        eslint = {},
+        lua_ls = {
+          settings = {
+            Lua = {
+              workspace = { checkThirdParty = false },
+              codeLens = { enable = true },
+              completion = { callSnippet = "Replace" },
+              diagnostics = { globals = { "vim" } },
+            },
+          },
+        },
+        jsonls = {},
+        html = {},
+        cssls = {},
+      }
+
+      -- Skip problematic servers
+      local skip_servers = {
+        "emmylua_ls",
+        "omnisharp_mono",
+        "sourcery",
+        "harper_ls",
+      }
+
+      -- Setup diagnostics
+      Util.lsp.setup()
+      Util.lsp.on_dynamic_capability(require("lazyvim.plugins.lsp.keymaps").on_attach)
+
+      -- Setup servers manually
+      local capabilities = vim.tbl_deep_extend(
+        "force",
+        {},
+        vim.lsp.protocol.make_client_capabilities(),
+        require("cmp_nvim_lsp").default_capabilities()
+      )
+
+      -- Don't use mason-lspconfig's ensure_installed at all
+      require("mason-lspconfig").setup({
+        automatic_installation = false,
+      })
+
+      -- Just setup the servers that are already installed
+      local installed_servers = require("mason-lspconfig").get_installed_servers()
+
+      for _, server_name in ipairs(installed_servers) do
+        if vim.tbl_contains(skip_servers, server_name) then
+          goto continue
         end
 
-        lspconfig[server_name].setup(server_config)
-      end
+        local server_opts = servers[server_name] or {}
+        server_opts.capabilities = capabilities
 
-      -- Get all available servers and set them up
-      local available_servers = mason_lspconfig.get_available_servers()
-      for _, server in ipairs(available_servers) do
-        setup_server(server)
+        if lspconfig[server_name] then
+          local ok, err = pcall(function()
+            lspconfig[server_name].setup(server_opts)
+          end)
+          if not ok then
+            vim.notify("Error setting up " .. server_name .. ": " .. tostring(err), vim.log.levels.WARN)
+          end
+        end
+
+        ::continue::
       end
     end,
   },
-  {
-    "williamboman/mason-lspconfig.nvim",
-    dependencies = { "mason.nvim" },
-    opts = {
-      ensure_installed = {
-        "lua_ls",
-        "tsserver", -- For TypeScript/JavaScript
-        "jsonls",
-        "html",
-        "cssls",
-        "eslint", -- Added for eslint extra
-      },
-      automatic_installation = true,
-    },
-  },
+
+  -- Mason tools (don't try to ensure_install here either)
   {
     "williamboman/mason.nvim",
+    opts = {},
+  },
+
+  -- Format and lint setup
+  {
+    "stevearc/conform.nvim",
     opts = {
-      ensure_installed = {
-        "stylua",
-        "shfmt",
-        "prettier", -- Added for prettier extra
-        "eslint_d", -- Fast eslint daemon
+      formatters_by_ft = {
+        javascript = { "prettier" },
+        typescript = { "prettier" },
+        javascriptreact = { "prettier" },
+        typescriptreact = { "prettier" },
+        json = { "prettier" },
+        css = { "prettier" },
+        html = { "prettier" },
+        markdown = { "prettier" },
+        lua = { "stylua" },
+      },
+    },
+  },
+
+  {
+    "mfussenegger/nvim-lint",
+    opts = {
+      linters_by_ft = {
+        javascript = { "eslint_d" },
+        typescript = { "eslint_d" },
+        javascriptreact = { "eslint_d" },
+        typescriptreact = { "eslint_d" },
       },
     },
   },
