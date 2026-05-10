@@ -132,13 +132,14 @@ brew install orbstack
 
 # required for aws cli
 brew install groff
+brew install awscli
 
 # brew install flameshot
 # brew install keycastr
 # brew install audacity
 
 # NOTE: control the brightness of your external monitors
-# brew install monitorcontrol
+brew install monitorcontrol
 
 # NOTE: screen recorder
 # brew install obs

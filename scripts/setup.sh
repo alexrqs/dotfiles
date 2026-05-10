@@ -5,12 +5,12 @@ bash "$SCRIPT_DIR/preflight.generator.sh"
 bash "$SCRIPT_DIR/.temp.generator.sh"
 
 # create a symlink for .zshrc
-ln -sf "$(pwd)/../.zshrc" "$HOME/.zshrc"
+# ln -sf "$(pwd)/../.zshrc" "$HOME/.zshrc"
 
-source ~/.zshrc
+# source ~/.zshrc
 
 # # Install brew packages
-bash "$SCRIPT_DIR/install-pack.sh"
+# bash "$SCRIPT_DIR/install-pack.sh"
 
 # After Kitty Terminal installation, icon cache should be cleared
 yes | rm /var/folders/*/*/*/com.apple.dock.iconcache
