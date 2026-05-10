@@ -183,6 +183,8 @@ symbol = " "
 [nodejs]
 format = "[$symbol($version)]($style)"
 version_format = "${raw}"
+detect_files = ['package.json', '.node-version', '.nvmrc', 'bun.lockb', 'bunfig.toml']
+detect_folders = ['node_modules']
 # style = "italic green"
 
 [package]
