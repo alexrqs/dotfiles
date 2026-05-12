@@ -35,7 +35,7 @@ for tier in "${STACK[@]}"; do
 done
 
 echo "==> Installing profile '$PROFILE' (stack: ${STACK[*]})"
-brew bundle install --file="$BREWFILE"
+brew bundle install --verbose --file="$BREWFILE"
 
 # Preview cleanup, then prompt before destructive removal.
 echo
