@@ -6,3 +6,5 @@ scripts
 .gitignore
 .vscode
 screenshot.png
+bootstrap.sh
+CLAUDE.md
