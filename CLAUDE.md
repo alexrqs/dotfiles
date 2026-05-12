@@ -2,4 +2,5 @@
 
 ## Commits
 
-Commit subject lines must be **5 words or fewer**. The body can be as long as it needs to be.
+- Subject lines: **5 words or fewer**.
+- **No body.** Subject only — no descriptive paragraph, no `Co-Authored-By:` or other trailers.
