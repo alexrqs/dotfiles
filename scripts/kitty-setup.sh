@@ -1,14 +1,15 @@
 #!/bin/bash
-# Install the custom kitty icon from this repo into /Applications/kitty.app,
-# then refresh the Dock so the new icon appears. No-op if kitty isn't
-# installed yet.
+# Install the custom kitty icon onto the kitty.app bundle. Uses
+# `fileicon` to set the icon via extended attributes — modern macOS
+# blocks writes inside /Applications/*.app/Contents/ even with sudo,
+# so cp'ing into Contents/Resources/ fails with "Operation not
+# permitted". No-op if kitty isn't installed.
 
 set -euo pipefail
 
 DOTFILES_DIR="${DOTFILES_DIR:-$HOME/dotfiles}"
-ICON_SRC="$DOTFILES_DIR/.config/kitty/kitty.app.icns"
+ICON_SRC="$DOTFILES_DIR/.config/kitty/kitty.app.png"
 KITTY_APP="/Applications/kitty.app"
-ICON_DST="$KITTY_APP/Contents/Resources/kitty.app.icns"
 
 if [ ! -d "$KITTY_APP" ]; then
   echo "kitty not installed at $KITTY_APP, skipping icon setup"
@@ -16,14 +17,17 @@ if [ ! -d "$KITTY_APP" ]; then
 fi
 
 if [ ! -f "$ICON_SRC" ]; then
-  echo "custom icon not found at $ICON_SRC, skipping"
+  echo "no custom icon at $ICON_SRC, skipping"
   exit 0
 fi
 
-echo "→ installing custom kitty icon"
-cp "$ICON_SRC" "$ICON_DST"
-# Bump the .app's mtime so macOS LaunchServices re-reads the icon.
-touch "$KITTY_APP"
+if ! command -v fileicon &>/dev/null; then
+  echo "→ installing fileicon (one-time, sets icons via xattr)"
+  brew install fileicon
+fi
+
+echo "→ setting custom kitty icon via fileicon"
+fileicon set "$KITTY_APP" "$ICON_SRC"
 
 echo "→ refreshing dock icon cache"
 rm -f /var/folders/*/*/*/com.apple.dock.iconcache 2>/dev/null || true
