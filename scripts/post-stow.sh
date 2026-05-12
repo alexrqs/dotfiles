@@ -21,10 +21,19 @@ nvm install 20
 nvm install 22
 nvm alias default 22
 
-# LazyVim plugin bootstrap (only if nvim config is in place).
-if [ -f "$HOME/.config/nvim/init.lua" ]; then
+# LazyVim plugin bootstrap. Runs against the deployed config at
+# ~/.config/nvim, which should be a symlink into the repo after stow.
+NVIM_INIT="$HOME/.config/nvim/init.lua"
+NVIM_INIT_SRC="${DOTFILES_DIR:-$HOME/dotfiles}/.config/nvim/init.lua"
+
+if [ -f "$NVIM_INIT" ]; then
   echo "→ bootstrapping LazyVim plugins"
   nvim --headless "+Lazy! sync" +qa
+elif [ -f "$NVIM_INIT_SRC" ]; then
+  echo "✗ WARN: $NVIM_INIT is missing, but source exists at $NVIM_INIT_SRC"
+  echo "        Stow likely didn't run or was skipped. Fix:"
+  echo "          cd ${DOTFILES_DIR:-$HOME/dotfiles} && stow --adopt ."
+  echo "        Then re-run: nvim --headless '+Lazy! sync' +qa"
 else
-  echo "→ no ~/.config/nvim/init.lua, skipping LazyVim bootstrap"
+  echo "→ no nvim config found, skipping LazyVim bootstrap"
 fi

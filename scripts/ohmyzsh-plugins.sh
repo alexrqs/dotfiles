@@ -6,6 +6,7 @@
 set -euo pipefail
 
 ZSH_CUSTOM="${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}"
+mkdir -p "$ZSH_CUSTOM/plugins"
 
 clone_plugin() {
   local repo="$1" name="$2"
