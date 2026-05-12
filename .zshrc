@@ -1,8 +1,6 @@
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:$HOME/.local/bin:/usr/local/bin:$PATH
 
-source ~/.preflight
-
 echo "Loading ZSH path"
 # Path to your Oh My Zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
@@ -118,7 +116,7 @@ echo "Loading functions"
 source ~/.functions
 
 echo "Loading temp"
-source ~/.temp
+[ -f ~/.temp ] && source ~/.temp
 
 echo "Setting up history"
 HISTSIZE=50000
@@ -133,7 +131,7 @@ echo "Loading Homebrew"
 eval "$(/opt/homebrew/bin/brew shellenv)"
 
 echo "Loading Starship"
-eval "$(starship init zsh)"
+command -v starship &>/dev/null && eval "$(starship init zsh)"
 
 echo "Loading fzf"
 source <(fzf --zsh)
@@ -150,6 +148,7 @@ echo "Loading bun"
 # bun
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
+[ -d /opt/homebrew/opt/libpq/bin ] && export PATH="/opt/homebrew/opt/libpq/bin:$PATH"
 
 echo "Bind keys"
 bindkey '^M' accept-line

@@ -40,4 +40,8 @@ fi
 
 # 4. Hand off to the post-clone installer
 echo "==> Handing off to scripts/install.sh $PROFILE"
+# Under `curl … | bash`, stdin is the pipe and at EOF by now. Reopen
+# /dev/tty so install.sh's interactive prompts (cleanup confirm, stow,
+# personalize) can read from the terminal.
+exec < /dev/tty
 exec "$DOTFILES_DIR/scripts/install.sh" "$PROFILE"

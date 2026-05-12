@@ -11,4 +11,4 @@ fi
 
 echo "→ refreshing dock icon cache for kitty"
 rm -f /var/folders/*/*/*/com.apple.dock.iconcache 2>/dev/null || true
-killall Dock
+killall Dock || true
