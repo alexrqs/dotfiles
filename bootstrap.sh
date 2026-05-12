@@ -41,10 +41,13 @@ else
   git -C "$DOTFILES_DIR" pull --ff-only
 fi
 
-# 4. Hand off to the post-clone installer
+# 4. Hand off to the post-clone installer.
+# `< /dev/tty` gives install.sh a real terminal as stdin so its
+# interactive prompts (cleanup confirm, stow, personalize) can read
+# from the keyboard even when bootstrap.sh was piped from `curl | bash`.
+# CRITICAL: keep the redirect on the SAME line as exec. Doing
+# `exec < /dev/tty` on its own line first would close the curl pipe
+# while bash is still reading this script from it, causing bash to
+# silently block trying to read the next command from /dev/tty.
 echo "==> Handing off to scripts/install.sh $PROFILE"
-# Under `curl … | bash`, stdin is the pipe and at EOF by now. Reopen
-# /dev/tty so install.sh's interactive prompts (cleanup confirm, stow,
-# personalize) can read from the terminal.
-exec < /dev/tty
-exec "$DOTFILES_DIR/scripts/install.sh" "$PROFILE"
+exec "$DOTFILES_DIR/scripts/install.sh" "$PROFILE" < /dev/tty
