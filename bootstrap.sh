@@ -32,13 +32,23 @@ else
 fi
 eval "$(/opt/homebrew/bin/brew shellenv)"
 
-# 3. Clone dotfiles (or pull if already present, so install.sh is current)
+# 3. Clone dotfiles, or sync an existing checkout to origin/master.
+# If a previous run used `stow --adopt`, $HOME files were moved INTO the
+# repo and the working tree is dirty. To make install.sh idempotent we
+# stash any local changes (recoverable via `git stash list / pop`) and
+# hard-reset to the remote, so stow starts from a clean curated state.
 if [ ! -d "$DOTFILES_DIR" ]; then
   echo "==> Cloning dotfiles to $DOTFILES_DIR"
   git clone "$REPO_URL" "$DOTFILES_DIR"
 else
-  echo "==> Dotfiles already cloned at $DOTFILES_DIR, pulling latest"
-  git -C "$DOTFILES_DIR" pull --ff-only
+  echo "==> Dotfiles already cloned at $DOTFILES_DIR, syncing to origin/master"
+  git -C "$DOTFILES_DIR" fetch origin
+  if [ -n "$(git -C "$DOTFILES_DIR" status --porcelain)" ]; then
+    STASH_MSG="auto-stash before bootstrap reset $(date +%Y%m%d-%H%M%S)"
+    echo "    local changes detected, stashing as: $STASH_MSG"
+    git -C "$DOTFILES_DIR" stash push --include-untracked -m "$STASH_MSG" || true
+  fi
+  git -C "$DOTFILES_DIR" reset --hard origin/master
 fi
 
 # 4. Hand off to the post-clone installer.
