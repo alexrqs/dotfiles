@@ -22,20 +22,23 @@ else
 fi
 
 # 2. Homebrew
+# `</dev/tty` so the installer's RETURN-to-continue prompt and sudo can
+# read input even when bootstrap.sh is itself piped from `curl | bash`.
 if ! command -v brew &>/dev/null; then
   echo "==> Installing Homebrew"
-  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" </dev/tty
 else
   echo "==> Homebrew already installed"
 fi
 eval "$(/opt/homebrew/bin/brew shellenv)"
 
-# 3. Clone dotfiles
+# 3. Clone dotfiles (or pull if already present, so install.sh is current)
 if [ ! -d "$DOTFILES_DIR" ]; then
   echo "==> Cloning dotfiles to $DOTFILES_DIR"
   git clone "$REPO_URL" "$DOTFILES_DIR"
 else
-  echo "==> Dotfiles already cloned at $DOTFILES_DIR"
+  echo "==> Dotfiles already cloned at $DOTFILES_DIR, pulling latest"
+  git -C "$DOTFILES_DIR" pull --ff-only
 fi
 
 # 4. Hand off to the post-clone installer
