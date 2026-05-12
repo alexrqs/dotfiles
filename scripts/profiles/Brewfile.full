@@ -1,66 +1,8 @@
-# Brewfile.full — Studio, MBP. Everything. No commented-out blocks
-# except for the ones that are intentionally never installed.
-
-# CLI tools — corporate set
-brew "stow"
-brew "fzf"
-brew "eza"
-brew "bat"
-brew "ripgrep"
-brew "neovim"
-brew "lazygit"
-brew "gnu-sed"
-brew "nvm"
-brew "bun"
-brew "jq"
-brew "xh"
-brew "git-delta"
-brew "mosh"
-brew "starship"
-brew "dasel"
-brew "ast-grep"
-brew "prettyping"
-brew "expect"
-brew "awscli"
-brew "groff"
-brew "gh"
-brew "glab"
-brew "libpq"
-brew "sqlite"
-brew "ffmpeg"
+# Brewfile.full — Studio/MBP additions. Stacks on Brewfile.common + Brewfile.corporate.
 
 # CLI tools — full additions
 brew "nmap"
 brew "httrack"
-
-# Disabled — documented for awareness, not installed:
-# brew "jless"
-# brew "jqp"
-# brew "kubectl"
-# brew "kubectx"
-# brew "kubens"
-# brew "derailed/k9s/k9s"
-
-# Casks — corporate set
-cask "kitty"
-cask "font-symbols-only-nerd-font"
-cask "1password"
-cask "1password-cli"
-cask "google-chrome"
-cask "slack"
-cask "zoom"
-cask "claude-code"
-cask "onlyoffice"
-cask "docker"
-cask "firefox"
-cask "dbeaver-community"
-cask "raycast"
-cask "monitorcontrol"
-cask "alt-tab"
-cask "font-fira-code-nerd-font"
-cask "font-hack-nerd-font"
-cask "ghostty"
-cask "redisinsight"
 
 # Casks — full additions
 cask "discord"

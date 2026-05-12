@@ -72,7 +72,7 @@ zstyle ':omz:update' mode reminder  # just remind me to update when it's time
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 echo "Loading ZSH plugins"
-plugins=(bgnotify fzf git z zsh-syntax-highlighting zsh-autosuggestions)
+plugins=(bgnotify fzf git z zsh-syntax-highlighting zsh-autosuggestions zsh-autocomplete)
 
 echo "Loading oh-my-zsh.sh"
 source $ZSH/oh-my-zsh.sh
@@ -108,6 +108,9 @@ autoload -Uz compinit && compinit
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+
+echo "Loading exports"
+source ~/.exports
 
 echo "Loading aliases"
 source ~/.aliases

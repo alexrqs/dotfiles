@@ -9,16 +9,32 @@ set -euo pipefail
 
 PROFILE="${1:-light}"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" &>/dev/null && pwd)"
-BREWFILE="$SCRIPT_DIR/profiles/Brewfile.$PROFILE"
+PROFILES_DIR="$SCRIPT_DIR/profiles"
 
-if [ ! -f "$BREWFILE" ]; then
-  echo "Unknown profile: $PROFILE"
-  echo "Available profiles:"
-  ls -1 "$SCRIPT_DIR/profiles/" | sed 's/Brewfile\./  /'
-  exit 1
-fi
+# Build the effective Brewfile by stacking common + profile cascades.
+# light = common + light
+# corporate = common + corporate
+# full = common + corporate + full
+case "$PROFILE" in
+  light)     STACK=(common light) ;;
+  corporate) STACK=(common corporate) ;;
+  full)      STACK=(common corporate full) ;;
+  *)
+    echo "Unknown profile: $PROFILE"
+    echo "Available profiles: light, corporate, full"
+    exit 1
+    ;;
+esac
 
-echo "==> Installing profile '$PROFILE' from $BREWFILE"
+BREWFILE="$(mktemp -t "brewfile.$PROFILE.XXXXXX")"
+trap 'rm -f "$BREWFILE"' EXIT
+
+for tier in "${STACK[@]}"; do
+  cat "$PROFILES_DIR/Brewfile.$tier" >> "$BREWFILE"
+  echo >> "$BREWFILE"
+done
+
+echo "==> Installing profile '$PROFILE' (stack: ${STACK[*]})"
 brew bundle install --file="$BREWFILE"
 
 # Preview cleanup, then prompt before destructive removal.

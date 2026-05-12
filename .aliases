@@ -8,10 +8,10 @@ alias cp='cp -v'
 
 alias cx='chmod -x'
 alias py='python3'
-alias pe='pipenv'
-alias pi='pip install'
+# alias pe='pipenv'         # pipenv not installed; uv replaces it
+# alias pi='pip install'    # pip not installed; use `uv pip install`
 
-alias cask='brew cask' # i <3 u cask
+# alias cask='brew cask'    # `brew cask` deprecated since 2020; use `brew install --cask`
 alias where=which      # sometimes i forget
 alias brwe=brew        #typos
 alias brewi='brew install'
@@ -19,35 +19,18 @@ alias brewu='brew update && brew upgrade && brew cleanup'
 
 alias hosts='sudo nvim /etc/hosts'
 
-alias ag='ag -f --hidden'
+# alias ag='ag -f --hidden'   # the_silver_searcher not installed; use `rg` (ripgrep)
 
-###
 # time to upgrade `ls`
-
 alias ls="eza --icons --group-directories-first"
 
-# brew install coreutils
-# use coreutils `ls` if possible…
-hash gls >/dev/null 2>&1 || alias gls="ls"
-
-# always use color, even when piping (to awk,grep,etc)
-if gls --color >/dev/null 2>&1; then colorflag="--color"; else colorflag="-G"; fi
-export CLICOLOR_FORCE=1
-
-# ls options: A = include hidden (but not . or ..), F = put `/` after folders, h = byte unit suffixes
-alias gls='gls -AFh ${colorflag} --group-directories-first'
-alias lsd='ls -l | grep "^d"' # only directories
-#    `la` defined in .functions
-### ------------ end of ls updates ------------------------
-
-# Networking. IP address, dig, DNS
-alias ip="dig +short myip.opendns.com @resolver1.opendns.com"
+# Networking. dig, DNS (`ip` is now a function in .functions)
 # alias dig="dig +nocmd any +multiline +noall +answer"
 # wget sucks with certificates. Let's keep it simple.
 alias wget="curl -O"
 
 # Recursively delete `.DS_Store` files
-alias killds="find . -name '*.DS_Store' -type f -ls -delete"
+alias eraseds="find . -name '*.DS_Store' -type f -ls -delete"
 
 alias diskspace="df -P -kHl"
 
@@ -69,27 +52,23 @@ alias b=build
 alias i="bun install --no-save"
 alias t="npm run test"
 
-alias flush='sudo service networking restart'
+alias flush='sudo dscacheutil -flushcache; sudo killall -HUP mDNSResponder'
 
 # git root
 alias gr='[ ! -z `git rev-parse --show-cdup` ] && cd `git rev-parse --show-cdup || pwd`'
 
 # Kubernetes shortcuts
-alias kns='kubens'
+# alias kns='kubens'
 
 alias wget="curl -O"
-# alias lz="NVIM_APPNAME=LazyVim nvim"
-# alias lz="nvim ." # this is now a function lz in .functions
-alias lzd="lazydocker"
+# alias lzd="lazydocker"
 alias lzg="lazygit"
-alias lzn="lazynpm"
+# alias lzn="lazynpm"
 alias foo="pbpaste | nvim -"
-alias play="ansible-playbook"
+# alias play="ansible-playbook"
 
 # AWS
 alias axx="aws secretsmanager"
 alias axxshow="aws secretsmanager get-secret-value --secret-id $1"
 alias axxindex="aws list-secrets | jless"
 alias kitty-icon="yes | rm /var/folders/*/*/*/com.apple.dock.iconcache && killall Dock"
-alias explain="gh copilot explain"
-alias suggest="gh copilot suggest"
