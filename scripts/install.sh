@@ -71,7 +71,16 @@ i=0
 for c in "${CASKS[@]}"; do
   i=$((i + 1))
   log "==> [$i/${#CASKS[@]}] brew install --cask $c"
-  brew install --cask "$c"
+  # Casks fail when an app of the same name already exists in /Applications
+  # (manual download, App Store, etc.). Retry with --adopt so brew takes
+  # over the existing install instead of aborting the whole run. If even
+  # adopt can't reconcile it (different version/signature), warn and skip
+  # so the rest of the casks still install.
+  if ! brew install --cask "$c"; then
+    log "    retry: brew install --cask --adopt $c"
+    brew install --cask --adopt "$c" \
+      || log "    WARN: $c could not be installed or adopted — skipping"
+  fi
 done
 
 # Preview cleanup, then prompt before destructive removal.
