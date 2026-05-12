@@ -1,0 +1,36 @@
+# Brewfile.common — installed on every profile.
+# Profiles stack their tier-specific additions on top of this.
+
+# CLI tools
+brew "stow"
+brew "fzf"
+brew "eza"
+brew "bat"
+brew "ripgrep"
+brew "fd"
+brew "neovim"
+brew "lazygit"
+brew "gnu-sed"
+brew "nvm"
+brew "bun"
+brew "jq"
+brew "xh"
+brew "git-delta"
+brew "mosh"
+brew "terminal-notifier"
+brew "uv"
+
+# Disabled — documented for awareness, not installed:
+# brew "jless"
+# brew "jqp"
+
+# Casks
+cask "kitty"
+cask "font-symbols-only-nerd-font"
+cask "1password"
+cask "1password-cli"
+cask "google-chrome"
+cask "slack"
+cask "zoom"
+cask "claude-code"
+cask "onlyoffice"

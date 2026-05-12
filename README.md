@@ -48,7 +48,3 @@ Update git identities later:
 ```bash
 ~/dotfiles/scripts/personalize.sh
 ```
-
-## Design
-
-Spec: `docs/superpowers/specs/2026-05-11-curl-bash-installer-design.md`

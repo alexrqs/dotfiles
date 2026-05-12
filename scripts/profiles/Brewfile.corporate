@@ -1,23 +1,6 @@
-# Brewfile.corporate — Air-class machines (16/32GB), work-style use.
-# Excludes security/networking tools (nmap, httrack) that corp policies
-# often flag. Excludes personal-only apps (discord, wacom-tablet, etc.).
-# Switches orbstack -> docker for compatibility on work environments.
-
-# CLI tools — light set
-brew "stow"
-brew "fzf"
-brew "eza"
-brew "bat"
-brew "ripgrep"
-brew "neovim"
-brew "lazygit"
-brew "gnu-sed"
-brew "nvm"
-brew "bun"
-brew "jq"
-brew "xh"
-brew "git-delta"
-brew "mosh"
+# Brewfile.corporate — Air-class additions. Stacks on Brewfile.common.
+# Excludes nmap/httrack (corp-policy unfriendly) and personal-only apps.
+# Uses docker (Docker Desktop), not orbstack.
 
 # CLI tools — corporate additions
 brew "starship"
@@ -34,23 +17,10 @@ brew "sqlite"
 brew "ffmpeg"
 
 # Disabled — documented for awareness, not installed:
-# brew "jless"
-# brew "jqp"
 # brew "kubectl"
 # brew "kubectx"
 # brew "kubens"
 # brew "derailed/k9s/k9s"
-
-# Casks — light set (orbstack replaced by docker below)
-cask "kitty"
-cask "font-symbols-only-nerd-font"
-cask "1password"
-cask "1password-cli"
-cask "google-chrome"
-cask "slack"
-cask "zoom"
-cask "claude-code"
-cask "onlyoffice"
 
 # Casks — corporate additions
 cask "docker"
