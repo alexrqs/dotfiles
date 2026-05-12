@@ -2,5 +2,4 @@
 
 ## Commits
 
-- Subject lines: **5 words or fewer**.
-- **No body.** Subject only — no descriptive paragraph, no `Co-Authored-By:` or other trailers.
+**Subject only — no body.** No descriptive paragraph, no `Co-Authored-By:` or other trailers. Subject length is up to you; keep it informative.
