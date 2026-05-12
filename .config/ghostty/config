@@ -1,0 +1,11 @@
+# Ghostty starter config. Mirrors the kitty setup for font size and
+# icon-glyph fallback (Symbols Nerd Font). Add a primary font-family
+# above the symbols line when you pick one.
+
+font-size = 18
+
+# Primary monospace font (uses system default if unset).
+# font-family = Menlo
+
+# Fallback for icon glyphs — multiple font-family lines cascade in ghostty.
+font-family = Symbols Nerd Font Mono
