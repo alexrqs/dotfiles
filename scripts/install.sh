@@ -45,8 +45,16 @@ echo
 # Parse formulae and casks so we can install one-at-a-time with
 # explicit progress output. brew bundle install is too quiet on big
 # downloads; calling brew install per item gives a clear heartbeat.
-mapfile -t FORMULAE < <(grep -E '^brew "'  "$BREWFILE" | sed -E 's/^brew "([^"]+)".*/\1/')
-mapfile -t CASKS    < <(grep -E '^cask "'  "$BREWFILE" | sed -E 's/^cask "([^"]+)".*/\1/')
+# Avoiding `mapfile` since macOS ships bash 3.2 at /bin/bash.
+FORMULAE=()
+while IFS= read -r line; do
+  [ -n "$line" ] && FORMULAE+=("$line")
+done < <(grep -E '^brew "' "$BREWFILE" | sed -E 's/^brew "([^"]+)".*/\1/')
+
+CASKS=()
+while IFS= read -r line; do
+  [ -n "$line" ] && CASKS+=("$line")
+done < <(grep -E '^cask "' "$BREWFILE" | sed -E 's/^cask "([^"]+)".*/\1/')
 
 log "==> Plan: ${#FORMULAE[@]} formulae, ${#CASKS[@]} casks"
 echo
