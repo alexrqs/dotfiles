@@ -1,6 +1,6 @@
 # .dotfiles
 
-![represent](screenshot.png)
+![represent](screenshot.svg)
 
 ## Install
 
