@@ -12,6 +12,7 @@
 	sw = switch
 
 [delta]
+	navigate = false
 	light = false
 	line-numbers = true
 	line-numbers-left-format = ""
