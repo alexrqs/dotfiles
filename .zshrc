@@ -72,7 +72,11 @@ zstyle ':omz:update' mode reminder  # just remind me to update when it's time
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 echo "Loading ZSH plugins"
-plugins=(bgnotify fzf git z zsh-syntax-highlighting zsh-autosuggestions)
+# Lazy-load nvm: shims node/npm/nvm/etc. so the heavy nvm.sh (~340ms)
+# is only sourced on first use, not on every shell start. Must be set
+# BEFORE oh-my-zsh.sh is sourced.
+zstyle ':omz:plugins:nvm' lazy yes
+plugins=(bgnotify fzf git z zsh-syntax-highlighting zsh-autosuggestions nvm)
 
 echo "Loading oh-my-zsh.sh"
 source $ZSH/oh-my-zsh.sh
@@ -139,10 +143,10 @@ command -v starship &>/dev/null && eval "$(starship init zsh)"
 echo "Loading fzf"
 source <(fzf --zsh)
 
-echo "Loading NVM"
+# NVM is loaded lazily by the oh-my-zsh 'nvm' plugin (configured above
+# with `zstyle ':omz:plugins:nvm' lazy yes`). The plugin reads NVM_DIR
+# and finds nvm.sh via brew automatically; no manual sourcing needed.
 export NVM_DIR="$HOME/.nvm"
-  [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
-  [ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
 
 echo "Loading bun"
 # bun completions
