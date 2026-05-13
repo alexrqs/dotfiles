@@ -76,7 +76,7 @@ echo "Loading ZSH plugins"
 # is only sourced on first use, not on every shell start. Must be set
 # BEFORE oh-my-zsh.sh is sourced.
 zstyle ':omz:plugins:nvm' lazy yes
-plugins=(bgnotify fzf git z zsh-syntax-highlighting zsh-autosuggestions nvm)
+plugins=(auto-notify fzf git zoxide zsh-syntax-highlighting zsh-autosuggestions nvm)
 
 echo "Loading oh-my-zsh.sh"
 source $ZSH/oh-my-zsh.sh
