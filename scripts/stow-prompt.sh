@@ -30,8 +30,14 @@ case "$choice" in
   2)
     # Find what stow would conflict on, move those files to a backup
     # dir, then re-run stow for real. `|| true` keeps set -e happy when
-    # stow returns non-zero because of conflicts.
-    conflicts=$(stow -nv . 2>&1 | awk -F': ' '/\* existing target/{print $NF}' | sort -u || true)
+    # stow returns non-zero because of conflicts. Two error formats are
+    # parsed:
+    #   "* cannot stow X over existing target Y since ..." → path Y
+    #   "* existing target is <kind>: Y"                   → path Y
+    conflicts=$(stow -nv . 2>&1 | sed -nE '
+      s/.*over existing target ([^ ]+) since.*/\1/p
+      s/.*existing target is [^:]+: ([^ ]+).*/\1/p
+    ' | sort -u || true)
     if [ -n "$conflicts" ]; then
       ts=$(date +%Y%m%d-%H%M%S)
       backup="$HOME/.dotfiles-backup-$ts"
