@@ -8,7 +8,7 @@ chpwd() {
     gss
   fi
 
-  load-nvmrc
+  auto-switch-nvmrc
 }
 
 # cd into whatever is the forefront Finder window.
@@ -87,7 +87,7 @@ function refresh() {
 #   kl --tail 1 $(kgp | grep $1 | awk '{ print $1 }')
 # }   # kubectl stack not installed
 
-function load-nvmrc() {
+function auto-switch-nvmrc() {
   local dir="$PWD"
 
   # Fast path: still inside the .nvmrc tree we already activated.
