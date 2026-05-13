@@ -89,8 +89,17 @@ function refresh() {
 
 function load-nvmrc() {
   local dir="$PWD"
-  local nvmrc_path=""
 
+  # Fast path: still inside the .nvmrc tree we already activated.
+  # Skips the walk-up + nvm calls when cd'ing deeper into the same project.
+  if [ -n "$_CURRENT_NVMRC" ]; then
+    local project_root="${_CURRENT_NVMRC%/.nvmrc}"
+    case "$dir" in
+      "$project_root"|"$project_root"/*) return ;;
+    esac
+  fi
+
+  local nvmrc_path=""
   while [ "$dir" != "" ]; do
     if [ -f "$dir/.nvmrc" ]; then
       nvmrc_path="$dir/.nvmrc"
@@ -110,12 +119,14 @@ function load-nvmrc() {
   [ "$nvmrc_path" = "$_CURRENT_NVMRC" ] && return
   _CURRENT_NVMRC="$nvmrc_path"
 
-  local desired=$(cat "$nvmrc_path")
-  local resolved=$(nvm version "$desired")
+  # $(<file) is a zsh builtin file-read — no fork/exec, unlike $(cat).
+  local desired="$(<$nvmrc_path)"
+  local current="$(nvm version)"
+  local resolved="$(nvm version "$desired")"
 
   if [ "$resolved" = "N/A" ]; then
     nvm install
-  elif [ "$resolved" != "$(nvm version)" ]; then
+  elif [ "$resolved" != "$current" ]; then
     nvm use
   fi
 }
