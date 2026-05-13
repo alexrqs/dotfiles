@@ -21,4 +21,4 @@ clone_plugin() {
 }
 
 clone_plugin https://github.com/zsh-users/zsh-syntax-highlighting.git zsh-syntax-highlighting
-clone_plugin https://github.com/marlonrichert/zsh-autocomplete.git  zsh-autocomplete
+clone_plugin https://github.com/zsh-users/zsh-autosuggestions       zsh-autosuggestions
