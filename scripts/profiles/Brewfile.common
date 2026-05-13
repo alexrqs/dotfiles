@@ -19,7 +19,6 @@ brew "git-delta"
 brew "mosh"
 brew "terminal-notifier"
 brew "uv"
-brew "fileicon"
 
 # Disabled — documented for awareness, not installed:
 # brew "jless"
