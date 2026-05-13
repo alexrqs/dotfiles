@@ -22,3 +22,4 @@ clone_plugin() {
 
 clone_plugin https://github.com/zsh-users/zsh-syntax-highlighting.git zsh-syntax-highlighting
 clone_plugin https://github.com/zsh-users/zsh-autosuggestions       zsh-autosuggestions
+clone_plugin https://github.com/MichaelAquilina/zsh-auto-notify.git auto-notify
