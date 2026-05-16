@@ -1,26 +1,26 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 200" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace">
-  <!-- Window background: Macchiato base -->
-  <rect x="0" y="0" width="860" height="200" rx="12" fill="#24273a"/>
+  <!-- Window background: Mocha base -->
+  <rect x="0" y="0" width="860" height="200" rx="12" fill="#1e1e2e"/>
 
-  <!-- Title bar: Macchiato mantle -->
-  <path d="M0,12 A12,12 0 0 1 12,0 L848,0 A12,12 0 0 1 860,12 L860,40 L0,40 Z" fill="#1e2030"/>
+  <!-- Title bar: Mocha mantle -->
+  <path d="M0,12 A12,12 0 0 1 12,0 L848,0 A12,12 0 0 1 860,12 L860,40 L0,40 Z" fill="#181825"/>
 
   <!-- Traffic lights -->
-  <circle cx="22" cy="20" r="6" fill="#ed8796"/>
-  <circle cx="42" cy="20" r="6" fill="#eed49f"/>
-  <circle cx="62" cy="20" r="6" fill="#a6da95"/>
+  <circle cx="22" cy="20" r="6" fill="#f38ba8"/>
+  <circle cx="42" cy="20" r="6" fill="#f9e2af"/>
+  <circle cx="62" cy="20" r="6" fill="#a6e3a1"/>
 
   <!-- Title text -->
-  <text x="430" y="25" text-anchor="middle" fill="#a5adcb" font-size="13" font-weight="500">~/dotfiles</text>
+  <text x="430" y="25" text-anchor="middle" fill="#a6adc8" font-size="13" font-weight="500">~/dotfiles</text>
 
   <!-- Prompt line 1: tight left-aligned modules + dot fill to right.
        MUST stay on one source line — `xml:space="preserve"` would otherwise
        render the indentation/newlines between tspans as literal whitespace. -->
-  <text x="24" y="108" font-size="20" xml:space="preserve"><tspan fill="#91d7e3">dotfiles</tspan> <tspan fill="#a6da95">🌱 master</tspan> <tspan fill="#f5bde6">😎</tspan> <tspan fill="#6e738d">·······································</tspan></text>
+  <text x="24" y="108" font-size="20" xml:space="preserve"><tspan fill="#89dceb">dotfiles</tspan> <tspan fill="#a6e3a1">🌱 master</tspan> <tspan fill="#f5c2e7">😎</tspan> <tspan fill="#7f849c">·······································</tspan></text>
 
   <!-- Prompt line 2: hash + cursor block -->
   <text x="24" y="160" font-size="20">
-    <tspan fill="#c6a0f6">#</tspan>
+    <tspan fill="#cba6f7">#</tspan>
   </text>
-  <rect x="44" y="142" width="12" height="22" fill="#f4dbd6"/>
+  <rect x="44" y="142" width="12" height="22" fill="#f5e0dc"/>
 </svg>
