@@ -2,6 +2,11 @@
 # export PATH=$HOME/bin:$HOME/.local/bin:/usr/local/bin:$PATH
 
 echo "Loading ZSH path"
+# Homebrew first: must run BEFORE oh-my-zsh sources its plugins, since
+# some plugins (e.g. zoxide) gate on `$+commands[<binary>]` and would
+# silently disable themselves if /opt/homebrew/bin isn't on PATH yet.
+eval "$(/opt/homebrew/bin/brew shellenv)"
+
 # Path to your Oh My Zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
 
@@ -134,9 +139,6 @@ setopt HIST_IGNORE_ALL_DUPS
 setopt HIST_SAVE_NO_DUPS
 setopt HIST_REDUCE_BLANKS
 setopt HIST_IGNORE_SPACE
-
-echo "Loading Homebrew"
-eval "$(/opt/homebrew/bin/brew shellenv)"
 
 echo "Loading Starship"
 command -v starship &>/dev/null && eval "$(starship init zsh)"
