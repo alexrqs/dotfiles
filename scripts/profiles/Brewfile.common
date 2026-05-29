@@ -31,7 +31,11 @@ cask "font-symbols-only-nerd-font"
 cask "1password"
 cask "1password-cli"
 cask "google-chrome"
+cask "brave-browser"
 cask "slack"
 cask "zoom"
 cask "claude-code"
 cask "onlyoffice"
+
+# Optional — documented for awareness, not installed:
+# cask "avg-antivirus"
