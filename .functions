@@ -119,6 +119,12 @@ function auto-switch-nvmrc() {
   [ "$nvmrc_path" = "$_CURRENT_NVMRC" ] && return
   _CURRENT_NVMRC="$nvmrc_path"
 
+  # Warm nvm once in the parent. nvm is lazy-loaded (a stub until first
+  # call), and each $(nvm version) below runs in a subshell — without this
+  # warm-up the stub re-sources nvm.sh (~0.5s) in each throwaway subshell,
+  # costing 3 loads on the first cd into a project instead of 1.
+  nvm --version >/dev/null 2>&1
+
   # $(<file) is a zsh builtin file-read — no fork/exec, unlike $(cat).
   local desired="$(<$nvmrc_path)"
   local current="$(nvm version)"
