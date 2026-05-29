@@ -105,7 +105,8 @@ format = '[$symbol($version )($mod_version )]($style)'
 symbol = " "
 
 [fill]
-# symbol = "<"
+symbol = "·"
+style = "bright-black"
 
 [fossil_branch]
 symbol = '🦎 '
