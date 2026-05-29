@@ -78,11 +78,9 @@ zstyle ':omz:update' mode reminder  # just remind me to update when it's time
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 echo "Loading ZSH plugins"
-# Lazy-load nvm: shims node/npm/nvm/etc. so the heavy nvm.sh (~340ms)
-# is only sourced on first use, not on every shell start. Must be set
-# BEFORE oh-my-zsh.sh is sourced.
-zstyle ':omz:plugins:nvm' lazy yes
-plugins=(auto-notify fzf git zoxide zsh-syntax-highlighting zsh-autosuggestions nvm)
+# nvm is lazy-loaded by a self-contained loader near the end of this file
+# (NVM section), not the oh-my-zsh 'nvm' plugin.
+plugins=(auto-notify fzf git zoxide zsh-syntax-highlighting zsh-autosuggestions)
 
 echo "Loading oh-my-zsh.sh"
 source $ZSH/oh-my-zsh.sh
@@ -146,10 +144,32 @@ command -v starship &>/dev/null && eval "$(starship init zsh)"
 echo "Loading fzf"
 source <(fzf --zsh)
 
-# NVM is loaded lazily by the oh-my-zsh 'nvm' plugin (configured above
-# with `zstyle ':omz:plugins:nvm' lazy yes`). The plugin reads NVM_DIR
-# and finds nvm.sh via brew automatically; no manual sourcing needed.
+# Lazy-load nvm WITHOUT oh-my-zsh's nvm plugin. The plugin's lazy mode
+# routes every nvm/node/npm call through wrapper functions that call
+# helpers (_omz_nvm_setup_completion / _omz_nvm_setup_autoload) which
+# delete themselves after first use. A shell-snapshotting tool (e.g.
+# Claude Code) can capture the wrappers without those helpers, so each
+# nvm call then prints "command not found: _omz_nvm_setup_*". This loader
+# has no separate helpers to lose: the stubs and _load_nvm are removed
+# together on the first call, so no half-loaded state can be snapshotted.
 export NVM_DIR="$HOME/.nvm"
+_load_nvm() {
+  unset -f nvm node npm npx pnpm pnpx yarn corepack _load_nvm 2>/dev/null
+  [[ -s "$NVM_DIR/nvm.sh" ]] && source "$NVM_DIR/nvm.sh"
+  local _c
+  for _c in "$NVM_DIR/bash_completion" \
+            "${HOMEBREW_PREFIX:-/opt/homebrew}/opt/nvm/etc/bash_completion.d/nvm"; do
+    if [[ -s "$_c" ]]; then
+      autoload -U +X bashcompinit && bashcompinit
+      ZSH_VERSION= source "$_c"
+      break
+    fi
+  done
+}
+for _cmd in nvm node npm npx pnpm pnpx yarn corepack; do
+  eval "${_cmd}() { _load_nvm; ${_cmd} \"\$@\"; }"
+done
+unset _cmd
 
 echo "Loading bun"
 # bun completions
