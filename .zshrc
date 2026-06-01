@@ -144,17 +144,17 @@ command -v starship &>/dev/null && eval "$(starship init zsh)"
 echo "Loading fzf"
 source <(fzf --zsh)
 
-# Lazy-load nvm WITHOUT oh-my-zsh's nvm plugin. The plugin's lazy mode
-# routes every nvm/node/npm call through wrapper functions that call
-# helpers (_omz_nvm_setup_completion / _omz_nvm_setup_autoload) which
-# delete themselves after first use. A shell-snapshotting tool (e.g.
-# Claude Code) can capture the wrappers without those helpers, so each
-# nvm call then prints "command not found: _omz_nvm_setup_*". This loader
-# has no separate helpers to lose: the stubs and _load_nvm are removed
-# together on the first call, so no half-loaded state can be snapshotted.
+# Lazy-load nvm WITHOUT oh-my-zsh's nvm plugin, and WITHOUT any shared helper
+# function. A shell-snapshotting tool (e.g. Claude Code) captures the wrapper
+# functions below but DROPS every single-underscore function from its snapshot
+# (it treats `_name` as a zsh completion function). So any shared loader called
+# `_load_nvm` would disappear from the snapshot while these wrappers survived,
+# making every node/npm call print "command not found: _load_nvm". The fix:
+# inline the entire loader body into each wrapper via eval, so there is no
+# separate function to lose -- each wrapper is fully self-contained.
 export NVM_DIR="$HOME/.nvm"
-_load_nvm() {
-  unset -f nvm node npm npx pnpm pnpx yarn corepack _load_nvm 2>/dev/null
+_nvm_lazy_body='
+  unset -f nvm node npm npx pnpm pnpx yarn corepack 2>/dev/null
   [[ -s "$NVM_DIR/nvm.sh" ]] && source "$NVM_DIR/nvm.sh"
   local _c
   for _c in "$NVM_DIR/bash_completion" \
@@ -165,11 +165,11 @@ _load_nvm() {
       break
     fi
   done
-}
+'
 for _cmd in nvm node npm npx pnpm pnpx yarn corepack; do
-  eval "${_cmd}() { _load_nvm; ${_cmd} \"\$@\"; }"
+  eval "${_cmd}() { ${_nvm_lazy_body} ${_cmd} \"\$@\"; }"
 done
-unset _cmd
+unset _cmd _nvm_lazy_body
 
 echo "Loading bun"
 # bun completions
