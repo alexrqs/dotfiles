@@ -87,53 +87,24 @@ function refresh() {
 #   kl --tail 1 $(kgp | grep $1 | awk '{ print $1 }')
 # }   # kubectl stack not installed
 
+# Switch node when entering a directory tree whose .nvmrc differs from the
+# last one we activated. The walk-up is pure shell (no forks); we only touch
+# nvm when the nearest .nvmrc actually changes, so cd'ing around within one
+# project costs nothing. nvm itself reads the .nvmrc, so we don't parse it.
 function auto-switch-nvmrc() {
-  local dir="$PWD"
-
-  # Fast path: still inside the .nvmrc tree we already activated.
-  # Skips the walk-up + nvm calls when cd'ing deeper into the same project.
-  if [ -n "$_CURRENT_NVMRC" ]; then
-    local project_root="${_CURRENT_NVMRC%/.nvmrc}"
-    case "$dir" in
-      "$project_root"|"$project_root"/*) return ;;
-    esac
-  fi
-
-  local nvmrc_path=""
-  while [ "$dir" != "" ]; do
-    if [ -f "$dir/.nvmrc" ]; then
-      nvmrc_path="$dir/.nvmrc"
-      break
-    fi
+  local dir="$PWD" nvmrc=""
+  while [ -n "$dir" ]; do
+    [ -f "$dir/.nvmrc" ] && { nvmrc="$dir/.nvmrc"; break; }
     dir="${dir%/*}"
   done
 
-  if [ -z "$nvmrc_path" ]; then
-    if [ -n "$_CURRENT_NVMRC" ]; then
-      _CURRENT_NVMRC=""
-      nvm use default
-    fi
-    return
-  fi
+  [ "$nvmrc" = "$_CURRENT_NVMRC" ] && return   # same .nvmrc (or still none)
+  _CURRENT_NVMRC="$nvmrc"
 
-  [ "$nvmrc_path" = "$_CURRENT_NVMRC" ] && return
-  _CURRENT_NVMRC="$nvmrc_path"
-
-  # Warm nvm once in the parent. nvm is lazy-loaded (a stub until first
-  # call), and each $(nvm version) below runs in a subshell — without this
-  # warm-up the stub re-sources nvm.sh (~0.5s) in each throwaway subshell,
-  # costing 3 loads on the first cd into a project instead of 1.
-  nvm --version >/dev/null 2>&1
-
-  # $(<file) is a zsh builtin file-read — no fork/exec, unlike $(cat).
-  local desired="$(<$nvmrc_path)"
-  local current="$(nvm version)"
-  local resolved="$(nvm version "$desired")"
-
-  if [ "$resolved" = "N/A" ]; then
-    nvm install
-  elif [ "$resolved" != "$current" ]; then
-    nvm use
+  if [ -n "$nvmrc" ]; then
+    nvm use 2>/dev/null || nvm install
+  else
+    nvm use default >/dev/null
   fi
 }
 
