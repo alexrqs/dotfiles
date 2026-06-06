@@ -1,15 +1,21 @@
 #!/bin/bash
 
-# Auto-list directory stack after cd
-chpwd() {
-  ls -a
-  # dirs -v | head -10
-  if git rev-parse --git-dir >/dev/null 2>&1; then
-    gss
-  fi
+# Auto-list directory stack after cd. Interactive-only: zsh fires chpwd on
+# every `cd`, so without this guard it spams `ls`/`gss`/nvm output into
+# Claude Code (and any script), breaking tools that parse `cd` results.
+# $RICH_SHELL is set in ~/.zshrc. auto-switch-nvmrc itself stays defined
+# below; only the on-cd hook is gated.
+if [[ -n $RICH_SHELL ]]; then
+  chpwd() {
+    ls -a
+    # dirs -v | head -10
+    if git rev-parse --git-dir >/dev/null 2>&1; then
+      gss
+    fi
 
-  auto-switch-nvmrc
-}
+    auto-switch-nvmrc
+  }
+fi
 
 # cd into whatever is the forefront Finder window.
 # only mac

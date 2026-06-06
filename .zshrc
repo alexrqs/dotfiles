@@ -1,7 +1,17 @@
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:$HOME/.local/bin:/usr/local/bin:$PATH
 
-echo "Loading ZSH path"
+# A "rich" shell is a real interactive terminal — not Claude Code, not a
+# script. Decorations (prompt, highlighting, the chpwd ls/gss hook, load
+# chatter) gate on $RICH_SHELL. Aliases, PATH, the oh-my-zsh git plugin
+# (ggp/gss…) and functions still load unconditionally, so non-interactive
+# tools like Claude Code get a useful-but-quiet zsh. The $CLAUDECODE check
+# keeps it clean even if Claude's snapshot builder runs an interactive shell.
+[[ -o interactive && -z $CLAUDECODE ]] && RICH_SHELL=1
+# Quiet load logging: only chatters in a rich shell.
+zlog() { [[ -n $RICH_SHELL ]] && print -r -- "$@"; }
+
+zlog "Loading ZSH path"
 # Homebrew first: must run BEFORE oh-my-zsh sources its plugins, since
 # some plugins (e.g. zoxide) gate on `$+commands[<binary>]` and would
 # silently disable themselves if /opt/homebrew/bin isn't on PATH yet.
@@ -29,7 +39,7 @@ ZSH_THEME="robbyrussell"   # fallback prompt; starship init below overrides PROM
 # Case-sensitive completion must be off. _ and - will be interchangeable.
 # HYPHEN_INSENSITIVE="true"
 
-echo "Loading ZSH mode"
+zlog "Loading ZSH mode"
 # Uncomment one of the following lines to change the auto-update behavior
 # zstyle ':omz:update' mode disabled  # disable automatic updates
 # zstyle ':omz:update' mode auto      # update automatically without asking
@@ -77,17 +87,26 @@ zstyle ':omz:update' mode reminder  # just remind me to update when it's time
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-echo "Loading ZSH plugins"
+zlog "Loading ZSH plugins"
 # nvm is lazy-loaded by a self-contained loader near the end of this file
 # (NVM section), not the oh-my-zsh 'nvm' plugin.
-plugins=(auto-notify fzf git zoxide zsh-syntax-highlighting zsh-autosuggestions)
+#
+# Rich terminal gets the full set; Claude Code / scripts get just the git
+# plugin (ggp, gss, …) — without zoxide/auto-notify/fzf/highlight, which
+# register chpwd/precmd hooks that would otherwise leak into the shell
+# snapshot and spam every command.
+if [[ -n $RICH_SHELL ]]; then
+  plugins=(auto-notify fzf git zoxide zsh-syntax-highlighting zsh-autosuggestions)
+else
+  plugins=(git)
+fi
 
-echo "Loading oh-my-zsh.sh"
+zlog "Loading oh-my-zsh.sh"
 source $ZSH/oh-my-zsh.sh
 
 # User Configuration
-echo "Loading git auto-completion"
-autoload -Uz compinit && compinit
+zlog "Loading git auto-completion"
+[[ -n $RICH_SHELL ]] && { autoload -Uz compinit && compinit }
 # User configuration
 
 # export MANPATH="/usr/local/man:$MANPATH"
@@ -117,19 +136,19 @@ autoload -Uz compinit && compinit
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-echo "Loading exports"
+zlog "Loading exports"
 source ~/.exports
 
-echo "Loading aliases"
+zlog "Loading aliases"
 source ~/.aliases
 
-echo "Loading functions"
+zlog "Loading functions"
 source ~/.functions
 
-echo "Loading temp"
+zlog "Loading temp"
 [ -f ~/.temp ] && source ~/.temp
 
-echo "Setting up history"
+zlog "Setting up history"
 HISTSIZE=50000
 SAVEHIST=50000
 HISTORY_IGNORE="(ls|cd|pwd|exit|cd ..|clear|history)"
@@ -138,11 +157,11 @@ setopt HIST_SAVE_NO_DUPS
 setopt HIST_REDUCE_BLANKS
 setopt HIST_IGNORE_SPACE
 
-echo "Loading Starship"
-command -v starship &>/dev/null && eval "$(starship init zsh)"
+zlog "Loading Starship"
+[[ -n $RICH_SHELL ]] && command -v starship &>/dev/null && eval "$(starship init zsh)"
 
-echo "Loading fzf"
-source <(fzf --zsh)
+zlog "Loading fzf"
+[[ -n $RICH_SHELL ]] && source <(fzf --zsh)
 
 # Lazy-load nvm WITHOUT oh-my-zsh's nvm plugin, and WITHOUT any shared helper
 # function. A shell-snapshotting tool (e.g. Claude Code) captures the wrapper
@@ -171,7 +190,7 @@ for _cmd in nvm node npm npx pnpm pnpx yarn corepack; do
 done
 unset _cmd _nvm_lazy_body
 
-echo "Loading bun"
+zlog "Loading bun"
 # bun completions
 [ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
 
@@ -180,13 +199,17 @@ export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
 [ -d /opt/homebrew/opt/libpq/bin ] && export PATH="/opt/homebrew/opt/libpq/bin:$PATH"
 
-echo "Bind keys"
-bindkey '^M' accept-line
-bindkey '^[[Z' forward-word
+# Interactive line-editor bindings: need ZLE (real terminal) and the
+# zsh-autosuggestions widget, so they're rich-only.
+if [[ -n $RICH_SHELL ]]; then
+  zlog "Bind keys"
+  bindkey '^M' accept-line
+  bindkey '^[[Z' forward-word
 
-# Ensure autosuggestions still work option + enter
-bindkey '^[[1;2B' autosuggest-execute
-bindkey '^[OM' autosuggest-execute
-bindkey '^[^M' autosuggest-execute
+  # Ensure autosuggestions still work option + enter
+  bindkey '^[[1;2B' autosuggest-execute
+  bindkey '^[OM' autosuggest-execute
+  bindkey '^[^M' autosuggest-execute
 
-echo -e "\e[92mTerminal Loaded!"
+  print -P -- "%F{green}Terminal Loaded!%f"
+fi

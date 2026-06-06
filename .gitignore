@@ -10,3 +10,4 @@ sandbox/*
 .config/raycast/extensions
 .config/kitty/.kitty.conf.swp
 .config/op
+.claude/settings.local.json
