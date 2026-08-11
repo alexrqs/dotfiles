@@ -20,6 +20,7 @@ $golang\
 $bun\
 $nodejs\
 $python\
+$java\
 $rust\
 $cmd_duration $jobs\
 $memory_usage\
@@ -154,7 +155,8 @@ ssh_only = true
 format = '[$hostname](italic yellow) '
 
 [java]
-symbol = " "
+symbol = "☕ "
+format = '[$symbol($version )]($style)'
 
 [julia]
 symbol = " "
