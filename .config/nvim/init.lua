@@ -7,5 +7,5 @@ vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
   command = "set filetype=http",
 })
 
-vim.o.number = false
+vim.o.number = true
 vim.opt.relativenumber = false
