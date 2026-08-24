@@ -15,12 +15,9 @@ return {
         -- superseded by tsc above
         vtsls = { enabled = false },
 
-        -- Restores what the removed linting.eslint extra used to set: without
-        -- it eslint resolves config from the monorepo root instead of the
-        -- package that owns the file.
-        eslint = {
-          settings = { workingDirectories = { mode = "auto" } },
-        },
+        -- lint-staged runs `eslint --fix` on every commit, so a server that
+        -- re-lints a 5851-file monorepo on each open buys nothing here.
+        eslint = { enabled = false },
       },
     },
   },
