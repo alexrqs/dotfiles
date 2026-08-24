@@ -9,6 +9,9 @@
 
 font-size = 18
 
+# Extra line height (thickens each cell vertically).
+adjust-cell-height = 20%
+
 # Primary monospace font (matches kitty's default on macOS).
 font-family = Menlo
 
