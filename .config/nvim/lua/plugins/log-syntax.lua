@@ -2,7 +2,7 @@
 
 return {
   "fei6409/log-highlight.nvim",
-  lazy = true,
+  ft = "log",
   config = function()
     require("log-highlight").setup({})
   end,
