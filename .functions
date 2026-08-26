@@ -13,6 +13,10 @@ if [[ -n $RICH_SHELL ]]; then
       gss
     fi
 
+    auto-switch-nvmrc
+  }
+fi
+
 # find shorthand
 function f() {
   find . -name "$1" 2>&1 | grep -v 'Permission denied'
@@ -126,14 +130,6 @@ function auto-switch-nvmrc() {
 #     echo "No pod selected."
 #   fi
 # }   # kubectl not installed
-
-  if [[ -n $pod ]]; then
-    echo "Selected pod: $pod"
-    kl "${pod}"
-  else
-    echo "No pod selected."
-  fi
-}
 
 # toggle node environment between development and production
 tnn() {
