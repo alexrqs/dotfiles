@@ -24,3 +24,12 @@ font-family = Symbols Nerd Font Mono
 # This changes the Dock and app-switcher icon; Finder's is baked into the signed
 # bundle and can't be changed at runtime.
 macos-icon = custom
+
+# Left Option sends Esc+ instead of composing accented characters, so
+# alt-based bindings (word-wise motion, autosuggest-execute) reach zsh.
+macos-option-as-alt = true
+
+# Shift+Enter emits Esc+CR. Matches the `bindkey '^[^M' autosuggest-execute`
+# binding in .zshrc, and lets TUIs (Claude Code, nvim) tell it from a plain
+# Enter — terminals send an identical CR for both by default.
+keybind = shift+enter=text:\x1b\r
