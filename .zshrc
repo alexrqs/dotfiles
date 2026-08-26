@@ -12,6 +12,17 @@
 zlog() { [[ -n $RICH_SHELL ]] && print -r -- "$@"; }
 
 zlog "Loading ZSH path"
+# Keep $path and $fpath deduplicated. A nested shell (zsh inside zsh, or a tool
+# that re-sources this file) inherits an already-populated PATH, so every blind
+# prepend stacks a second copy of the same entry.
+#
+# CAVEAT: `typeset -U path` only dedupes on *array* assignment. A scalar
+# `export PATH="/new:$PATH"` bypasses it entirely. So PATH additions below use
+# the array form `path=(/new $path)`, and there's a `path=($path)` sweep after
+# them to normalise whatever `brew shellenv` set as a scalar. First occurrence
+# wins, so precedence order is preserved either way.
+typeset -U path fpath
+
 # Homebrew first: must run BEFORE oh-my-zsh sources its plugins, since
 # some plugins (e.g. zoxide) gate on `$+commands[<binary>]` and would
 # silently disable themselves if /opt/homebrew/bin isn't on PATH yet.
@@ -106,6 +117,9 @@ source $ZSH/oh-my-zsh.sh
 
 # User Configuration
 zlog "Loading git auto-completion"
+# Claude Access CLI completions. Must be on $fpath BEFORE compinit runs,
+# otherwise compinit never picks up the _claude-access function.
+[ -d ~/.claude-access/completions ] && fpath=(~/.claude-access/completions $fpath)
 [[ -n $RICH_SHELL ]] && { autoload -Uz compinit && compinit }
 # User configuration
 
@@ -196,8 +210,16 @@ zlog "Loading bun"
 
 # bun
 export BUN_INSTALL="$HOME/.bun"
-export PATH="$BUN_INSTALL/bin:$PATH"
-[ -d /opt/homebrew/opt/libpq/bin ] && export PATH="/opt/homebrew/opt/libpq/bin:$PATH"
+path=("$BUN_INSTALL/bin" $path)
+path=("$HOME/.local/bin" $path)
+[ -d /opt/homebrew/opt/libpq/bin ] && path=(/opt/homebrew/opt/libpq/bin $path)
+# Keg-only JDK: not symlinked into /opt/homebrew/bin by brew, so it needs an
+# explicit PATH entry. Starship's java module reads `java -version` from here.
+[ -d /opt/homebrew/opt/openjdk@21/bin ] && path=(/opt/homebrew/opt/openjdk@21/bin $path)
+
+# Final sweep: re-assign the array to force `typeset -U` over entries added by
+# scalar `export PATH=` (brew shellenv, and anything sourced above).
+path=($path)
 
 # Interactive line-editor bindings: need ZLE (real terminal) and the
 # zsh-autosuggestions widget, so they're rich-only.
@@ -210,6 +232,23 @@ if [[ -n $RICH_SHELL ]]; then
   bindkey '^[[1;2B' autosuggest-execute
   bindkey '^[OM' autosuggest-execute
   bindkey '^[^M' autosuggest-execute
+
+  # Tab does double duty: accept the autosuggestion when one is showing
+  # ($POSTDISPLAY is the greyed-out tail), otherwise fall through to
+  # fzf-completion. Registering it in ZSH_AUTOSUGGEST_IGNORE_WIDGETS stops
+  # zsh-autosuggestions from re-fetching a suggestion mid-widget, which would
+  # otherwise make the first Tab press flicker.
+  _accept_suggestion_or_complete() {
+    if [[ -n "$POSTDISPLAY" ]]; then
+      zle autosuggest-accept
+    else
+      zle fzf-completion
+    fi
+  }
+  zle -N _accept_suggestion_or_complete
+  typeset -ga ZSH_AUTOSUGGEST_IGNORE_WIDGETS
+  ZSH_AUTOSUGGEST_IGNORE_WIDGETS+=(_accept_suggestion_or_complete)
+  bindkey '^I' _accept_suggestion_or_complete
 
   print -P -- "%F{green}Terminal Loaded!%f"
 fi
