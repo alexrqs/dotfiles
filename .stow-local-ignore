@@ -5,6 +5,12 @@ README.md
 scripts
 .gitignore
 .vscode
+# Claude Code config stays unstowed: ~/.claude/settings.json holds the Bedrock
+# env block (internal AWS profile/region) and this repo is public. The .claude
+# here is project-scoped config for the dotfiles repo itself, not a global
+# source of truth. No slash in the pattern, so it matches by basename and also
+# excludes .config/.claude.
+.claude
 screenshot.svg
 bootstrap.sh
 CLAUDE.md
