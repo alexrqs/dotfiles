@@ -18,11 +18,11 @@ font-family = Menlo
 # Fallback for Nerd Font icon glyphs (Powerline, Codicons, Devicons, etc.).
 font-family = Symbols Nerd Font Mono
 
-# App icon: the Apple ghost emoji, rendered to Ghostty.icns next to this file.
-# `custom` reads macos-custom-icon, which defaults to ~/.config/ghostty/Ghostty.icns
-# — exactly where the file lands via the symlink, so no absolute path is needed.
-# This changes the Dock and app-switcher icon; Finder's is baked into the signed
-# bundle and can't be changed at runtime.
+# App icon: custom ghost logo on a black rounded tile, rendered to
+# Ghostty.icns next to this file (`custom` reads macos-custom-icon, which
+# defaults to ~/.config/ghostty/Ghostty.icns). The previous Apple-ghost-emoji
+# icon is kept as Ghostty-apple-emoji.icns. This changes the Dock and
+# app-switcher icon; Finder's is baked into the signed bundle.
 macos-icon = custom
 
 # Left Option sends Esc+ instead of composing accented characters, so
