@@ -73,6 +73,49 @@ function nullify() {
   "$@" >/dev/null 2>&1
 }
 
+# Re-run a command every N seconds until Ctrl-C. $1 is the delay in seconds,
+# everything after it is the command. Unlike `watch`, output scrolls instead of
+# repainting, so you keep the history of every run.
+#
+#   loopy 120 claude -v            # multiple args are run as-is, no shell parsing
+#   loopy 30 'gh pr list | head'   # one quoted arg goes through the shell, so
+#                                  # pipes, && and globs work
+#
+# Fires once immediately, then every $1 seconds. Each run gets a dim header with
+# the iteration number and the time; non-zero exits are reported but don't stop
+# the loop.
+function loopy() {
+  if (($# < 2)); then
+    echo "usage: loopy <seconds> <command...>" >&2
+    return 1
+  fi
+
+  local delay=$1
+  shift
+
+  if [[ ! $delay =~ ^[0-9]+$ ]] || ((delay == 0)); then
+    echo "loopy: delay must be a positive number of seconds, got '$delay'" >&2
+    return 1
+  fi
+
+  # `status` is a read-only alias for $? in zsh, hence `rc`.
+  local label="$*" n=0 rc
+  while true; do
+    ((++n))
+    printf '\033[2m── #%d  %s  %s ──\033[0m\n' "$n" "$(date +%H:%M:%S)" "$label"
+
+    if (($# == 1)); then
+      eval "$1"
+    else
+      "$@"
+    fi
+    rc=$?
+    ((rc != 0)) && printf '\033[2m── exit %d ──\033[0m\n' "$rc"
+
+    sleep "$delay"
+  done
+}
+
 function killport() {
   local pids
   pids=$(lsof -ti ":$1")
