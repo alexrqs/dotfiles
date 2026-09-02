@@ -23,6 +23,7 @@ $python\
 $java\
 $rust\
 $swift\
+$custom\
 $cmd_duration $jobs\
 $memory_usage\
 $line_break\
@@ -222,6 +223,17 @@ symbol = "🅢 "
 [swift]
 symbol = "🐦 "
 format = '[$symbol($version )]($style)'
+
+[custom.xcode]
+# The swift module only looks for Package.swift or *.swift in the cwd, so an
+# Xcode project never triggers it. Show the same badge when one is present.
+# Pinned to sh: under zsh (STARSHIP_SHELL) an unmatched glob aborts the check.
+shell = ["sh"]
+when = 'for f in *.xcodeproj *.xcworkspace; do [ -e "$f" ] && exit 0; done; exit 1'
+command = 'swift --version 2>&1 | sed -n "s/.*Apple Swift version \([0-9.]*\).*/\1/p"'
+symbol = "🐦 "
+style = "bold 202"
+format = '[$symbol(v$output )]($style)'
 
 [sudo]
 format = "[$symbol]($style)"
