@@ -22,6 +22,7 @@ $nodejs\
 $python\
 $java\
 $rust\
+$swift\
 $cmd_duration $jobs\
 $memory_usage\
 $line_break\
@@ -217,6 +218,10 @@ disabled = false
 
 [spack]
 symbol = "🅢 "
+
+[swift]
+symbol = "🐦 "
+format = '[$symbol($version )]($style)'
 
 [sudo]
 format = "[$symbol]($style)"
