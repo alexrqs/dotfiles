@@ -67,8 +67,11 @@ alias lzg="lazygit"
 alias foo="pbpaste | nvim -"
 # alias play="ansible-playbook"
 
+alias kitty-icon="yes | rm /var/folders/*/*/*/com.apple.dock.iconcache && killall Dock"
+alias tux=tuxedo
+
 # AWS
 alias axx="aws secretsmanager"
 alias axxshow="aws secretsmanager get-secret-value --secret-id $1"
 alias axxindex="aws list-secrets | jless"
-alias kitty-icon="yes | rm /var/folders/*/*/*/com.apple.dock.iconcache && killall Dock"
+
