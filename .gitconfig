@@ -12,7 +12,6 @@
 	sw = switch
 
 [delta]
-	navigate = false
 	light = false
 	line-numbers = true
 	line-numbers-left-format = ""
@@ -43,7 +42,7 @@
 
 [core]
 	editor = nvim
-	pager = delta
+	pager = delta --features=nav
 	ignorecase = false
 
 [interactive]
@@ -63,3 +62,5 @@
 # Git silently skips this section if the file doesn't exist.
 [include]
 	path = ~/.gitconfig.local
+[delta "nav"]
+	navigate = true
