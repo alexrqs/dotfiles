@@ -211,6 +211,8 @@ zlog "Loading bun"
 # bun
 export BUN_INSTALL="$HOME/.bun"
 path=("$BUN_INSTALL/bin" $path)
+
+zlog "Loading PATH extras"
 path=("$HOME/.local/bin" $path)
 [ -d /opt/homebrew/opt/libpq/bin ] && path=(/opt/homebrew/opt/libpq/bin $path)
 # Keg-only JDK: not symlinked into /opt/homebrew/bin by brew, so it needs an
@@ -220,6 +222,12 @@ path=("$HOME/.local/bin" $path)
 # Final sweep: re-assign the array to force `typeset -U` over entries added by
 # scalar `export PATH=` (brew shellenv, and anything sourced above).
 path=($path)
+
+# chpwd only fires on `cd`, so a terminal that opens straight into a project
+# (new tab/split inheriting the cwd) would keep the default node. Run the
+# switcher once at startup; it's pure shell, so nvm stays lazy-loaded. After
+# the PATH sweep so node's bin wins.
+[[ -n $RICH_SHELL ]] && auto-switch-nvmrc
 
 # Interactive line-editor bindings: need ZLE (real terminal) and the
 # zsh-autosuggestions widget, so they're rich-only.
