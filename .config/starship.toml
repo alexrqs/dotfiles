@@ -34,7 +34,7 @@ $sudo\
 $character\
 """
 
-command_timeout = 10000
+command_timeout = 1000
 
 [jobs]
 symbol = ""
