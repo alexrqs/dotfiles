@@ -29,6 +29,10 @@ macos-icon = custom
 # alt-based bindings (word-wise motion, autosuggest-execute) reach zsh.
 macos-option-as-alt = true
 
+# Selecting text copies it to the system clipboard (⌘V), not just the
+# selection clipboard used by middle-click. Matches kitty's copy_on_select.
+copy-on-select = clipboard
+
 # Shift+Enter emits Esc+CR. Matches the `bindkey '^[^M' autosuggest-execute`
 # binding in .zshrc, and lets TUIs (Claude Code, nvim) tell it from a plain
 # Enter — terminals send an identical CR for both by default.
