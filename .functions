@@ -141,25 +141,73 @@ function refresh() {
 #   kl --tail 1 $(kgp | grep $1 | awk '{ print $1 }')
 # }   # kubectl stack not installed
 
+# Put an installed node on PATH without nvm: resolve "20" / "20.19" / "20.19.5"
+# to a dir under $NVM_DIR/versions/node and swap it in for whichever nvm node
+# is there now. Returns 1 if nothing installed matches (e.g. "lts/*").
+nvm_use_node_version() {
+  setopt local_options extended_glob null_glob bare_glob_qual
+  local desired="$1"
+  local nvm_dir="${NVM_DIR:-$HOME/.nvm}"
+  local versions_dir="$nvm_dir/versions/node"
+  local target=""
+
+  if [[ -d "$versions_dir/v$desired" ]]; then
+    target="$versions_dir/v$desired/bin"
+  else
+    # Newest installed match; `n` sorts numerically so v20.20 beats v20.9.
+    local matches=("$versions_dir"/v${desired}.*(N/nOn))
+    [[ ${#matches[@]} -gt 0 ]] && target="${matches[1]}/bin"
+  fi
+
+  [[ -z "$target" || ! -d "$target" ]] && return 1
+
+  local clean_path="${PATH}"
+  local old
+  for old in "$versions_dir"/v*/bin(N); do
+    clean_path="${clean_path//$old:}"
+    clean_path="${clean_path//:$old}"
+  done
+
+  export PATH="${target}:${clean_path}"
+  local version="${target%/bin}"
+  echo "Now using node ${version##*/v}"
+}
+
 # Switch node when entering a directory tree whose .nvmrc differs from the
-# last one we activated. The walk-up is pure shell (no forks); we only touch
-# nvm when the nearest .nvmrc actually changes, so cd'ing around within one
-# project costs nothing. nvm itself reads the .nvmrc, so we don't parse it.
+# last one we activated. Pure shell: the walk-up has no forks and the switch
+# goes through nvm_use_node_version, so it never sources nvm.sh. Only values
+# nvm has to resolve itself (lts/*, a version that isn't installed) fall back
+# to `nvm use`.
 function auto-switch-nvmrc() {
-  local dir="$PWD" nvmrc=""
-  while [ -n "$dir" ]; do
-    [ -f "$dir/.nvmrc" ] && { nvmrc="$dir/.nvmrc"; break; }
+  local dir="$PWD"
+  local nvmrc_path=""
+
+  while [[ -n "$dir" ]]; do
+    if [[ -f "$dir/.nvmrc" ]]; then
+      nvmrc_path="$dir/.nvmrc"
+      break
+    fi
     dir="${dir%/*}"
   done
 
-  [ "$nvmrc" = "$_CURRENT_NVMRC" ] && return   # same .nvmrc (or still none)
-  _CURRENT_NVMRC="$nvmrc"
-
-  if [ -n "$nvmrc" ]; then
-    nvm use 2>/dev/null || nvm install
-  else
-    nvm use default >/dev/null
+  if [[ -z "$nvmrc_path" ]]; then
+    if [[ -n "$_CURRENT_NVMRC" ]]; then
+      _CURRENT_NVMRC=""
+      local nvm_dir="${NVM_DIR:-$HOME/.nvm}"
+      local default_path="$nvm_dir/alias/default"
+      [[ -f "$default_path" ]] && { nvm_use_node_version "$(<$default_path)" || nvm use default >/dev/null; }
+    fi
+    return
   fi
+
+  [[ "$nvmrc_path" = "$_CURRENT_NVMRC" ]] && return
+  _CURRENT_NVMRC="$nvmrc_path"
+
+  local desired="$(<$nvmrc_path)"
+  desired="${desired#v}"
+  desired="${desired%%[[:space:]]*}"
+
+  nvm_use_node_version "$desired" || nvm use
 }
 
 # function kkl() {
