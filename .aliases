@@ -67,7 +67,7 @@ alias lzg="lazygit"
 alias foo="pbpaste | nvim -"
 # alias play="ansible-playbook"
 
-alias kitty-icon="yes | rm /var/folders/*/*/*/com.apple.dock.iconcache && killall Dock"
+alias kitty-icon="bash ~/dotfiles/scripts/kitty-setup.sh"
 alias tux=tuxedo
 
 # AWS

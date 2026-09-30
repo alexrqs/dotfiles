@@ -30,7 +30,7 @@ If `git` isn't installed yet, type `git` in Terminal to trigger the Xcode CLT in
 1. Installs Oh My Zsh, Homebrew, clones this repo to `~/dotfiles`.
 2. Installs the brew packages from `scripts/profiles/Brewfile.<profile>` and offers to uninstall packages not in the profile (`brew bundle cleanup`).
 3. Clones oh-my-zsh plugins (syntax-highlighting, autosuggestions, autocomplete).
-4. Refreshes the kitty dock icon, sets macOS keyboard tweaks.
+4. Installs the custom kitty icon (Dock and notifications; re-run `kitty-icon` after kitty updates), sets macOS keyboard tweaks.
 5. Prompts to run `stow` / `stow --adopt` / skip for the dotfiles symlinks.
 6. Installs Node 20 + 22 via nvm and bootstraps LazyVim plugins.
 7. On first install, prompts for personal/work git identities and writes `~/.temp`.
