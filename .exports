@@ -3,6 +3,9 @@
 # subprocesses can't exec, so $EDITOR has to point at the real binary.
 export EDITOR="nvim"
 
+# Store Tuxedo tasks on the Desktop.
+export TODO_FILE="$HOME/Desktop/todo.txt"
+
 # Don’t clear the screen after quitting a manual page
 export MANPAGER="less -X"
 

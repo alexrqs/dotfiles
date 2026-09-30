@@ -62,5 +62,9 @@
 # Git silently skips this section if the file doesn't exist.
 [include]
 	path = ~/.gitconfig.local
+
 [delta "nav"]
 	navigate = true
+
+[user]
+	name = Alex Lopez

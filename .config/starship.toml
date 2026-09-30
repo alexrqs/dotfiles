@@ -221,7 +221,7 @@ disabled = false
 symbol = "🅢 "
 
 [swift]
-symbol = "🐦 "
+symbol = " "
 format = '[$symbol($version )]($style)'
 
 [custom.xcode]
