@@ -11,3 +11,4 @@ sandbox/*
 .config/kitty/.kitty.conf.swp
 .config/op
 .claude/settings.local.json
+/.claude/worktrees
