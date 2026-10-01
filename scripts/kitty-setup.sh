@@ -1,12 +1,15 @@
 #!/bin/bash
-# Give kitty the custom icon from this repo (.config/kitty/kitty.app.icns).
+# Give kitty the custom cat icon from this repo, in notifications too.
 #
 # kitty applies ~/.config/kitty/kitty.app.icns itself at startup (see kitty
 # FAQ: https://sw.kovidgoyal.net/kitty/faq/), but only as a Finder/Dock
 # custom icon. Notification Center ignores custom icons and reads the icon
 # baked into the bundle (Assets.car first, then kitty.icns), so kitty's
 # notifications — Claude Code's included — kept the stock icon. Swap
-# kitty.icns for ours and drop Assets.car so macOS falls back to it.
+# kitty.icns for assets/kitty-bundle.icns (the same cat on a black tile,
+# since macOS 26+ would otherwise put it on a grey one; rebuild it with
+# assets/make-kitty-bundle-icon.py) and drop Assets.car so macOS falls
+# back to it.
 #
 # Only those two resources change: Info.plist and the executables are left
 # alone and nothing is re-signed, so kitty keeps its Developer ID identity
@@ -16,8 +19,8 @@
 
 set -euo pipefail
 
-DOTFILES_DIR="$(cd "$(dirname "$0")/.." && pwd)"
-ICON_SRC="$DOTFILES_DIR/.config/kitty/kitty.app.icns"
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+ICON_SRC="$SCRIPT_DIR/assets/kitty-bundle.icns"
 KITTY_APP="/Applications/kitty.app"
 RESOURCES="$KITTY_APP/Contents/Resources"
 LSREGISTER=/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister
