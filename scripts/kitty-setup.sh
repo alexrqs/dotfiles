@@ -21,6 +21,7 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 ICON_SRC="$SCRIPT_DIR/assets/kitty-bundle.icns"
+CUSTOM_ICON="$SCRIPT_DIR/../.config/kitty/kitty.app.icns"
 KITTY_APP="/Applications/kitty.app"
 RESOURCES="$KITTY_APP/Contents/Resources"
 LSREGISTER=/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister
@@ -49,6 +50,16 @@ else
   rm -rf "$(getconf DARWIN_USER_CACHE_DIR)com.apple.iconservices"
   pkill -9 -U "$UID" -x iconservicesagent || true
   killall usernotificationsd NotificationCenter 2>/dev/null || true
+fi
+
+# The Dock and Finder show the plain cat as a custom icon instead (kitty
+# FAQ's cocoa_set_app_icon). kitty re-applies it at startup once an update
+# drops it, but not while an older kitty process is still running.
+if [ -f "$CUSTOM_ICON" ] && [ ! -e "$KITTY_APP/Icon"$'\r' ]; then
+  echo "→ setting the plain cat as kitty.app's custom icon"
+  "$KITTY_APP/Contents/MacOS/kitty" +runpy \
+    'from kitty.fast_data_types import cocoa_set_app_icon; import sys; cocoa_set_app_icon(*sys.argv[1:])' \
+    "$CUSTOM_ICON" "$KITTY_APP"
 fi
 
 echo "→ refreshing Dock icon cache"

@@ -2,9 +2,9 @@
 # Build kitty-bundle.icns: the cat from .config/kitty/kitty.app.png on a
 # black rounded tile (same gradient as the Ghostty icon's tile).
 #
-# This is the icon kitty-setup.sh bakes into kitty.app for the Dock and
-# Notification Center. Since macOS 26, bundle icons that don't match the
-# system tile shape get put on a grey plate. The tile must be a plain
+# This is the icon kitty-setup.sh bakes into kitty.app for Notification
+# Center (the Dock shows the plain cat as a custom icon). Since macOS 26,
+# bundle icons that don't match the system tile shape get put on a grey plate. The tile must be a plain
 # rounded rect on Apple's 824px grid: a superellipse "squircle" of the same
 # size still got plated on macOS 27.
 # Needs Pillow (pip3 install pillow); only re-run when the cat changes.
