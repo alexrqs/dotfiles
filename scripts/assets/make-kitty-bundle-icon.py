@@ -1,10 +1,12 @@
 #!/usr/bin/env python3
 # Build kitty-bundle.icns: the cat from .config/kitty/kitty.app.png on a
-# black squircle tile (same gradient as the Ghostty icon's tile).
+# black rounded tile (same gradient as the Ghostty icon's tile).
 #
-# This is the icon kitty-setup.sh bakes into kitty.app for Notification
-# Center. Since macOS 26, bundle icons that aren't squircles get put on a
-# grey tile; shipping our own black tile keeps macOS from adding one.
+# This is the icon kitty-setup.sh bakes into kitty.app for the Dock and
+# Notification Center. Since macOS 26, bundle icons that don't match the
+# system tile shape get put on a grey plate. The tile must be a plain
+# rounded rect on Apple's 824px grid: a superellipse "squircle" of the same
+# size still got plated on macOS 27.
 # Needs Pillow (pip3 install pillow); only re-run when the cat changes.
 
 import shutil
@@ -12,7 +14,7 @@ import subprocess
 import tempfile
 from pathlib import Path
 
-from PIL import Image
+from PIL import Image, ImageDraw
 
 HERE = Path(__file__).resolve().parent
 SRC = HERE.parent.parent / ".config/kitty/kitty.app.png"
@@ -22,26 +24,19 @@ S, INSET = 1024, 100  # Apple's macOS grid: 824px tile centred on a 1024 canvas
 TILE = S - 2 * INSET
 TOP, BOTTOM = (0x02, 0x02, 0x02), (0x2D, 0x2D, 0x2D)
 CAT_SCALE = 0.80  # cat's longest side, relative to the tile
+RADIUS = 0.225  # corner radius relative to the tile (Apple's template: 185/824)
 
 
-def squircle_mask(size, n=5.0, supersample=4):
-    """Superellipse mask, close to Apple's continuous-corner squircle."""
+def tile_mask(size, supersample=4):
+    """Rounded-rect mask matching the macOS app-icon template."""
     big = size * supersample
     mask = Image.new("L", (big, big), 0)
-    px = mask.load()
-    r = big / 2
-    for y in range(big):
-        dy = abs((y + 0.5 - r) / r) ** n
-        if dy >= 1:
-            continue
-        half = r * (1 - dy) ** (1 / n)
-        for x in range(int(r - half), int(r + half)):
-            px[x, y] = 255
+    ImageDraw.Draw(mask).rounded_rectangle((0, 0, big - 1, big - 1), radius=round(big * RADIUS), fill=255)
     return mask.resize((size, size), Image.LANCZOS)
 
 
 def main():
-    mask = squircle_mask(TILE)
+    mask = tile_mask(TILE)
     grad = Image.new("RGB", (1, TILE))
     for y in range(TILE):
         t = y / (TILE - 1)
